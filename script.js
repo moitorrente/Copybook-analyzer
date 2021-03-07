@@ -698,7 +698,8 @@ function share(){
           url: window.location.href
         })
       } else {
+        let parm = encodeToB64(textInput.value);
+        window.history.replaceState({}, null, `?input=${parm}`)
         urlShare.value = window.location.href;
-        // fallback
       }
 }
