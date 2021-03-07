@@ -15,7 +15,6 @@ const urlInput = urlParams.get("input");
 
 if (urlInput){
     textInput.value = atob(urlInput);
-
 }
 
 
@@ -35,7 +34,6 @@ function updateURL(keep) {
     let input = this.value;
 
     if(!keep){
-        console.log(clear)
         input = "";
     }
 
@@ -43,6 +41,7 @@ function updateURL(keep) {
     if (window.history.replaceState) {
         window.history.replaceState({}, null, `?input=${parm}`);
     }
+    urlShare.value = window.location.href;
 }
 
 function encodeToB64(message) {

@@ -21,6 +21,7 @@ function switchTheme() {
 
 const fileSelector = document.getElementById('file');
 const runButton = document.getElementById('run');
+const shareButton = document.getElementById('share');
 const csvButton = document.getElementById('csv');
 const textInput = document.getElementById('input-text');
 const textInputExpanded = document.getElementById('input-text-xp');
@@ -30,6 +31,8 @@ const textOutputExpanded = document.getElementById('output-text-xp');
 const normalize = document.getElementById("normalize");
 const removePrefix = document.getElementById("remove-prefix");
 const removeSufix = document.getElementById("remove-sufix");
+const sufix = document.getElementById("sufix");
+const prefix = document.getElementById("prefix");
 
 const clearButton = document.querySelectorAll(".clear");
 const clearOutputButton = document.getElementById("clear-output");
@@ -73,7 +76,9 @@ outputExpand.addEventListener('click', () => {
 
 urlUpdateInput.addEventListener("change", () => {
     toggleAutoUpdate(urlUpdateInput.checked);
-})
+});
+
+shareButton.addEventListener("click", share)
 
 
 runButton.addEventListener('click', process);
@@ -231,12 +236,14 @@ function parse(text) {
         if (line != '' && line[0] != '*') {
             let field = new Field(line, index);
 
+            
+
             if (removePrefix.checked && field.name) {
-                field.removePrefix("TT-");
+                field.removePrefix(prefix.value);
             }
 
             if (removeSufix.checked && field.name) {
-                field.removeSufix();
+                field.removeSufix(sufix.value);
             }
 
 
@@ -641,7 +648,9 @@ function saveTextAsFile(textToWrite, fileNameToSaveAs) {
 }
 
 const copyButton = document.getElementById("copy-button");
+const copyInputButton = document.getElementById("copy-input-button");
 copyButton.addEventListener("click", copyOutput);
+copyInputButton.addEventListener("click", copyInput);
 
 function copyOutput() {
 
@@ -650,6 +659,16 @@ function copyOutput() {
         `<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-check" viewBox="0 0 16 16">
         <path d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z"/>
     </svg>`;
+
+}
+
+function copyInput(){
+    navigator.clipboard.writeText(urlShare.value);
+
+    copyInputButton.innerHTML =
+    `<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-check" viewBox="0 0 16 16">
+    <path d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z"/>
+</svg>`;
 
 }
 
@@ -668,4 +687,18 @@ for (var i = 0; i < count; i++) {
             this.selectionEnd = s + 1;
         }
     }
+}
+//---------------------------------------------------------
+
+const urlShare = document.getElementById("url-share");
+function share(){
+    if (navigator.share) {
+        navigator.share({
+          title: 'Compartir URL',
+          url: window.location.href
+        })
+      } else {
+        urlShare.value = window.location.href;
+        // fallback
+      }
 }

@@ -157,7 +157,6 @@ class Field {
             }
 
             if (usage[0] == "OCCURS") {
-                console.log("aqui3")
                 this.isOccurs = true;
                 this.setOccurs(usage[1]);
             }

@@ -136,14 +136,12 @@
                       </svg>
                     </div>
 
-                    <div class="p-1 bd-highlight navbar-toggler" data-bs-toggle="collapse"
-                      data-bs-target="#download-navbar">
-                      <svg class="button" xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor"
-                        class="bi bi-file-earmark-arrow-down" viewBox="0 0 16 16">
+                    <div class="p-1 bd-highlight navbar-toggler" >
+                      <svg class="button" id="share" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                        class="bi bi-share" viewBox="0 0 16 16" data-bs-toggle="collapse"
+                        data-bs-target="#input-share">
                         <path
-                          d="M8.5 6.5a.5.5 0 0 0-1 0v3.793L6.354 9.146a.5.5 0 1 0-.708.708l2 2a.5.5 0 0 0 .708 0l2-2a.5.5 0 0 0-.708-.708L8.5 10.293V6.5z" />
-                        <path
-                          d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2zM9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5v2z" />
+                          d="M13.5 1a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zM11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.499 2.499 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5zm-8.5 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zm11 5.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3z" />
                       </svg>
                     </div>
 
@@ -181,18 +179,36 @@
                     Normalizar
                   </label>
                 </div>
-                <div class="form-check form-switch mb-2 ">
-                  <input class="form-check-input" type="checkbox" value="" id="remove-prefix" checked>
-                  <label class="form-check-label" for="remove-prefix">
-                    Quitar prefijo
-                  </label>
+              
+
+                <div class="input-group input-group-sm mb-3">
+                  <div class="input-group-text">
+                    <input class="form-check-input mt-0" type="checkbox" id="remove-prefix" checked>
+                  </div>
+                  <span class="input-group-text">Quitar prefijo</span>
+                  <input type="text" class="form-control" aria-label="Prefijo" id="prefix">
                 </div>
-                <div class="form-check form-switch mb-2 ">
-                  <input class="form-check-input" type="checkbox" value="" id="remove-sufix" checked>
-                  <label class="form-check-label" for="remove-sufix">
-                    Quitar sufijo
-                  </label>
+
+                <div class="input-group input-group-sm mb-3">
+                  <div class="input-group-text">
+                    <input class="form-check-input mt-0" type="checkbox" id="remove-sufix" checked>
+                  </div>
+                  <span class="input-group-text">Quitar sufijo</span>
+                  
+                  <input type="text" class="form-control" aria-label="Prefijo" value=":;:" id="sufix" disabled></input>
                 </div>
+              </div>
+            </div>
+
+
+            <div class="collapse expand" id="input-share">
+              <div class="bg-light px-4 py-2 sm">
+
+                <div class="input-group input-group-sm">
+                  <input type="text" class="form-control" placeholder="Recipient's username" aria-label="Recipient's username" id="url-share" disabled>
+                  <button class="btn btn-outline-success" type="button" id="copy-input-button">Copiar</button>
+                </div>
+                
               </div>
             </div>
 
