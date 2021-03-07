@@ -18,6 +18,7 @@ function switchTheme() {
 };
 
 
+
 const fileSelector = document.getElementById('file');
 const runButton = document.getElementById('run');
 const csvButton = document.getElementById('csv');
@@ -30,7 +31,7 @@ const normalize = document.getElementById("normalize");
 const removePrefix = document.getElementById("remove-prefix");
 const removeSufix = document.getElementById("remove-sufix");
 
-const clearButton = document.getElementById("clear");
+const clearButton = document.querySelectorAll(".clear");
 const clearOutputButton = document.getElementById("clear-output");
 
 const textInputSize = document.getElementById("input-font-size");
@@ -43,6 +44,7 @@ const inputExpand = document.getElementById("input-expand");
 const outputExpand = document.getElementById("output-expand");
 
 const outputType = document.getElementById("output-type-selector");
+const urlUpdateInput = document.getElementById("url-update-input");
 
 textInputSize.addEventListener("input", () => {
     textInput.style.fontSize = `${textInputSize.value}px`;
@@ -50,8 +52,6 @@ textInputSize.addEventListener("input", () => {
 textOutputSize.addEventListener("input", () => {
     textOutput.style.fontSize = `${textOutputSize.value}px`;
 });
-
-
 
 textInputReset.addEventListener("click", () => {
     textInput.style.fontSize = `16px`;
@@ -71,14 +71,18 @@ outputExpand.addEventListener('click', () => {
 });
 
 
+urlUpdateInput.addEventListener("change", () => {
+    toggleAutoUpdate(urlUpdateInput.checked);
+})
+
+
 runButton.addEventListener('click', process);
 
 csvButton.addEventListener('click', createOuput);
-//csvButton.addEventListener('click', () => textOutput.value = createMDTable(tableEntries));
 
 textOutput.addEventListener("input", () => {
     copyButton.innerHTML =
-    `<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor"
+        `<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor"
       class="bi bi-clipboard" viewBox="0 0 16 16">
       <path
         d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z" />
@@ -110,7 +114,10 @@ function createOuput() {
 
 }
 
-clearButton.addEventListener('click', clearAll);
+clearButton.forEach(x => {
+    x.addEventListener('click', clearAll)
+});
+
 clearOutputButton.addEventListener('click', clearOutput);
 
 textInputExpanded.addEventListener('change', () => {
@@ -129,6 +136,8 @@ function clearAll() {
 
 function clearInput() {
     textInput.value = "";
+    textInputExpanded.value = "";
+    updateURL(false);
 }
 
 function clearOutput() {
@@ -168,9 +177,13 @@ function recursiveRead(structure, outrec) {
 
 function process() {
     clearIntermediate();
-    let text = textInput.value;
-    parse(text);
-    createOuput();
+    const text = textInput.value;
+
+    if (text) {
+        parse(text);
+        createOuput();
+    }
+
 }
 
 fileSelector.addEventListener('change', (event) => {
@@ -205,8 +218,7 @@ function errorHandler(evt) {
 
 function parse(text) {
 
-    //const raw = text.replace(/\./g, '').split(/\r\n|\n/);
-    //const raw = text.replaceAll(/<.?mark\b[^>]*>(.*?)/g, "").split(/\r\n|\n/);
+
     const raw = text.replaceAll(/\r\n|\n/g, "").split(/\./);
     const lines = raw.map(x => x.split(' '));
     const filtered = lines.map(line => {
@@ -219,11 +231,11 @@ function parse(text) {
         if (line != '' && line[0] != '*') {
             let field = new Field(line, index);
 
-            if (removePrefix.checked) {
+            if (removePrefix.checked && field.name) {
                 field.removePrefix("TT-");
             }
 
-            if (removeSufix.checked) {
+            if (removeSufix.checked && field.name) {
                 field.removeSufix();
             }
 
@@ -396,12 +408,10 @@ function createRow(field, depth) {
                 firstDiv.classList.add("alert-danger");
             }
 
-            //firstDiv.classList.add("bg-secondary");
             firstDiv.id = `toggleHelp${field.id}`;
             let secondDiv = document.createElement("td");
             secondDiv.innerHTML = `<strong>${field.validation.message[i].tooltip}</strong>`;
 
-            //secondDiv.appendChild(createBadge(field.validation.message[i].tooltip, field.validation.message[i].color));
             secondDiv.setAttribute("colspan", "10")
 
             firstDiv.appendChild(secondDiv);
@@ -536,14 +546,14 @@ function returnNumericValues(picture) {
     if (firstArray.filter(x => x == '(' || x == ')') != '') {
         integer = countWithPar(firstArray);
     } else {
-        integer = count(firstArray);
+        integer = countExact(firstArray);
     }
 
     if (secondArray.length) {
         if (secondArray.filter(x => x == '(' || x == ')') != '') {
             decimal = countWithPar(secondArray);
         } else {
-            decimal = count(secondArray);
+            decimal = countExact(secondArray);
         }
     }
 
@@ -572,7 +582,7 @@ function countWithPar(picture) {
     return (parseInt(tempValue.join('')));
 }
 
-function count(picture) {
+function countExact(picture) {
     let counter = 1;
 
     for (let i = 0; i < picture.length; i++) {
@@ -613,18 +623,14 @@ downloadButton.addEventListener("click", () => {
 })
 
 function saveTextAsFile(textToWrite, fileNameToSaveAs) {
-    var textFileAsBlob = new Blob([textToWrite], { type: 'text/plain' });
-    var downloadLink = document.createElement("a");
+    let textFileAsBlob = new Blob([textToWrite], { type: 'text/plain' });
+    let downloadLink = document.createElement("a");
     downloadLink.download = fileNameToSaveAs;
     downloadLink.innerHTML = "Download File";
     if (window.webkitURL != null) {
-        // Chrome allows the link to be clicked
-        // without actually adding it to the DOM.
         downloadLink.href = window.webkitURL.createObjectURL(textFileAsBlob);
     }
     else {
-        // Firefox requires the link to be added to the DOM
-        // before it can be clicked.
         downloadLink.href = window.URL.createObjectURL(textFileAsBlob);
         downloadLink.onclick = destroyClickedElement;
         downloadLink.style.display = "none";
@@ -645,9 +651,21 @@ function copyOutput() {
         <path d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z"/>
     </svg>`;
 
-
-
 }
 
-//------------------------------------------------------------
+//-----------------------------------------------------
 
+
+
+var textareas = document.getElementsByTagName('textarea');
+var count = textareas.length;
+for (var i = 0; i < count; i++) {
+    textareas[i].onkeydown = function (e) {
+        if (e.key == 'Tab') {
+            e.preventDefault();
+            let s = this.selectionStart;
+            this.value = this.value.substring(0, this.selectionStart) + "\t" + this.value.substring(this.selectionEnd);
+            this.selectionEnd = s + 1;
+        }
+    }
+}

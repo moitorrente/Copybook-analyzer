@@ -62,19 +62,28 @@ class Field {
     removePrefix(prefix) {
         let replace = prefix;
         let reg = new RegExp(`^${replace}`);
-        this.name = this.name.replace(reg, "");
+
+        if (this.name) {
+            this.name = this.name.replace(reg, "");
+
+        } else {
+            this.setValidation(8, "Falta el nombre");
+        }
 
     }
 
     removeSufix() {
-        let temp = Array.from(this.name);
-        if (temp[temp.length - 1] == ":" && temp[temp.length - 2] == ";" && temp[temp.length - 3] == ":") {
-            temp.splice(temp.length - 1);
-            temp.splice(temp.length - 1);
-            temp.splice(temp.length - 1);
-            this.name = temp.join("");
+        if (this.name) {
+            let temp = Array.from(this.name);
+            if (temp[temp.length - 1] == ":" && temp[temp.length - 2] == ";" && temp[temp.length - 3] == ":") {
+                temp.splice(temp.length - 1);
+                temp.splice(temp.length - 1);
+                temp.splice(temp.length - 1);
+                this.name = temp.join("");
+            }
+        } else {
+            this.setValidation(8, "Falta el nombre");
         }
-
     }
 
 
@@ -254,15 +263,6 @@ class Field {
                 this.picText = 'S' + this.picText;
             }
         }
-
-        // if (this.type == 'PD') {
-        //     this.picText += " COMP-3";
-        // }
-
-        // if (this.type == 'BI') {
-        //     this.picText += " COMP";
-        // }
-
     }
 
     setValidation(value, tooltip) {
@@ -284,7 +284,19 @@ class Field {
 
         let color = this.validation.color;
 
-        this.validation.message.push({ color, tooltip })
+        let duplicated = false;
+
+        if (this.validation.message.length) {
+            duplicated = this.validation.message.map(x => x.tooltip == tooltip).reduce((a, b) => a && b);
+
+        }
+
+
+        if (!duplicated) {
+            this.validation.message.push({ color, tooltip })
+
+        }
+
 
     }
 

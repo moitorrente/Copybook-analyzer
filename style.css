@@ -18,6 +18,15 @@ html {
   box-sizing: border-box;
 }
 
+.theme-light {
+  --color-primary: white;
+  --font-color: black;
+}
+.theme-dark {
+  --color-primary: black;
+  --font-color: white;
+}
+
 table,
 thead,
 tr,
@@ -57,3 +66,4 @@ td {
 textarea {
   border-radius: 0 0 6px 6px !important;
 }
+/*----------------------------------------------*/
