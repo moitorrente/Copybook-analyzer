@@ -64,6 +64,12 @@ td {
 }
 
 textarea {
+  font-family: 'Courier New', Courier, monospace;
   border-radius: 0 0 6px 6px !important;
 }
 /*----------------------------------------------*/
+/* 
+#stick{
+  position: fixed;
+  bottom: 0;
+} */

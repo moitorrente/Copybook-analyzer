@@ -1,5 +1,5 @@
 class Entry{
-    constructor(depth, level, name, pic, start, end, length, type, usage, integer, decimal, sign){
+    constructor(depth, level, name, type, pic, start, end, length, usage, integer, decimal, sign){
         this.depth = depth;
         this.level = level;
         this.name = name;

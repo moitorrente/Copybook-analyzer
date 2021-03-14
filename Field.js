@@ -41,10 +41,14 @@ class Field {
     }
 
     setLevel(level) {
-        this.level = level;
+        this.level = nf(level);
 
-        if (isNaN(this.level)) {
+        if (isNaN(level)) {
             this.setValidation(8, "Nivel no numérico");
+        }
+
+        if (level < 1 || (level > 49 && level != 66 && level != 77 && level != 88)) {
+            this.setValidation(8, "El valor del nivel debe estar comprendido entre 1 y 49")
         }
     }
 
@@ -54,8 +58,6 @@ class Field {
             this.setValidation(8, "Falta el nombre");
         } else {
             this.name = name
-
-
         }
     }
 
@@ -101,9 +103,18 @@ class Field {
             case 'REDEFINES':
                 this.isRedefines = true;
                 break;
+            case 'VALUE':
+                if (this.level != 88) {
+                    this.setValidation(8, `Nivel no 88 con VALUE`);
+                }
+                this.isSwitch = true;
+                console.log(data);
+                this.value = data;
+                break;
             case undefined:
                 this.isSubstructure = true;
                 break;
+
             default:
                 this.setValidation(8, `Valor "${type}" no definido`);
         }
@@ -127,6 +138,12 @@ class Field {
                 this.isOccurs = true;
                 this.occurs = usage[1];
                 this.usage = '';
+                if (this.level == '01' ||
+                    this.level == '66' ||
+                    this.level == '77' ||
+                    this.level == '88') {
+                    this.setValidation(8, "Nivel incorrecto para OCCURS");
+                }
             }
         }
 
@@ -235,6 +252,13 @@ class Field {
             this.setValidation(8, "Occurs no numérico")
         } else {
             this.occurs = num;
+        }
+
+        if (this.level == "01" ||
+            this.level == "66" ||
+            this.level == "77" ||
+            this.level == "88") {
+            this.setValidation(8, "Nivel incorrecto para OCCURS");
         }
     }
 

@@ -29,6 +29,7 @@ const textOutput = document.getElementById('output-text');
 const textOutputExpanded = document.getElementById('output-text-xp');
 
 const normalize = document.getElementById("normalize");
+const expand88 = document.getElementById("expand-88");
 const removePrefix = document.getElementById("remove-prefix");
 const removeSufix = document.getElementById("remove-sufix");
 const sufix = document.getElementById("sufix");
@@ -230,13 +231,13 @@ function parse(text) {
         return line.filter(field => field)
     });
 
-    //copyFields.push(new Field("00 PLACEHOLDER.", -1));
+    copyFields.push(new Field("00 PLACEHOLDER.", -1));
 
     filtered.forEach((line, index) => {
         if (line != '' && line[0] != '*') {
             let field = new Field(line, index);
 
-            
+
 
             if (removePrefix.checked && field.name) {
                 field.removePrefix(prefix.value);
@@ -270,6 +271,7 @@ function parse(text) {
                     newField.start = field.start;
                     newField.type = field.type;
                     newField.usage = field.usage;
+                    newField.isSwitch = field.isSwitch;
 
                     newField.name = `${field.name}(${i})`
                     copyFields.push(newField);
@@ -315,6 +317,7 @@ function createHierarchy(copyFields) {
     }
 
     levels = copyFields.map(x => x.level);
+    console.log(levels)
 
     if (levels.length > 1) {
         createHierarchy(copyFields);
@@ -344,9 +347,24 @@ function createRow(field, depth) {
 
 
     level.innerHTML = field.level;
-    depthCol.innerHTML = depth;
+
     name.innerHTML = field.name;
-    if (field.type) type.innerHTML = field.type;
+    if (field.type) {
+        type.innerHTML = field.type;
+    }
+
+
+    if (field.insideOccurs) {
+        depthCol.appendChild(createBadge(depth, "bg-info"))
+    } else if (field.isOccurs) {
+        depthCol.appendChild(createBadge(depth, "bg-primary"))
+    } else {
+        depthCol.innerHTML = depth;
+    }
+
+
+
+
     field.usage ? usage.innerHTML = field.usage : usage.innerHTML = "";
     if (field.picText) picture.innerHTML = field.picText;
 
@@ -361,12 +379,16 @@ function createRow(field, depth) {
         const entryEnd = finish;
         field.setEnd(finish);
 
-        let entry = new Entry(depth, field.level, field.name, field.picText, entryStart, entryEnd, field.length, field.type, field.usage, field.integer, field.decimal, field.sign);
-
-        tableEntries.push(entry);
-        fullTable.push(entry)
+        let entry = new Entry(depth, field.level, field.name, field.type, field.picText, entryStart, entryEnd, field.length, field.usage, field.integer, field.decimal, field.sign);
+        if (field.level != "00") {
+            tableEntries.push(entry);
+            fullTable.push(entry);
+        }
     } else {
-        fullTable.push(new Entry(depth, field.level, field.name))
+        if (field.level != "00") {
+            fullTable.push(new Entry(depth, field.level, field.name, field.type))
+
+        }
     }
 
     let validationBadge = createBadge("", field.validation.color, field.validation.level)
@@ -382,28 +404,40 @@ function createRow(field, depth) {
 
 
 
-    row.appendChild(level);
-    row.appendChild(depthCol);
-    row.appendChild(name);
-    row.appendChild(type);
-
-    row.appendChild(picture);
-    row.appendChild(usage);
-    row.appendChild(startCol);
-    row.appendChild(length);
-    row.appendChild(finishCol);
-    row.appendChild(validation);
 
 
 
 
 
-    table.appendChild(row);
+    if (!field.isSwitch) {
+        row.appendChild(level);
+        row.appendChild(depthCol);
+        row.appendChild(name);
+    
+        row.appendChild(type);
+    
+        row.appendChild(picture);
+        row.appendChild(usage);
+        row.appendChild(startCol);
+        row.appendChild(length);
+        row.appendChild(finishCol);
+        row.appendChild(validation);
+        if (field.level != 0) {
+            table.appendChild(row);
+        }
+    }else{
+        row.appendChild(level);
+        row.appendChild(depthCol);
+        row.appendChild(name);
+        let value = document.createElement("td");
+        value.colSpan = 6;
+        value.innerHTML = field.value;
+        row.appendChild(value)
+        row.appendChild(validation);
+    }
+
 
     if (field.validation.level > 0) {
-
-
-
         for (let i = 0; i < field.validation.message.length; i++) {
             let firstDiv = document.createElement("tr");
             firstDiv.classList.add("collapse");
@@ -424,6 +458,13 @@ function createRow(field, depth) {
             firstDiv.appendChild(secondDiv);
             table.appendChild(firstDiv);
         }
+    }
+
+    if (field.isSwitch) {
+        row.classList.add("collapse");
+        row.classList.add("alert-secondary");
+        row.id = `toggleSwitch`;
+        table.appendChild(row);
     }
 }
 
@@ -499,6 +540,7 @@ function compare(a, b) {
 
 function expandOccurs(structure, occurs) {
     const repeated = new Array(occurs).fill(structure.childs).flat();
+    repeated.forEach(x => x.insideOccurs = true);
     structure.childs = repeated;
     return structure;
 }
@@ -662,11 +704,11 @@ function copyOutput() {
 
 }
 
-function copyInput(){
+function copyInput() {
     navigator.clipboard.writeText(urlShare.value);
 
     copyInputButton.innerHTML =
-    `<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-check" viewBox="0 0 16 16">
+        `<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-check" viewBox="0 0 16 16">
     <path d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z"/>
 </svg>`;
 
@@ -688,18 +730,26 @@ for (var i = 0; i < count; i++) {
         }
     }
 }
+
+
+
+var toastElList = [].slice.call(document.querySelectorAll('.toast'))
+var toastList = toastElList.map(function (toastEl) {
+    return new bootstrap.Toast(toastEl)
+})
+
 //---------------------------------------------------------
 
 const urlShare = document.getElementById("url-share");
-function share(){
+function share() {
     if (navigator.share) {
         navigator.share({
-          title: 'Compartir URL',
-          url: window.location.href
+            title: 'Compartir URL',
+            url: window.location.href
         })
-      } else {
+    } else {
         let parm = encodeToB64(textInput.value);
         window.history.replaceState({}, null, `?input=${parm}`)
         urlShare.value = window.location.href;
-      }
+    }
 }
