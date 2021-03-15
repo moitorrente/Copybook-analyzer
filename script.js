@@ -317,7 +317,6 @@ function createHierarchy(copyFields) {
     }
 
     levels = copyFields.map(x => x.level);
-    console.log(levels)
 
     if (levels.length > 1) {
         createHierarchy(copyFields);

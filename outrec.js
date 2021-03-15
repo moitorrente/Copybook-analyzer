@@ -13,7 +13,6 @@ function createOutrec() {
                 outrec.push(['\n' + entry.start, entry.length, `${entry.type},EDIT=(${edit}),SIGNS=(+,-,,)`]);
             } else {
                 if (entry.decimal) {
-                    console.log(entry)
                     outrec.push(['\n' + entry.start, entry.integer,
                         "C','", entry.start + entry.integer, entry.decimal
                         , "C';'"]);

@@ -108,7 +108,6 @@ class Field {
                     this.setValidation(8, `Nivel no 88 con VALUE`);
                 }
                 this.isSwitch = true;
-                console.log(data);
                 this.value = data;
                 break;
             case undefined:
@@ -125,6 +124,19 @@ class Field {
         [picText, ...usage] = value;
 
         let PIC = parsePIC(picText);
+        let [valid, errors] = validateChars(picText, VALID_CHARS);
+        let validPar = validateParenthesis(picText);
+
+        if(!valid){
+            this.setValidation(8, `Contiene carácteres no permitidos para PIC: ${errors.flat(" ")}`);
+        }
+
+        if(!validPar){
+            this.setValidation(8, `Paréntesis incorrectos`);
+
+        }
+
+        
 
         if (PIC) {
             Object.assign(this, PIC);
