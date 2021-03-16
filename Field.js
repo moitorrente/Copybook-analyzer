@@ -123,20 +123,11 @@ class Field {
         let picText, usage;
         [picText, ...usage] = value;
 
-        let PIC = parsePIC(picText);
-        let [valid, errors] = validateChars(picText, VALID_CHARS);
-        let validPar = validateParenthesis(picText);
+        const PIC = parsePIC(picText);
 
-        if(!valid){
-            this.setValidation(8, `Contiene carácteres no permitidos para PIC: ${errors.flat(" ")}`);
-        }
+        const validations = validateAll(picText);
 
-        if(!validPar){
-            this.setValidation(8, `Paréntesis incorrectos`);
-
-        }
-
-        
+        validations.forEach(x => this.setValidation(x.level, x.text));
 
         if (PIC) {
             Object.assign(this, PIC);
@@ -197,8 +188,6 @@ class Field {
                 }
                 this.type = "SFF";
             }
-
-
         }
 
 
@@ -209,8 +198,6 @@ class Field {
         }
 
         this.setLength();
-
-
     }
 
     setLength() {

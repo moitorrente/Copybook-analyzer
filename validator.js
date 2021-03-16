@@ -17,13 +17,13 @@ function validateChars(text, list) {
     })//.reduce((acc, x) => x && acc);
 
     let errors = validation.map((x, index) => {
-        if(!x){
+        if (!x) {
             return arrText[index];
         }
-        
+
     }).filter(x => x);
 
-    return [validation.reduce((acc, x ) => acc && x), errors];
+    return [validation.reduce((acc, x) => acc && x), errors];
 }
 
 function countChars(text, char) {
@@ -31,21 +31,60 @@ function countChars(text, char) {
     return arrText.reduce((acc, x) => { if (x == char) { acc++ } return acc }, 0);
 }
 
-function validateParenthesis(text){
+function validateParenthesis(text) {
     const close = countChars(text, ")");
     const open = countChars(text, "(");
     const total = open + close;
 
-    if(open != close){
+    if (open != close) {
         return false;
     }
-    if(open > 2 || close > 2){
+    if (open > 2 || close > 2) {
         return false
     }
 
-    if(total != 2 && total !=4 && total != 0){
+    if (total != 2 && total != 4 && total != 0) {
         return false;
     }
 
     return true;
+}
+
+function validateImplicitComma(text) {
+    const num = countChars(text, 'V');
+    if (num > 1) {
+        return false;
+    } else {
+        return true;
+    }
+}
+
+function validateAll(text) {
+    const validations = [];
+
+    const [validChars, invalidChars] = validateChars(text, VALID_CHARS);
+    if (!validChars) {
+        validations.push({
+            level: 8,
+            text: `Contiene carácteres no permitidos para PIC: ${invalidChars.flat()}`
+        });
+    };
+
+    const validParenthesis = validateParenthesis(text);
+    if (!validParenthesis) {
+        validations.push({
+            level: 8,
+            text: `Paréntesis incorrectos`
+        });
+    };
+
+    const validComma = validateImplicitComma(text);
+    if (!validComma) {
+        validations.push({
+            level: 8,
+            text: `Coma incorrecta`
+        });
+    }
+
+    return validations;
 }
