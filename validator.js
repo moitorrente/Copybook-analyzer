@@ -52,11 +52,6 @@ function validateParenthesis(text) {
 
 function validateImplicitComma(text) {
     return countChars(text, 'V') > 1 ? false : true;
-    // if (num > 1) {
-    //     return false;
-    // } else {
-    //     return true;
-    // }
 }
 
 function validateAll(text) {
