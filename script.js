@@ -100,6 +100,8 @@ textOutput.addEventListener("input", () => {
 
 function createOuput() {
 
+    console.log(outputType.value)
+
     switch (outputType.value) {
         case 'outrec':
             createOutrec();
@@ -115,6 +117,10 @@ function createOuput() {
             break;
         case 'json':
             textOutput.value = JSON.stringify(copyFields[0], null, 2);
+            break;
+        case 'copy-normalized':
+            console.log("entra");
+            normalizedCopy(fullTable);
             break;
     }
 
@@ -412,9 +418,9 @@ function createRow(field, depth) {
         row.appendChild(level);
         row.appendChild(depthCol);
         row.appendChild(name);
-    
+
         row.appendChild(type);
-    
+
         row.appendChild(picture);
         row.appendChild(usage);
         row.appendChild(startCol);
@@ -424,7 +430,7 @@ function createRow(field, depth) {
         if (field.level != 0) {
             table.appendChild(row);
         }
-    }else{
+    } else {
         row.appendChild(level);
         row.appendChild(depthCol);
         row.appendChild(name);

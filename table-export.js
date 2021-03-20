@@ -1,11 +1,10 @@
 
 function createMDTable(rows) {
-    let header = `| Nivel | Profundidad | Nombre | Tipo | Picture | Modificador | Inicio | Longitud | Fin |\r\n`;
-    let separator = `|-|-|--------|------|---------|-------------|--------|----------|-----|\r\n`;
+    const header = `| Nivel | Profundidad | Nombre | Tipo | Picture | Modificador | Inicio | Longitud | Fin |\r\n`;
+    const separator = `|-|-|--------|------|---------|-------------|--------|----------|-----|\r\n`;
 
-    let lines = [];
-    rows.forEach(row => {
-        lines.push(`${exists(row.level)}| ${exists(row.depth)}| ${exists(row.name)}|${exists(row.type)}|${exists(row.pic)}|${exists(row.usage)}|${exists(row.start)}|${exists(row.length)}|${exists(row.end)}| \r\n`);
+    const lines = rows.map(row => {
+        return `${exists(row.level)}| ${exists(row.depth)}| ${exists(row.name)}|${exists(row.type)}|${exists(row.pic)}|${exists(row.usage)}|${exists(row.start)}|${exists(row.length)}|${exists(row.end)}| \r\n`;
     });
 
     const table = header + separator + lines.join('');
@@ -13,10 +12,9 @@ function createMDTable(rows) {
 }
 
 function createCSVTable(rows) {
-    let header = `Nivel;Profundidad;Nombre;Tipo;Picture;Modificador;Inicio;Longitud;Fin;\r\n`;
-    let lines = [];
-    rows.forEach(row => {
-        lines.push(`${exists(row.level)}; ${exists(row.depth)}; ${exists(row.name)};${exists(row.type)};${exists(row.pic)};${exists(row.usage)};${exists(row.start)};${exists(row.length)};${exists(row.end)}; \r\n`);
+    const header = `Nivel;Profundidad;Nombre;Tipo;Picture;Modificador;Inicio;Longitud;Fin;\r\n`;
+    let lines = rows.map(row => {
+        return `${exists(row.level)}; ${exists(row.depth)}; ${exists(row.name)};${exists(row.type)};${exists(row.pic)};${exists(row.usage)};${exists(row.start)};${exists(row.length)};${exists(row.end)}; \r\n`;
     });
 
     const table = header + lines.join('');
@@ -59,3 +57,13 @@ function exists(property) {
     property == undefined ? property = '' : property;
     return property;
 }
+
+function normalizedCopy(rows){
+    console.log(rows);
+
+    let expor = rows.map(row => {
+        return row.level
+    });
+
+    console.log(expor)
+};
