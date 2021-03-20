@@ -2,6 +2,16 @@
 //https://www.ibm.com/support/knowledgecenter/SS6SG3_4.2.0/com.ibm.entcobol.doc_4.2/PGandLR/ref/rlddecom.htm
 
 const USAGE = ["BINARY", "COMP", "COMP-1", "COMP-2", "COMP-3", "COMP-4", "COMP-5", "PACKED-DECIMAL", "DISPLAY", "SIGN TRAILING SEPARATE CHARACTER", "SIGN LEADING SEPARATE CHARACTER"];
+const WORDS = [
+    "REDEFINES",
+    "OCCURS",
+    "PIC",
+    "PICTURE",
+    //"RENAMES"
+    "SIGN",
+    "VALUE"
+]
+
 
 class Field {
     constructor(input, id) {
@@ -17,12 +27,10 @@ class Field {
         if (input) {
             this.parseLine(input);
         }
-
     }
 
 
     parseLine(input) {
-
         let level, name, type, rest;
         [level, name, type, ...rest] = input;
         this.setLevel(level);
@@ -32,7 +40,6 @@ class Field {
             [level, type, ...rest] = input;
         }
 
-
         this.setSubstructure(type, rest);
     }
 
@@ -41,59 +48,66 @@ class Field {
     }
 
     setLevel(level) {
+        this.validateLevel(level);
         this.level = nf(level);
+    }
 
+    validateLevel(level) {
         if (isNaN(level)) {
             this.setValidation(8, "Nivel no numérico");
+            return false;
         }
 
         if (level < 1 || (level > 49 && level != 66 && level != 77 && level != 88)) {
-            this.setValidation(8, "El valor del nivel debe estar comprendido entre 1 y 49")
+            this.setValidation(8, "El valor del nivel debe estar comprendido entre 1 y 49");
+            return false;
         }
+
+        return true;
     }
 
     setName(name) {
-        if (name == "PIC" || name == "OCCURS" || name == "REDEFINES") {
-            this.name = "";
+        this.validateName(name) ? this.name = name : this.name = '';
+    }
+
+    validateName(fieldName) {
+        if (fieldName == "PIC" ||
+            fieldName == "OCCURS" ||
+            fieldName == "REDEFINES" ||
+            fieldName == "" ||
+            fieldName == undefined) {
             this.setValidation(8, "Falta el nombre");
-        } else {
-            this.name = name
+            return false;
         }
+
+        return true;
     }
 
     removePrefix(prefix) {
-        let replace = prefix;
-        let reg = new RegExp(`^${replace}`);
-
-        if (this.name) {
-            this.name = this.name.replace(reg, "");
-
-        } else {
-            this.setValidation(8, "Falta el nombre");
-        }
-
+        const reg = new RegExp(`^${prefix}`);
+        const name = this.name.replace(reg, "");
+        this.setName(name);
     }
 
     removeSufix() {
+        let name = this.name;
         if (this.name) {
             let temp = Array.from(this.name);
             if (temp[temp.length - 1] == ":" && temp[temp.length - 2] == ";" && temp[temp.length - 3] == ":") {
                 temp.splice(temp.length - 1);
                 temp.splice(temp.length - 1);
                 temp.splice(temp.length - 1);
-                this.name = temp.join("");
+                name = temp.join("");
             }
-        } else {
-            this.setValidation(8, "Falta el nombre");
         }
+
+        this.setName(name);
     }
-
-
 
     setSubstructure(type, data) {
         switch (type) {
             case 'PIC':
-                this.isPic = true;
+            case 'PICTURE':
                 this.setPicture(data)
                 break;
             case 'OCCURS':
@@ -104,9 +118,6 @@ class Field {
                 this.isRedefines = true;
                 break;
             case 'VALUE':
-                if (this.level != 88) {
-                    this.setValidation(8, `Nivel no 88 con VALUE`);
-                }
                 this.isSwitch = true;
                 this.value = data;
                 break;
@@ -120,6 +131,8 @@ class Field {
     }
 
     setPicture(value) {
+        this.isPic = true;
+
         let picText, usage;
         [picText, ...usage] = value;
 
@@ -197,50 +210,60 @@ class Field {
             this.picText = value[0];
         }
 
-        this.setLength();
+        const length = this.getLength();
+        this.setLength(length);
     }
 
-    setLength() {
-
+    getLength() {
+        let length = 0;
         switch (this.type) {
             case 'AN':
+                length = this.length;
                 break;
             case 'ZD':
             case 'SFF':
-                this.length = this.integer + this.decimal;
+                length = this.integer + this.decimal;
                 if (this.usage == 'SIGN TRAILING SEPARATE CHARACTER' ||
                     this.usage == 'SIGN LEADING SEPARATE CHARACTER') {
-                    this.length++;
+                    length++;
                 }
                 break;
             case 'PD':
-                this.length = Math.floor((this.integer + this.decimal) / 2) + 1;
+                length = Math.floor((this.integer + this.decimal) / 2) + 1;
                 break;
             case 'BI':
-                let length = this.integer + this.decimal;
+                length = this.integer + this.decimal;
                 if (length > 0 && length <= 4) {
-                    this.length = 2;
+                    length = 2;
                 } else if (length >= 5 && length <= 9) {
-                    this.length = 4;
+                    length = 4;
                 } else if (length >= 10 && length <= 18) {
-                    this.length = 8;
+                    length = 8;
                 }
                 break;
             default:
                 this.setValidation(8, `Tipo de picture no definido: "${this.type}"`);
-                this.length = 0;
-
         }
 
-        if (isNaN(this.length)) {
-            this.setValidation(8, `Longitud incorrecta ${this.length}`);
-            this.length = 0;
+        return length;
+    }
+
+    setLength(length) {
+        this.validateLength(length) ? this.length = length : this.length = 0;
+    }
+
+    validateLength(length){
+        if (isNaN(length)) {
+            this.setValidation(8, `Longitud incorrecta ${length}`);
+            return false;
         }
 
         if (this.type != 'AN' && (this.integer + this.decimal) > 18) {
             this.setValidation(8, 'Campo numérico demasiado largo');
+            return false;
         }
 
+        return true;
     }
 
     setOccurs(value) {
@@ -304,22 +327,17 @@ class Field {
                 break;
         }
 
-        let color = this.validation.color;
+        const color = this.validation.color;
 
         let duplicated = false;
 
         if (this.validation.message.length) {
             duplicated = this.validation.message.map(x => x.tooltip == tooltip).reduce((a, b) => a && b);
-
         }
-
 
         if (!duplicated) {
             this.validation.message.push({ color, tooltip })
-
         }
-
-
     }
 
     setStart(start) {
