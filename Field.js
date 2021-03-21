@@ -204,9 +204,7 @@ class Field {
         }
 
 
-        if (normalize.checked && !this.mask) {
-            this.normalize(picText);
-        } else {
+        if (!normalize.checked) {
             this.picText = value[0];
         }
 
@@ -252,7 +250,7 @@ class Field {
         this.validateLength(length) ? this.length = length : this.length = 0;
     }
 
-    validateLength(length){
+    validateLength(length) {
         if (isNaN(length)) {
             this.setValidation(8, `Longitud incorrecta ${length}`);
             return false;
@@ -290,24 +288,6 @@ class Field {
 
     setDepth(depth) {
         this.depth = depth;
-    }
-
-    normalize() {
-        if (this.type == 'AN') {
-            this.picText = `X(${nf(this.length)})`
-        }
-
-        if (this.type == 'ZD' || this.type == 'PD' || this.type == 'BI' || this.type == "SFF") {
-            if (this.decimal == 0) {
-                this.picText = `9(${nf(this.integer)})`;
-            } else {
-                this.picText = `9(${nf(this.integer)})V9(${nf(this.decimal)})`;
-            }
-
-            if (this.sign) {
-                this.picText = 'S' + this.picText;
-            }
-        }
     }
 
     setValidation(value, tooltip) {

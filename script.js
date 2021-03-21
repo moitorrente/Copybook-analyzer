@@ -99,9 +99,6 @@ textOutput.addEventListener("input", () => {
 
 
 function createOuput() {
-
-    console.log(outputType.value)
-
     switch (outputType.value) {
         case 'outrec':
             createOutrec();
@@ -119,8 +116,7 @@ function createOuput() {
             textOutput.value = JSON.stringify(copyFields[0], null, 2);
             break;
         case 'copy-normalized':
-            console.log("entra");
-            normalizedCopy(fullTable);
+            textOutput.value = normalizedCopy(fullTable);
             break;
     }
 
@@ -237,6 +233,8 @@ function parse(text) {
         return line.filter(field => field)
     });
 
+    console.log(filtered)
+
     copyFields.push(new Field("00 PLACEHOLDER.", -1));
 
     filtered.forEach((line, index) => {
@@ -269,6 +267,7 @@ function parse(text) {
                     newField.id = field.id;
                     newField.integer = field.integer;
                     newField.isOccurs = field.isOccurs;
+                    newField.occurs = field.occurs
                     newField.isPic = field.isPic;
                     newField.length = field.length;
                     newField.level = field.level;
@@ -279,7 +278,7 @@ function parse(text) {
                     newField.usage = field.usage;
                     newField.isSwitch = field.isSwitch;
 
-                    newField.name = `${field.name}(${i})`
+                    newField.name = `${field.name}`
                     copyFields.push(newField);
                 }
             } else {
@@ -300,7 +299,7 @@ function parse(text) {
 
 
     createRow(copyFields[0], 1);
-    recursiveScan(copyFields[0], 1);
+    recursiveScan(copyFields[0], 0);
 
 
     return filtered;
@@ -334,22 +333,18 @@ function createHierarchy(copyFields) {
 
 
 function createRow(field, depth) {
-
     const table = document.getElementById("table-body")
-
-
-    let row = document.createElement("tr");
-    let level = document.createElement("th");
-    let depthCol = document.createElement("td");
-    let name = document.createElement("td");
-    let type = document.createElement("td");
-    let usage = document.createElement("td");
-    let picture = document.createElement("td");
-    let startCol = document.createElement("td");
-    let length = document.createElement("td");
-    let finishCol = document.createElement("td");
-    let validation = document.createElement("td");
-
+    const row = document.createElement("tr");
+    const level = document.createElement("th");
+    const depthCol = document.createElement("td");
+    const name = document.createElement("td");
+    const type = document.createElement("td");
+    const usage = document.createElement("td");
+    const picture = document.createElement("td");
+    const startCol = document.createElement("td");
+    const length = document.createElement("td");
+    const finishCol = document.createElement("td");
+    const validation = document.createElement("td");
 
     level.innerHTML = field.level;
 
@@ -358,7 +353,6 @@ function createRow(field, depth) {
         type.innerHTML = field.type;
     }
 
-
     if (field.insideOccurs) {
         depthCol.appendChild(createBadge(depth, "bg-info"))
     } else if (field.isOccurs) {
@@ -366,9 +360,6 @@ function createRow(field, depth) {
     } else {
         depthCol.innerHTML = depth;
     }
-
-
-
 
     field.usage ? usage.innerHTML = field.usage : usage.innerHTML = "";
     if (field.picText) picture.innerHTML = field.picText;
@@ -384,19 +375,19 @@ function createRow(field, depth) {
         const entryEnd = finish;
         field.setEnd(finish);
 
-        let entry = new Entry(depth, field.level, field.name, field.type, field.picText, entryStart, entryEnd, field.length, field.usage, field.integer, field.decimal, field.sign);
+        const entry = new Entry(depth, field.level, field.name, field.type, field.picText, entryStart, entryEnd, field.length, field.usage, field.integer, field.decimal, field.sign, field.isPic, field.isOccurs, field.occurs);
         if (field.level != "00") {
             tableEntries.push(entry);
             fullTable.push(entry);
         }
     } else {
         if (field.level != "00") {
-            fullTable.push(new Entry(depth, field.level, field.name, field.type))
+            fullTable.push(new Entry(depth, field.level, field.name, field.type, '', '', '', '', field.usage, '', '', '', '', field.isOccurs, field.occurs));
 
         }
     }
 
-    let validationBadge = createBadge("", field.validation.color, field.validation.level)
+    const validationBadge = createBadge("", field.validation.color, field.validation.level)
 
     validation.setAttribute("data-container", "body");
 
@@ -407,20 +398,11 @@ function createRow(field, depth) {
     }
     validation.appendChild(validationBadge);
 
-
-
-
-
-
-
-
     if (!field.isSwitch) {
         row.appendChild(level);
         row.appendChild(depthCol);
         row.appendChild(name);
-
         row.appendChild(type);
-
         row.appendChild(picture);
         row.appendChild(usage);
         row.appendChild(startCol);
@@ -441,10 +423,9 @@ function createRow(field, depth) {
         row.appendChild(validation);
     }
 
-
     if (field.validation.level > 0) {
         for (let i = 0; i < field.validation.message.length; i++) {
-            let firstDiv = document.createElement("tr");
+            const firstDiv = document.createElement("tr");
             firstDiv.classList.add("collapse");
             firstDiv.classList.add("alert");
 
@@ -455,7 +436,7 @@ function createRow(field, depth) {
             }
 
             firstDiv.id = `toggleHelp${field.id}`;
-            let secondDiv = document.createElement("td");
+            const secondDiv = document.createElement("td");
             secondDiv.innerHTML = `<strong>${field.validation.message[i].tooltip}</strong>`;
 
             secondDiv.setAttribute("colspan", "10")
@@ -474,7 +455,7 @@ function createRow(field, depth) {
 }
 
 function createBadge(text, color, level) {
-    let badge = document.createElement("span");
+    const badge = document.createElement("span");
     badge.classList.add("badge");
     badge.classList.add(color);
 
@@ -518,7 +499,6 @@ function findNode(search, currentNode) {
     }
 }
 
-
 function recursiveScan(structure, depth) {
     if (structure.name != null) {
         if (structure.childs.length > 0) {
@@ -542,7 +522,6 @@ function compare(a, b) {
     return 0;
 }
 
-
 function expandOccurs(structure, occurs) {
     const repeated = new Array(occurs).fill(structure.childs).flat();
     repeated.forEach(x => x.insideOccurs = true);
@@ -550,40 +529,52 @@ function expandOccurs(structure, occurs) {
     return structure;
 }
 
-
 function parsePIC(inputPicture) {
     let picture = Array.from(inputPicture);
     const first = picture[0];
     const numbers = returnNumericValues(inputPicture);
 
-    let PIC = {};
+    console.log(inputPicture);
+
+    let pic = {};
 
     switch (first) {
         case 'X':
-            PIC.type = 'AN';
-            PIC.sign = false;
-            [PIC.length] = numbers;
+            pic.type = 'AN';
+            pic.sign = false;
+            [pic.length] = numbers;
+            pic.picText = `X(${nf(pic.length)})`
             break;
         case '9':
-            PIC.type = 'ZD';
-            PIC.sign = false;
-            [PIC.integer, PIC.decimal] = numbers;
+            pic.type = 'ZD';
+            pic.sign = false;
+            [pic.integer, pic.decimal] = numbers;
+            if(pic.decimal == 0){
+                pic.picText = `9(${nf(pic.integer)})`;
+            }else{
+                pic.picText = `9(${nf(pic.integer)})V9(${nf(pic.decimal)})`;
+            }  
             break;
         case 'S':
-            PIC.type = 'ZD';
-            PIC.sign = true;
-            [PIC.integer, PIC.decimal] = numbers;
+            pic.type = 'ZD';
+            pic.sign = true;
+            [pic.integer, pic.decimal] = numbers;
+            if(pic.decimal == 0){
+                pic.picText = `S9(${nf(pic.integer)})`;
+            }else{
+                pic.picText = `S9(${nf(pic.integer)})V9(${nf(pic.decimal)})`;
+            }  
             break;
         case 'Z':
-            PIC.type = 'ZD';
-            PIC.mask = true;
-            [PIC.integer, PIC.decimal] = numbers;
+            pic.type = 'ZD';
+            pic.mask = true;
+            [pic.integer, pic.decimal] = numbers;
             break;
         default:
-            PIC.type = inputPicture;
+            pic.type = inputPicture;
     }
 
-    return PIC;
+    return pic;
 }
 
 function returnNumericValues(picture) {
@@ -613,7 +604,6 @@ function returnNumericValues(picture) {
 
     return [integer, decimal]
 }
-
 
 function countWithPar(picture) {
     let startIndex = 0;

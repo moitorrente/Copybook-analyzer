@@ -58,12 +58,43 @@ function exists(property) {
     return property;
 }
 
-function normalizedCopy(rows){
-    console.log(rows);
 
-    let expor = rows.map(row => {
-        return row.level
+function normalizedCopy(rows) {
+
+    console.log(rows)
+    let dict = {};
+
+    const lines = rows.map(row => {
+
+        if (dict[row.name]) {
+            return;
+        } else {
+            dict[row.name] = true;
+        }
+
+        let line = '';
+        for (let i = 1; i < row.depth; i++) {
+            line += '   ';
+        }
+
+        line += `${row.level} ${row.name}`;
+
+        if (row.pic) {
+
+            const len = 24 - line.length;
+
+            for (let i = 0; i < len; i++) {
+                line += ' ';
+            }
+
+            line += ` PIC ${row.pic}`;
+        }
+        if (row.usage) line += ` ${row.usage}`;
+        if (row.occurs > 0) line += ` OCCURS ${row.occurs} TIMES`;
+
+        line += `.\r\n`;
+        return line;
     });
 
-    console.log(expor)
+    return lines.join('');
 };
