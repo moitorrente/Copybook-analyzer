@@ -204,7 +204,7 @@ class Field {
         }
 
 
-        if (!normalize.checked) {
+        if (!normalize.checked || this.mask) {
             this.picText = value[0];
         }
 

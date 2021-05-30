@@ -232,16 +232,11 @@ function parse(text) {
     const filtered = lines.map(line => {
         return line.filter(field => field)
     });
-
-    console.log(filtered)
-
     copyFields.push(new Field("00 PLACEHOLDER.", -1));
 
     filtered.forEach((line, index) => {
         if (line != '' && line[0] != '*') {
             let field = new Field(line, index);
-
-
 
             if (removePrefix.checked && field.name) {
                 field.removePrefix(prefix.value);
@@ -251,12 +246,9 @@ function parse(text) {
                 field.removeSufix(sufix.value);
             }
 
-
-
             if (field.isOccurs && !field.isPic) {
                 occursNames.push({ level: field.level, name: field.name, occurs: field.occurs });
             }
-
 
             if (field.isOccurs && field.isPic) {
                 for (let i = 0; i < field.occurs; i++) {
@@ -287,7 +279,6 @@ function parse(text) {
         }
     });
 
-
     createHierarchy(copyFields);
 
     occursNames.sort(compare);
@@ -297,10 +288,8 @@ function parse(text) {
         expandOccurs(tooccurs, occursNames[i].occurs);
     }
 
-
     createRow(copyFields[0], 1);
     recursiveScan(copyFields[0], 0);
-
 
     return filtered;
 }
@@ -534,8 +523,6 @@ function parsePIC(inputPicture) {
     const first = picture[0];
     const numbers = returnNumericValues(inputPicture);
 
-    console.log(inputPicture);
-
     let pic = {};
 
     switch (first) {
@@ -566,6 +553,8 @@ function parsePIC(inputPicture) {
             }  
             break;
         case 'Z':
+        case '-':
+        case '+':
             pic.type = 'ZD';
             pic.mask = true;
             [pic.integer, pic.decimal] = numbers;
@@ -578,7 +567,18 @@ function parsePIC(inputPicture) {
 }
 
 function returnNumericValues(picture) {
-    const pictures = picture.split('V');
+    let pictures = [picture];
+
+    if(picture.includes(',')){
+        const integer = picture.length;
+        const decimal = 0;
+        return [integer, decimal];
+    }
+        
+    if(picture.includes('V')){
+        pictures = picture.split('V');
+    }
+
     let first, second;
     [first, second = ''] = pictures;
 
@@ -602,7 +602,9 @@ function returnNumericValues(picture) {
         }
     }
 
-    return [integer, decimal]
+
+
+    return [integer, decimal];
 }
 
 function countWithPar(picture) {

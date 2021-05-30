@@ -15,13 +15,12 @@ function validateChars(text, list) {
             return false;
         }).reduce((acc, x) => x || acc);
         return tempVal;
-    })//.reduce((acc, x) => x && acc);
+    });
 
     let errors = validation.map((x, index) => {
         if (!x) {
             return arrText[index];
         }
-
     }).filter(x => x);
 
     return [validation.reduce((acc, x) => acc && x), errors];
