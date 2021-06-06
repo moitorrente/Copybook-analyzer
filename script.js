@@ -189,7 +189,8 @@ function clearIntermediate() {
     tableEntries = [];
     fullTable = [];
     occursNames = [];
-    document.getElementById("table-body").innerHTML = null;
+    let table =  document.getElementById("table-body");
+    table ? document.getElementById("table-body").innerHTML = null : false;
     start = 1;
     finish = 0;
     id = 0;
