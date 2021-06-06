@@ -50,6 +50,11 @@ const outputExpand = document.getElementById("output-expand");
 const outputType = document.getElementById("output-type-selector");
 const urlUpdateInput = document.getElementById("url-update-input");
 
+const autorunOption = document.getElementById("url-autorun");
+
+
+
+
 textInputSize.addEventListener("input", () => {
     textInput.style.fontSize = `${textInputSize.value}px`;
 });
@@ -97,7 +102,29 @@ textOutput.addEventListener("input", () => {
     </svg>`;
 });
 
-outputType.addEventListener('change', createOuput);
+outputType.addEventListener('change', process);
+
+
+const tableParams = {
+    nivel: { show: true, name: 'Nivel' },
+    profundidad: { show: true, name: 'Profundidad' },
+    nombre: { show: true, name: 'Nombre' },
+    tipo: { show: true, name: 'Tipo' },
+    picture: { show: true, name: 'Picture' },
+    modificador: { show: true, name: 'Modificador' },
+    inicio: { show: true, name: 'Inicio' },
+    longitud: { show: true, name: 'Longitud' },
+    fin: { show: true, name: 'Fin' },
+    validacion: { show: true, name: 'Validación' }
+}
+
+const documentTable = new Table(tableParams);
+generateTable();
+
+function generateTable() {
+    documentTable.create();
+    documentTable.append('table');
+}
 
 
 function createOuput() {
@@ -323,10 +350,16 @@ function createHierarchy(copyFields) {
 
 
 
+
+
+
 function createRow(field, depth) {
     const table = document.getElementById("table-body")
     const row = document.createElement("tr");
-    const level = document.createElement("th");
+
+
+
+    const level = document.createElement("td");
     const depthCol = document.createElement("td");
     const name = document.createElement("td");
     const type = document.createElement("td");
@@ -390,23 +423,24 @@ function createRow(field, depth) {
     validation.appendChild(validationBadge);
 
     if (!field.isSwitch) {
-        row.appendChild(level);
-        row.appendChild(depthCol);
-        row.appendChild(name);
-        row.appendChild(type);
-        row.appendChild(picture);
-        row.appendChild(usage);
-        row.appendChild(startCol);
-        row.appendChild(length);
-        row.appendChild(finishCol);
-        row.appendChild(validation);
+        tableParams.nivel.show ? row.appendChild(level) : false;
+        tableParams.profundidad.show ? row.appendChild(depthCol) : false;
+        tableParams.nombre.show ? row.appendChild(name) : false;
+        tableParams.tipo.show ? row.appendChild(type) : false;
+        tableParams.picture.show ? row.appendChild(picture) : false;
+        tableParams.modificador.show ? row.appendChild(usage) : false;
+        tableParams.inicio.show ? row.appendChild(startCol) : false;
+        tableParams.longitud.show ? row.appendChild(length) : false;
+        tableParams.fin.show ? row.appendChild(finishCol) : false;
+        tableParams.validacion.show ? row.appendChild(validation) : false;
+
         if (field.level != 0) {
             table.appendChild(row);
         }
     } else {
-        row.appendChild(level);
-        row.appendChild(depthCol);
-        row.appendChild(name);
+        tableParams.nivel.show ? row.appendChild(level) : false;
+        tableParams.profundidad.show ? row.appendChild(depthCol) : false;
+        tableParams.nombre.show ? row.appendChild(name) : false;
         let value = document.createElement("td");
         value.colSpan = 6;
         value.innerHTML = field.value;
@@ -538,21 +572,21 @@ function parsePIC(inputPicture) {
             pic.type = 'ZD';
             pic.sign = false;
             [pic.integer, pic.decimal] = numbers;
-            if(pic.decimal == 0){
+            if (pic.decimal == 0) {
                 pic.picText = `9(${nf(pic.integer)})`;
-            }else{
+            } else {
                 pic.picText = `9(${nf(pic.integer)})V9(${nf(pic.decimal)})`;
-            }  
+            }
             break;
         case 'S':
             pic.type = 'ZD';
             pic.sign = true;
             [pic.integer, pic.decimal] = numbers;
-            if(pic.decimal == 0){
+            if (pic.decimal == 0) {
                 pic.picText = `S9(${nf(pic.integer)})`;
-            }else{
+            } else {
                 pic.picText = `S9(${nf(pic.integer)})V9(${nf(pic.decimal)})`;
-            }  
+            }
             break;
         case 'Z':
         case '-':
@@ -571,13 +605,13 @@ function parsePIC(inputPicture) {
 function returnNumericValues(picture) {
     let pictures = [picture];
 
-    if(picture.includes(',')){
+    if (picture.includes(',')) {
         const integer = picture.length;
         const decimal = 0;
         return [integer, decimal];
     }
-        
-    if(picture.includes('V')){
+
+    if (picture.includes('V')) {
         pictures = picture.split('V');
     }
 

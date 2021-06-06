@@ -60,8 +60,6 @@ function exists(property) {
 
 
 function normalizedCopy(rows) {
-
-    console.log(rows)
     let dict = {};
 
     const lines = rows.map(row => {

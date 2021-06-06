@@ -1,6 +1,8 @@
 const queryString = window.location.search;
 const urlParams = new URLSearchParams(queryString);
 
+autorunOption.addEventListener('change', () => updateURL(textInput, true));
+
 activateURLUpdate();
 
 function toggleAutoUpdate(updateURL) {
@@ -12,15 +14,18 @@ function toggleAutoUpdate(updateURL) {
 }
 
 const urlInput = urlParams.get("input");
+const autorun = urlParams.get("autorun");
 
 if (urlInput){
     textInput.value = atob(urlInput);
+    if(autorun === 'true'){
+        process();
+    }
 }
 
-
 function activateURLUpdate() {
-    textInput.addEventListener("input", updateURL);
-    textInputExpanded.addEventListener("input", updateURL);
+    textInput.addEventListener("input", () => updateURL(textInput, true));
+    textInputExpanded.addEventListener("input", () => updateURL(textInput, true));
 }
 
 function deactivateURLUpdate() {
@@ -29,17 +34,15 @@ function deactivateURLUpdate() {
 }
 
 
-function updateURL(keep) {
-
-    let input = this.value;
-
+function updateURL(textInput, keep) {
+    let input = textInput.value;
     if(!keep){
         input = "";
     }
-
-    let parm = encodeToB64(input);
+    const parm = encodeToB64(input);
     if (window.history.replaceState) {
-        window.history.replaceState({}, null, `?input=${parm}`);
+        const url = `?input=${parm}&autorun=${autorunOption.checked}`;
+        window.history.replaceState({}, null, url);
     }
     urlShare.value = window.location.href;
 }
