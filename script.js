@@ -105,23 +105,56 @@ textOutput.addEventListener("input", () => {
 outputType.addEventListener('change', process);
 
 
-const tableParams = {
-    nivel: { show: true, name: 'Nivel' },
-    profundidad: { show: true, name: 'Profundidad' },
-    nombre: { show: true, name: 'Nombre' },
-    tipo: { show: true, name: 'Tipo' },
-    picture: { show: true, name: 'Picture' },
-    modificador: { show: true, name: 'Modificador' },
-    inicio: { show: true, name: 'Inicio' },
-    longitud: { show: true, name: 'Longitud' },
-    fin: { show: true, name: 'Fin' },
-    validacion: { show: true, name: 'Validación' }
+const config = {
+    "tabla": {
+        "nivel": {
+            "show": true,
+            "name": "Nivel"
+        },
+        "profundidad": {
+            "show": true,
+            "name": "Profundidad"
+        },
+        "nombre": {
+            "show": true,
+            "name": "Nombre"
+        },
+        "tipo": {
+            "show": true,
+            "name": "Tipo"
+        },
+        "picture": {
+            "show": true,
+            "name": "Picture"
+        },
+        "modificador": {
+            "show": true,
+            "name": "Modificador"
+        },
+        "inicio": {
+            "show": true,
+            "name": "Inicio"
+        },
+        "longitud": {
+            "show": true,
+            "name": "Longitud"
+        },
+        "fin": {
+            "show": true,
+            "name": "Fin"
+        },
+        "validacion": {
+            "show": true,
+            "name": "Validación"
+        }
+    }
 }
 
-const documentTable = new Table(tableParams);
 generateTable();
 
 function generateTable() {
+    document.getElementById('table').innerHTML = '';
+    const documentTable = new Table(config.tabla);
     documentTable.create();
     documentTable.append('table');
 }
@@ -148,7 +181,6 @@ function createOuput() {
             textOutput.value = normalizedCopy(fullTable);
             break;
     }
-
 }
 
 clearButton.forEach(x => {
@@ -189,7 +221,7 @@ function clearIntermediate() {
     tableEntries = [];
     fullTable = [];
     occursNames = [];
-    let table =  document.getElementById("table-body");
+    let table = document.getElementById("table-body");
     table ? document.getElementById("table-body").innerHTML = null : false;
     start = 1;
     finish = 0;
@@ -255,8 +287,6 @@ function errorHandler(evt) {
 }
 
 function parse(text) {
-
-
     const raw = text.replaceAll(/\r\n|\n/g, "").split(/\./);
     const lines = raw.map(x => x.split(' '));
     const filtered = lines.map(line => {
@@ -283,7 +313,6 @@ function parse(text) {
             if (field.isOccurs && field.isPic) {
                 for (let i = 0; i < field.occurs; i++) {
                     let newField = new Field();
-
                     newField.decimal = field.decimal;
                     newField.end = field.end;
                     newField.id = field.id;
@@ -299,7 +328,6 @@ function parse(text) {
                     newField.type = field.type;
                     newField.usage = field.usage;
                     newField.isSwitch = field.isSwitch;
-
                     newField.name = `${field.name}`
                     copyFields.push(newField);
                 }
@@ -336,7 +364,6 @@ function createHierarchy(copyFields) {
                 child.parent = (copyFields[index - 1].name)
                 copyFields[index - 1].addChild(copyFields.splice(index, 1));
             }
-
         }
     }
 
@@ -349,17 +376,9 @@ function createHierarchy(copyFields) {
     }
 }
 
-
-
-
-
-
 function createRow(field, depth) {
     const table = document.getElementById("table-body")
     const row = document.createElement("tr");
-
-
-
     const level = document.createElement("td");
     const depthCol = document.createElement("td");
     const name = document.createElement("td");
@@ -408,7 +427,6 @@ function createRow(field, depth) {
     } else {
         if (field.level != "00") {
             fullTable.push(new Entry(depth, field.level, field.name, field.type, '', '', '', '', field.usage, '', '', '', '', field.isOccurs, field.occurs));
-
         }
     }
 
@@ -424,24 +442,24 @@ function createRow(field, depth) {
     validation.appendChild(validationBadge);
 
     if (!field.isSwitch) {
-        tableParams.nivel.show ? row.appendChild(level) : false;
-        tableParams.profundidad.show ? row.appendChild(depthCol) : false;
-        tableParams.nombre.show ? row.appendChild(name) : false;
-        tableParams.tipo.show ? row.appendChild(type) : false;
-        tableParams.picture.show ? row.appendChild(picture) : false;
-        tableParams.modificador.show ? row.appendChild(usage) : false;
-        tableParams.inicio.show ? row.appendChild(startCol) : false;
-        tableParams.longitud.show ? row.appendChild(length) : false;
-        tableParams.fin.show ? row.appendChild(finishCol) : false;
-        tableParams.validacion.show ? row.appendChild(validation) : false;
+        config.tabla.nivel.show ? row.appendChild(level) : false;
+        config.tabla.profundidad.show ? row.appendChild(depthCol) : false;
+        config.tabla.nombre.show ? row.appendChild(name) : false;
+        config.tabla.tipo.show ? row.appendChild(type) : false;
+        config.tabla.picture.show ? row.appendChild(picture) : false;
+        config.tabla.modificador.show ? row.appendChild(usage) : false;
+        config.tabla.inicio.show ? row.appendChild(startCol) : false;
+        config.tabla.longitud.show ? row.appendChild(length) : false;
+        config.tabla.fin.show ? row.appendChild(finishCol) : false;
+        config.tabla.validacion.show ? row.appendChild(validation) : false;
 
         if (field.level != 0) {
             table.appendChild(row);
         }
     } else {
-        tableParams.nivel.show ? row.appendChild(level) : false;
-        tableParams.profundidad.show ? row.appendChild(depthCol) : false;
-        tableParams.nombre.show ? row.appendChild(name) : false;
+        config.tabla.nivel.show ? row.appendChild(level) : false;
+        config.tabla.profundidad.show ? row.appendChild(depthCol) : false;
+        config.tabla.nombre.show ? row.appendChild(name) : false;
         let value = document.createElement("td");
         value.colSpan = 6;
         value.innerHTML = field.value;
@@ -484,7 +502,6 @@ function createBadge(text, color, level) {
     const badge = document.createElement("span");
     badge.classList.add("badge");
     badge.classList.add(color);
-
 
     if (level != undefined) {
         switch (level) {
@@ -638,9 +655,6 @@ function returnNumericValues(picture) {
             decimal = countExact(secondArray);
         }
     }
-
-
-
     return [integer, decimal];
 }
 
@@ -675,7 +689,6 @@ function countExact(picture) {
             }
         }
     }
-
     return counter;
 }
 
@@ -774,8 +787,6 @@ for (var i = 0; i < count; i++) {
         }
     }
 }
-
-
 
 var toastElList = [].slice.call(document.querySelectorAll('.toast'))
 var toastList = toastElList.map(function (toastEl) {

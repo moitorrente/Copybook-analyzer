@@ -29,7 +29,7 @@ class Table{
     }
 
     append(element){
-        const table = document.getElementById(element)
-        table.appendChild(this.table)
+        const table = document.getElementById(element);
+        table.appendChild(this.table);
     }
 }
