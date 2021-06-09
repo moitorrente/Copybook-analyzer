@@ -54,6 +54,11 @@ const autorunOption = document.getElementById("url-autorun");
 
 
 
+const exportConfig = document.getElementById("export-config");
+exportConfig.addEventListener("click", () => {
+    saveTextAsFile(JSON.stringify(config, null, 2), 'config.json');
+});
+
 
 textInputSize.addEventListener("input", () => {
     textInput.style.fontSize = `${textInputSize.value}px`;

@@ -44,10 +44,10 @@
 
   <header class="navbar navbar-expand-md navbar-dark bg-dark p-0">
     <div class="container-fluid">
-      <!-- <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo03"
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo03"
         aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
-      </button> -->
+      </button>
 
 
       <a class="navbar-brand">
@@ -68,9 +68,8 @@
       <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         </ul>
-        <svg class="button" data-bs-toggle="modal" data-bs-target="#table-modal"
-        xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="white" class="bi bi-table"
-          viewBox="0 0 16 16">
+        <svg class="button" data-bs-toggle="modal" data-bs-target="#table-modal" xmlns="http://www.w3.org/2000/svg"
+          width="16" height="16" fill="white" class="bi bi-table" viewBox="0 0 16 16">
           <path
             d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm15 2h-4v3h4V4zm0 4h-4v3h4V8zm0 4h-4v3h3a1 1 0 0 0 1-1v-2zm-5 3v-3H6v3h4zm-5 0v-3H1v2a1 1 0 0 0 1 1h3zm-4-4h4V8H1v3zm0-4h4V4H1v3zm5-3v3h4V4H6zm4 4H6v3h4V8z" />
         </svg>
@@ -409,76 +408,126 @@
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Opciones</h5>
+            <h5 class="modal-title" id="exampleModalLabel">Configuración de tabla</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
-            <div class="px-5 py-2 sm">
-              <div class="form-check form-switch mb-2 form-swtich-sm">
-                <label class="form-check-label" for="level-col">
-                  Nivel
-                </label>
-                <input class="form-check-input" type="checkbox" value="" id="level-col" checked>
-              </div>
-              <div class="form-check form-switch mb-2 form-swtich-sm">
-                <label class="form-check-label" for="depth-col">
-                  Profundidad
-                </label>
-                <input class="form-check-input" type="checkbox" value="" id="depth-col" checked>
-              </div>
-              <div class="form-check form-switch mb-2 form-swtich-sm">
-                <label class="form-check-label" for="name-col">
-                  Nombre
-                </label>
-                <input class="form-check-input" type="checkbox" value="" id="name-col" checked>
-              </div>
-              <div class="form-check form-switch mb-2 form-swtich-sm">
-                <label class="form-check-label" for="type-col">
-                  Tipo
-                </label>
-                <input class="form-check-input" type="checkbox" value="" id="type-col" checked>
-              </div>
-              <div class="form-check form-switch mb-2 form-swtich-sm">
-                <label class="form-check-label" for="picture-col">
-                  Picture
-                </label>
-                <input class="form-check-input" type="checkbox" value="" id="picture-col" checked>
-              </div>
-              <div class="form-check form-switch mb-2 form-swtich-sm">
-                <label class="form-check-label" for="modifier-col">
-                  Modificador
-                </label>
-                <input class="form-check-input" type="checkbox" value="" id="modifier-col" checked>
-              </div>
-              <div class="form-check form-switch mb-2 form-swtich-sm">
-                <label class="form-check-label" for="start-col">
-                  Inicio
-                </label>
-                <input class="form-check-input" type="checkbox" value="" id="start-col" checked>
-              </div>
-              <div class="form-check form-switch mb-2 form-swtich-sm">
-                <label class="form-check-label" for="length-col">
-                  Longitud
-                </label>
-                <input class="form-check-input" type="checkbox" value="" id="length-col" checked>
-              </div>
-              <div class="form-check form-switch mb-2 form-swtich-sm">
-                <label class="form-check-label" for="end-col">
-                  Fin
-                </label>
-                <input class="form-check-input" type="checkbox" value="" id="end-col" checked>
-              </div>
-              <div class="form-check form-switch mb-2 form-swtich-sm">
-                <label class="form-check-label" for="validation-col">
-                  Validación
-                </label>
-                <input class="form-check-input" type="checkbox" value="" id="validation-col" checked>
-              </div>
-            </div>
-          </div>
+
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">Campo</th>
+                  <th scope="col">Mostrar</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">
+                    <label class="form-check-label" for="level-col">
+                      Nivel
+                    </label>
+                  </th>
+                  <td class="text-center">
+                    <input class="form-check-input" type="checkbox" value="" id="level-col" checked>
+                  </td>
+                </tr>
+                <tr>
+                  <th scope="row">
+                    <label class="form-check-label" for="depth-col">
+                      Profundidad
+                    </label>
+                  </th>
+                  <td class="text-center">
+                    <input class="form-check-input" type="checkbox" value="" id="depth-col" checked>
+                  </td>
+                </tr>
+                <tr>
+                  <th scope="row">
+                    <label class="form-check-label" for="name-col">
+                      Nombre
+                    </label>
+                  </th>
+                  <td class="text-center">
+                    <input class="form-check-input" type="checkbox" value="" id="name-col" checked>
+                  </td>
+                </tr>
+                <tr>
+                  <th scope="row">
+                    <label class="form-check-label" for="type-col">
+                      Tipo
+                    </label>
+                  </th>
+                  <td class="text-center">
+                    <input class="form-check-input" type="checkbox" value="" id="type-col" checked>
+                  </td>
+                </tr>
+                <tr>
+                  <th scope="row">
+                    <label class="form-check-label" for="picture-col">
+                      Picture
+                    </label>
+                  </th>
+                  <td class="text-center">
+                    <input class="form-check-input" type="checkbox" value="" id="picture-col" checked>
+                  </td>
+                </tr>
+                <tr>
+                  <th scope="row">
+                    <label class="form-check-label" for="modifier-col">
+                      Modificador
+                    </label>
+                  </th>
+                  <td class="text-center">
+                    <input class="form-check-input" type="checkbox" value="" id="modifier-col" checked>
+                  </td>
+                </tr>
+                <tr>
+                  <th scope="row">
+                    <label class="form-check-label" for="start-col">
+                      Inicio
+                    </label>
+                  </th>
+                  <td class="text-center">
+                    <input class="form-check-input" type="checkbox" value="" id="start-col" checked>
+                  </td>
+                </tr>
+                <tr>
+                  <th scope="row">
+                    <label class="form-check-label" for="length-col">
+                      Longitud
+                    </label>
+                  </th>
+                  <td class="text-center">
+                    <input class="form-check-input" type="checkbox" value="" id="length-col" checked>
+                  </td>
+                </tr>
+                <tr>
+                  <th scope="row">
+                    <label class="form-check-label" for="end-col">
+                      Fin
+                    </label>
+                  </th>
+                  <td class="text-center">
+                    <input class="form-check-input" type="checkbox" value="" id="end-col" checked>
+                  </td>
+                </tr>
+                <tr>
+                  <th scope="row">
+                    <label class="form-check-label" for="validation-col">
+                      Validación
+                    </label>
+                  </th>
+                  <td class="text-center">
+                    <input class="form-check-input" type="checkbox" value="" id="validation-col" checked>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
 
           <div class="modal-footer">
-            <button type="button" class="btn btn-primary btn-sm">Guardar</button>
+            <button type="button" class="btn btn-primary btn-sm" id="export-config">Exportar</button>
+            <button type="button" class="btn btn-primary btn-sm" id="load-config">Cargar</button>
+            <button type="button" class="btn btn-success btn-sm" id="default-config">Por defecto</button>
             <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Cerrar</button>
           </div>
         </div>
