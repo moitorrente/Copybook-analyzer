@@ -62,18 +62,22 @@ exportConfig.addEventListener("click", () => {
 
 textInputSize.addEventListener("input", () => {
     textInput.style.fontSize = `${textInputSize.value}px`;
+    config.general.inputSize = textInput.style.fontSize;
 });
 textOutputSize.addEventListener("input", () => {
     textOutput.style.fontSize = `${textOutputSize.value}px`;
+    config.general.inputSize = textInput.style.fontSize;
 });
 
 textInputReset.addEventListener("click", () => {
     textInput.style.fontSize = `16px`;
+    config.general.inputSize = textInput.style.fontSize;
     textInputSize.value = "16";
 })
 
 textOutputReset.addEventListener("click", () => {
     textOutput.style.fontSize = `16px`;
+    config.general.inputSize = textInput.style.fontSize;
     textOutputSize.value = "16";
 })
 
@@ -111,6 +115,12 @@ outputType.addEventListener('change', process);
 
 
 const config = {
+    "general":{
+        "inputSize": "16px",
+        "outputSize": "16px",
+        "autoUpdateURL": true,
+        "autoRunURL": true
+    },
     "tabla": {
         "nivel": {
             "show": true,

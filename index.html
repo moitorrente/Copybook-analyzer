@@ -15,7 +15,6 @@
   <script defer src="urlupdater.js"></script>
   <script defer src="regenerate.js"></script>
 
-
   <!-- Latest compiled and minified CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
@@ -32,24 +31,17 @@
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/split.js/1.6.0/split.min.js"></script>
 
-
-
-
   <link rel="stylesheet" href="style.css">
   <link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />
-
 </head>
 
 <body>
-
   <header class="navbar navbar-expand-md navbar-dark bg-dark p-0">
     <div class="container-fluid">
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo03"
         aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
-
-
       <a class="navbar-brand">
         <div class="mx-4">
           <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" fill="currentColor" class="bi bi-book mb-2"
@@ -68,13 +60,6 @@
       <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         </ul>
-        <svg class="button" data-bs-toggle="modal" data-bs-target="#table-modal" xmlns="http://www.w3.org/2000/svg"
-          width="16" height="16" fill="white" class="bi bi-table" viewBox="0 0 16 16">
-          <path
-            d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm15 2h-4v3h4V4zm0 4h-4v3h4V8zm0 4h-4v3h3a1 1 0 0 0 1-1v-2zm-5 3v-3H6v3h4zm-5 0v-3H1v2a1 1 0 0 0 1 1h3zm-4-4h4V8H1v3zm0-4h4V4H1v3zm5-3v3h4V4H6zm4 4H6v3h4V8z" />
-        </svg>
-
-
         <ul class="navbar-nav me-4 mb-2">
         </ul>
         <svg class="button" data-bs-toggle="modal" data-bs-target="#options-modal" xmlns="http://www.w3.org/2000/svg"
@@ -118,14 +103,11 @@
             <div class="header" id="header">
               <div class="container">
                 <div class="row">
-
                   <nav class="d-flex bd-highlight mb-3">
                     <div class="me-auto p-1 bd-highlight">
                       <span class="align-middle navbar-brand h1 navbar-toggler button" data-bs-toggle="collapse"
                         data-bs-target="#input-process">Input</span>
                     </div>
-
-
                     <div class="me-auto p-1 bd-highlight">
                       <svg id="run" class="button" xmlns="http://www.w3.org/2000/svg" width="22" height="22"
                         fill="currentColor" class="bi bi-play" viewBox="0 0 16 16">
@@ -133,7 +115,6 @@
                           d="M10.804 8L5 4.633v6.734L10.804 8zm.792-.696a.802.802 0 0 1 0 1.392l-6.363 3.692C4.713 12.69 4 12.345 4 11.692V4.308c0-.653.713-.998 1.233-.696l6.363 3.692z" />
                       </svg>
                     </div>
-
                     <div class="p-1 bd-highlight">
                       <input type="file" id="file" style="display: none;" />
                       <svg class="button" onclick="document.getElementById('file').click();"
@@ -145,7 +126,6 @@
                           d="M14 4.5V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h5.5L14 4.5zm-3 0A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4.5h-2z" />
                       </svg>
                     </div>
-
                     <div class="p-1 bd-highlight navbar-toggler">
                       <svg class="button" id="share" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
                         fill="currentColor" class="bi bi-share" viewBox="0 0 16 16" data-bs-toggle="collapse"
@@ -154,7 +134,6 @@
                           d="M13.5 1a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zM11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.499 2.499 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5zm-8.5 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zm11 5.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3z" />
                       </svg>
                     </div>
-
                     <div class="p-1 bd-highlight" data-toggle="tooltip" title="Hooray!">
                       <svg class="button clear" id="clear" xmlns="http://www.w3.org/2000/svg" width="22" height="22"
                         fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
@@ -164,7 +143,6 @@
                           d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z" />
                       </svg>
                     </div>
-
                     <div class="p-1 bd-highlight">
                       <svg class="button" id="input-expand" data-bs-toggle="modal" data-bs-target="#input-modal"
                         xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
@@ -173,31 +151,22 @@
                           d="M5.828 10.172a.5.5 0 0 0-.707 0l-4.096 4.096V11.5a.5.5 0 0 0-1 0v3.975a.5.5 0 0 0 .5.5H4.5a.5.5 0 0 0 0-1H1.732l4.096-4.096a.5.5 0 0 0 0-.707zm4.344 0a.5.5 0 0 1 .707 0l4.096 4.096V11.5a.5.5 0 1 1 1 0v3.975a.5.5 0 0 1-.5.5H11.5a.5.5 0 0 1 0-1h2.768l-4.096-4.096a.5.5 0 0 1 0-.707zm0-4.344a.5.5 0 0 0 .707 0l4.096-4.096V4.5a.5.5 0 1 0 1 0V.525a.5.5 0 0 0-.5-.5H11.5a.5.5 0 0 0 0 1h2.768l-4.096 4.096a.5.5 0 0 0 0 .707zm-4.344 0a.5.5 0 0 1-.707 0L1.025 1.732V4.5a.5.5 0 0 1-1 0V.525a.5.5 0 0 1 .5-.5H4.5a.5.5 0 0 1 0 1H1.732l4.096 4.096a.5.5 0 0 1 0 .707z" />
                       </svg>
                     </div>
-
-
                   </nav>
                 </div>
               </div>
             </div>
-
             <div class="collapse expand" id="input-process">
               <div class="bg-light px-4 py-2 sm">
-
                 <div class="form-check form-switch mb-2 form-swtich-sm">
                   <input class="form-check-input" type="checkbox" value="" id="normalize" checked>
                   <label class="form-check-label" for="normalize">
                     Normalizar
                   </label>
                 </div>
-
                 <div class="mb-2">
                   <button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="collapse"
                     data-bs-target="#toggleSwitch">Expandir/contraer valores</button>
                 </div>
-
-
-
-
                 <div class="input-group input-group-sm mb-3">
                   <div class="input-group-text">
                     <input class="form-check-input mt-0" type="checkbox" id="remove-prefix" checked>
@@ -205,34 +174,26 @@
                   <span class="input-group-text">Quitar prefijo</span>
                   <input type="text" class="form-control" aria-label="Prefijo" id="prefix">
                 </div>
-
                 <div class="input-group input-group-sm mb-3">
                   <div class="input-group-text">
                     <input class="form-check-input mt-0" type="checkbox" id="remove-sufix" checked>
                   </div>
                   <span class="input-group-text">Quitar sufijo</span>
-
                   <input type="text" class="form-control" aria-label="Prefijo" value=":;:" id="sufix" disabled></input>
                 </div>
               </div>
             </div>
-
-
             <div class="collapse expand" id="input-share">
               <div class="bg-light px-4 py-2 sm">
-
                 <div class="input-group input-group-sm">
                   <input type="text" class="form-control" placeholder="Recipient's username"
                     aria-label="Recipient's username" id="url-share" disabled>
                   <button class="btn btn-outline-success" type="button" id="copy-input-button">Copiar</button>
                 </div>
-
               </div>
             </div>
-
             <textarea rows="12" contentEditable="true" class="form-control textarea input-text" cols="72"
               id="input-text">
-
               </textarea>
           </div>
         </div>
@@ -241,15 +202,11 @@
             <div class="header" id="header">
               <div class="container">
                 <div class="row">
-
                   <div class="d-flex bd-highlight mb-3">
                     <div class="me-auto p-1 bd-highlight">
                       <span class="align-middle button navbar-brand h1 navbar-toggler" data-bs-toggle="collapse"
                         data-bs-target="#output-type">Output</span>
                     </div>
-
-
-
                     <div class="me-auto p-1 bd-highlight">
                       <svg id="csv" class="button" xmlns="http://www.w3.org/2000/svg" width="22" height="22"
                         fill="currentColor" class="bi bi-play" viewBox="0 0 16 16">
@@ -257,9 +214,6 @@
                           d="M10.804 8L5 4.633v6.734L10.804 8zm.792-.696a.802.802 0 0 1 0 1.392l-6.363 3.692C4.713 12.69 4 12.345 4 11.692V4.308c0-.653.713-.998 1.233-.696l6.363 3.692z" />
                       </svg>
                     </div>
-
-
-
                     <div class="p-1 bd-highlight navbar-toggler" data-bs-toggle="collapse"
                       data-bs-target="#download-navbar">
                       <svg class="button" xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor"
@@ -270,8 +224,6 @@
                           d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2zM9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5v2z" />
                       </svg>
                     </div>
-
-
                     <div class="p-1 bd-highlight button" id="copy-button">
                       <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor"
                         class="bi bi-clipboard" viewBox="0 0 16 16">
@@ -301,7 +253,6 @@
                           d="M5.828 10.172a.5.5 0 0 0-.707 0l-4.096 4.096V11.5a.5.5 0 0 0-1 0v3.975a.5.5 0 0 0 .5.5H4.5a.5.5 0 0 0 0-1H1.732l4.096-4.096a.5.5 0 0 0 0-.707zm4.344 0a.5.5 0 0 1 .707 0l4.096 4.096V11.5a.5.5 0 1 1 1 0v3.975a.5.5 0 0 1-.5.5H11.5a.5.5 0 0 1 0-1h2.768l-4.096-4.096a.5.5 0 0 1 0-.707zm0-4.344a.5.5 0 0 0 .707 0l4.096-4.096V4.5a.5.5 0 1 0 1 0V.525a.5.5 0 0 0-.5-.5H11.5a.5.5 0 0 0 0 1h2.768l-4.096 4.096a.5.5 0 0 0 0 .707zm-4.344 0a.5.5 0 0 1-.707 0L1.025 1.732V4.5a.5.5 0 0 1-1 0V.525a.5.5 0 0 1 .5-.5H4.5a.5.5 0 0 1 0 1H1.732l4.096 4.096a.5.5 0 0 1 0 .707z" />
                       </svg>
                     </div>
-
                   </div>
                 </div>
               </div>
@@ -343,303 +294,268 @@
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Opciones</h5>
+            <h5 class="modal-title" id="exampleModalLabel">Configuración</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
-            <div class="px-4 py-2">
-              <form class>
-                <label for="input-size-group" class="form-label fw-light">Tamaño letra input</label>
-                <div class="input-group" id="input-size-group">
-                  <input type="number" class="form-control form-control-sm" placeholder="Tamaño fuente"
-                    aria-label="Tamaño fuente" id="input-font-size" value="16">
-                  <button class="btn btn-outline-secondary btn-sm" type="button" id="input-font-reset">Reset</button>
+            <ul class="nav nav-tabs" id="myTab" role="tablist">
+              <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button"
+                  role="tab" aria-controls="home" aria-selected="true">General</button>
+              </li>
+              <li class="nav-item" role="presentation">
+                <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button"
+                  role="tab" aria-controls="profile" aria-selected="false">Tabla</button>
+              </li>
+              <!-- <li class="nav-item" role="presentation">
+                <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button" role="tab" aria-controls="contact" aria-selected="false">Contact</button>
+              </li> -->
+            </ul>
+            <div class="tab-content" id="myTabContent">
+              <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                <div>
+                  <div class="px-4 py-2">
+                    <form class>
+                      <label for="input-size-group" class="form-label fw-light">Tamaño letra input</label>
+                      <div class="input-group" id="input-size-group">
+                        <input type="number" class="form-control form-control-sm" placeholder="Tamaño fuente"
+                          aria-label="Tamaño fuente" id="input-font-size" value="16">
+                        <button class="btn btn-outline-secondary btn-sm" type="button"
+                          id="input-font-reset">Reset</button>
+                      </div>
+                    </form>
+                  </div>
+                  <div class="px-4 py-2">
+                    <form class>
+                      <label for="output-size-group" class="form-label fw-light">Tamaño letra output</label>
+                      <div class="input-group" id="output-size-group">
+                        <input type="number" class="form-control form-control-sm" placeholder="Tamaño fuente"
+                          aria-label="Tamaño fuente" id="output-font-size" value="16">
+                        <button class="btn btn-outline-secondary btn-sm" type="button"
+                          id="output-font-reset">Reset</button>
+                      </div>
+                    </form>
+                  </div>
+                  <div class="px-5 py-2 sm">
+                    <div class="form-check form-switch mb-2 form-swtich-sm">
+                      <input class="form-check-input" type="checkbox" value="" id="url-update-input" checked disabled>
+                      <label class="form-check-label" for="normalize">
+                        Actualizar la URL con el cambio de input
+                      </label>
+                    </div>
+                  </div>
+                  <div class="px-5 py-2 sm">
+                    <div class="form-check form-switch mb-2 form-swtich-sm">
+                      <input class="form-check-input" type="checkbox" value="" id="url-autorun" checked>
+                      <label class="form-check-label" for="normalize">
+                        Autorun en URL
+                      </label>
+                    </div>
+                  </div>
                 </div>
-              </form>
-            </div>
-            <div class="px-4 py-2">
-              <form class>
-                <label for="output-size-group" class="form-label fw-light">Tamaño letra output</label>
-                <div class="input-group" id="output-size-group">
-
-                  <input type="number" class="form-control form-control-sm" placeholder="Tamaño fuente"
-                    aria-label="Tamaño fuente" id="output-font-size" value="16">
-                  <button class="btn btn-outline-secondary btn-sm" type="button" id="output-font-reset">Reset</button>
-                </div>
-              </form>
-            </div>
-          </div>
-          <div class="px-5 py-2 sm">
-            <div class="form-check form-switch mb-2 form-swtich-sm">
-              <input class="form-check-input" type="checkbox" value="" id="url-update-input" checked disabled>
-              <label class="form-check-label" for="normalize">
-                Actualizar la URL con el cambio de input
-              </label>
-            </div>
-          </div>
-          <div class="px-5 py-2 sm">
-            <div class="form-check form-switch mb-2 form-swtich-sm">
-              <input class="form-check-input" type="checkbox" value="" id="url-autorun" checked>
-              <label class="form-check-label" for="normalize">
-                Autorun en URL
-              </label>
-            </div>
-          </div>
-
-          <div class="modal-footer">
-            <button type="button" class="btn btn-primary btn-sm">Reset</button>
-            <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Cerrar</button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-
-
-
-
-
-
-
-
-
-
-    <div class="modal fade" id="table-modal" tabindex="-1" aria-labelledby="table-modal" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Configuración de tabla</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-
-            <table class="table">
-              <thead>
-                <tr>
-                  <th scope="col">Campo</th>
-                  <th scope="col">Mostrar</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <th scope="row">
-                    <label class="form-check-label" for="level-col">
-                      Nivel
-                    </label>
-                  </th>
-                  <td class="text-center">
-                    <input class="form-check-input" type="checkbox" value="" id="level-col" checked>
-                  </td>
-                </tr>
-                <tr>
-                  <th scope="row">
-                    <label class="form-check-label" for="depth-col">
-                      Profundidad
-                    </label>
-                  </th>
-                  <td class="text-center">
-                    <input class="form-check-input" type="checkbox" value="" id="depth-col" checked>
-                  </td>
-                </tr>
-                <tr>
-                  <th scope="row">
-                    <label class="form-check-label" for="name-col">
-                      Nombre
-                    </label>
-                  </th>
-                  <td class="text-center">
-                    <input class="form-check-input" type="checkbox" value="" id="name-col" checked>
-                  </td>
-                </tr>
-                <tr>
-                  <th scope="row">
-                    <label class="form-check-label" for="type-col">
-                      Tipo
-                    </label>
-                  </th>
-                  <td class="text-center">
-                    <input class="form-check-input" type="checkbox" value="" id="type-col" checked>
-                  </td>
-                </tr>
-                <tr>
-                  <th scope="row">
-                    <label class="form-check-label" for="picture-col">
-                      Picture
-                    </label>
-                  </th>
-                  <td class="text-center">
-                    <input class="form-check-input" type="checkbox" value="" id="picture-col" checked>
-                  </td>
-                </tr>
-                <tr>
-                  <th scope="row">
-                    <label class="form-check-label" for="modifier-col">
-                      Modificador
-                    </label>
-                  </th>
-                  <td class="text-center">
-                    <input class="form-check-input" type="checkbox" value="" id="modifier-col" checked>
-                  </td>
-                </tr>
-                <tr>
-                  <th scope="row">
-                    <label class="form-check-label" for="start-col">
-                      Inicio
-                    </label>
-                  </th>
-                  <td class="text-center">
-                    <input class="form-check-input" type="checkbox" value="" id="start-col" checked>
-                  </td>
-                </tr>
-                <tr>
-                  <th scope="row">
-                    <label class="form-check-label" for="length-col">
-                      Longitud
-                    </label>
-                  </th>
-                  <td class="text-center">
-                    <input class="form-check-input" type="checkbox" value="" id="length-col" checked>
-                  </td>
-                </tr>
-                <tr>
-                  <th scope="row">
-                    <label class="form-check-label" for="end-col">
-                      Fin
-                    </label>
-                  </th>
-                  <td class="text-center">
-                    <input class="form-check-input" type="checkbox" value="" id="end-col" checked>
-                  </td>
-                </tr>
-                <tr>
-                  <th scope="row">
-                    <label class="form-check-label" for="validation-col">
-                      Validación
-                    </label>
-                  </th>
-                  <td class="text-center">
-                    <input class="form-check-input" type="checkbox" value="" id="validation-col" checked>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-
-          <div class="modal-footer">
-            <button type="button" class="btn btn-primary btn-sm" id="export-config">Exportar</button>
-            <button type="button" class="btn btn-primary btn-sm" id="load-config">Cargar</button>
-            <button type="button" class="btn btn-success btn-sm" id="default-config">Por defecto</button>
-            <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Cerrar</button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    <div class="modal fade" id="input-modal" tabindex="-1" aria-labelledby="input-modal" aria-hidden="true">
-      <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-
-          <div class="modal-body bg-light rounded">
-
-            <div class="col-md-12 p-2">
-              <div class="row">
-
-                <nav class="d-flex bg-light mb-3">
-                  <div class="me-auto p-1 bg-light">
-                    <span class="align-middle navbar-brand h1">Input</span>
-                  </div>
-
-                  <div class="p-1 bd-highlight">
-                    <svg class="button clear" id="clear" xmlns="http://www.w3.org/2000/svg" width="22" height="22"
-                      fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
-                      <path
-                        d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z" />
-                      <path fill-rule="evenodd"
-                        d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z" />
-                    </svg>
-                  </div>
-
-                  <div class="p-1 bg-light">
-                    <svg class="button" data-bs-toggle="modal" data-bs-target="#input-modal"
-                      xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor"
-                      class="bi bi-arrows-fullscreen" viewBox="0 0 16 16">
-                      <path fill-rule="evenodd"
-                        d="M6.364 13.5a.5.5 0 0 0 .5.5H13.5a1.5 1.5 0 0 0 1.5-1.5v-10A1.5 1.5 0 0 0 13.5 1h-10A1.5 1.5 0 0 0 2 2.5v6.636a.5.5 0 1 0 1 0V2.5a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 .5.5v10a.5.5 0 0 1-.5.5H6.864a.5.5 0 0 0-.5.5z" />
-                      <path fill-rule="evenodd"
-                        d="M11 5.5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793l-8.147 8.146a.5.5 0 0 0 .708.708L10 6.707V10.5a.5.5 0 0 0 1 0v-5z" />
-                    </svg>
-                  </div>
-                </nav>
               </div>
+              <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                <div>
+                  <div>
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th scope="col">Campo</th>
+                          <th scope="col">Mostrar</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td scope="row">
+                            <label class="form-check-label" for="level-col">
+                              Nivel
+                            </label>
+                          </td>
+                          <td class="text-center">
+                            <input class="form-check-input" type="checkbox" value="" id="level-col" checked>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td scope="row">
+                            <label class="form-check-label" for="depth-col">
+                              Profundidad
+                            </label>
+                          </td>
+                          <td class="text-center">
+                            <input class="form-check-input" type="checkbox" value="" id="depth-col" checked>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td scope="row">
+                            <label class="form-check-label" for="name-col">
+                              Nombre
+                            </label>
+                          </td>
+                          <td class="text-center">
+                            <input class="form-check-input" type="checkbox" value="" id="name-col" checked>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td scope="row">
+                            <label class="form-check-label" for="type-col">
+                              Tipo
+                            </label>
+                          </td>
+                          <td class="text-center">
+                            <input class="form-check-input" type="checkbox" value="" id="type-col" checked>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td scope="row">
+                            <label class="form-check-label" for="picture-col">
+                              Picture
+                            </label>
+                          </td>
+                          <td class="text-center">
+                            <input class="form-check-input" type="checkbox" value="" id="picture-col" checked>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td scope="row">
+                            <label class="form-check-label" for="modifier-col">
+                              Modificador
+                            </label>
+                          </td>
+                          <td class="text-center">
+                            <input class="form-check-input" type="checkbox" value="" id="modifier-col" checked>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td scope="row">
+                            <label class="form-check-label" for="start-col">
+                              Inicio
+                            </label>
+                          </td>
+                          <td class="text-center">
+                            <input class="form-check-input" type="checkbox" value="" id="start-col" checked>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td scope="row">
+                            <label class="form-check-label" for="length-col">
+                              Longitud
+                            </label>
+                          </td>
+                          <td class="text-center">
+                            <input class="form-check-input" type="checkbox" value="" id="length-col" checked>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td scope="row">
+                            <label class="form-check-label" for="end-col">
+                              Fin
+                            </label>
+                          </td>
+                          <td class="text-center">
+                            <input class="form-check-input" type="checkbox" value="" id="end-col" checked>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td scope="row">
+                            <label class="form-check-label" for="validation-col">
+                              Validación
+                            </label>
+                          </td>
+                          <td class="text-center">
+                            <input class="form-check-input" type="checkbox" value="" id="validation-col" checked>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+              <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+                <div>3</div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-primary btn-sm" id="export-config">Exportar</button>
+              <button class="btn btn-primary btn-sm"
+                onclick="document.getElementById('config-input').click();">Cargar</button>
+              <input id="config-input" type="file" name="name" style="display: none;" />
+              <button type="button" class="btn btn-success btn-sm" id="default-config">Por defecto</button>
+              <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+          </div>
+        </div>
+      </div>
 
-              <textarea rows="30" class="form-control input-text" cols="75" id="input-text-xp">
+      <div class="modal fade" id="input-modal" tabindex="-1" aria-labelledby="input-modal" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <div class="modal-body bg-light rounded">
+              <div class="col-md-12 p-2">
+                <div class="row">
+                  <nav class="d-flex bg-light mb-3">
+                    <div class="me-auto p-1 bg-light">
+                      <span class="align-middle navbar-brand h1">Input</span>
+                    </div>
+                    <div class="p-1 bd-highlight">
+                      <svg class="button clear" id="clear" xmlns="http://www.w3.org/2000/svg" width="22" height="22"
+                        fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                        <path
+                          d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z" />
+                        <path fill-rule="evenodd"
+                          d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z" />
+                      </svg>
+                    </div>
+                    <div class="p-1 bg-light">
+                      <svg class="button" data-bs-toggle="modal" data-bs-target="#input-modal"
+                        xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor"
+                        class="bi bi-arrows-fullscreen" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd"
+                          d="M6.364 13.5a.5.5 0 0 0 .5.5H13.5a1.5 1.5 0 0 0 1.5-1.5v-10A1.5 1.5 0 0 0 13.5 1h-10A1.5 1.5 0 0 0 2 2.5v6.636a.5.5 0 1 0 1 0V2.5a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 .5.5v10a.5.5 0 0 1-.5.5H6.864a.5.5 0 0 0-.5.5z" />
+                        <path fill-rule="evenodd"
+                          d="M11 5.5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793l-8.147 8.146a.5.5 0 0 0 .708.708L10 6.707V10.5a.5.5 0 0 0 1 0v-5z" />
+                      </svg>
+                    </div>
+                  </nav>
+                </div>
+                <textarea rows="30" class="form-control input-text" cols="75" id="input-text-xp">
               </textarea>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="modal fade" id="output-modal" tabindex="-1" aria-labelledby="output-modal" aria-hidden="true">
-      <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-
-          <div class="modal-body bg-light rounded">
-
-            <div class="col-md-12 p-2">
-              <div class="row">
-
-                <nav class="d-flex bg-light mb-3">
-                  <div class="me-auto p-1 bg-light">
-                    <span class="align-middle navbar-brand h1">Output</span>
-                  </div>
-
-                  <div class="p-1 bg-light">
-                    <svg class="button" data-bs-toggle="modal" data-bs-target="#output-modal"
-                      xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor"
-                      class="bi bi-arrows-fullscreen" viewBox="0 0 16 16">
-                      <path fill-rule="evenodd"
-                        d="M6.364 13.5a.5.5 0 0 0 .5.5H13.5a1.5 1.5 0 0 0 1.5-1.5v-10A1.5 1.5 0 0 0 13.5 1h-10A1.5 1.5 0 0 0 2 2.5v6.636a.5.5 0 1 0 1 0V2.5a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 .5.5v10a.5.5 0 0 1-.5.5H6.864a.5.5 0 0 0-.5.5z" />
-                      <path fill-rule="evenodd"
-                        d="M11 5.5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793l-8.147 8.146a.5.5 0 0 0 .708.708L10 6.707V10.5a.5.5 0 0 0 1 0v-5z" />
-                    </svg>
-                  </div>
-                </nav>
               </div>
-
-              <textarea rows="30" class="form-control" cols="75" id="output-text-xp">
-                </textarea>
             </div>
           </div>
         </div>
       </div>
-    </div>
+
+      <div class="modal fade" id="output-modal" tabindex="-1" aria-labelledby="output-modal" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <div class="modal-body bg-light rounded">
+              <div class="col-md-12 p-2">
+                <div class="row">
+                  <nav class="d-flex bg-light mb-3">
+                    <div class="me-auto p-1 bg-light">
+                      <span class="align-middle navbar-brand h1">Output</span>
+                    </div>
+
+                    <div class="p-1 bg-light">
+                      <svg class="button" data-bs-toggle="modal" data-bs-target="#output-modal"
+                        xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor"
+                        class="bi bi-arrows-fullscreen" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd"
+                          d="M6.364 13.5a.5.5 0 0 0 .5.5H13.5a1.5 1.5 0 0 0 1.5-1.5v-10A1.5 1.5 0 0 0 13.5 1h-10A1.5 1.5 0 0 0 2 2.5v6.636a.5.5 0 1 0 1 0V2.5a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 .5.5v10a.5.5 0 0 1-.5.5H6.864a.5.5 0 0 0-.5.5z" />
+                        <path fill-rule="evenodd"
+                          d="M11 5.5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793l-8.147 8.146a.5.5 0 0 0 .708.708L10 6.707V10.5a.5.5 0 0 0 1 0v-5z" />
+                      </svg>
+                    </div>
+                  </nav>
+                </div>
+
+                <textarea rows="30" class="form-control" cols="75" id="output-text-xp">
+                </textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
 </body>
 
 </html>

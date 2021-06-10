@@ -73,3 +73,8 @@ textarea {
   position: fixed;
   bottom: 0;
 } */
+
+.nav-link:focus,.nav-link:active {
+  outline: none !important;
+  box-shadow: none;
+}
