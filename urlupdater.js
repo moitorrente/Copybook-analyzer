@@ -25,12 +25,10 @@ if (urlInput){
 
 function activateURLUpdate() {
     textInput.addEventListener("input", () => updateURL(textInput, true));
-    textInputExpanded.addEventListener("input", () => updateURL(textInput, true));
 }
 
 function deactivateURLUpdate() {
     textInput.removeEventListener("input", updateURL);
-    textInputExpanded.removeEventListener("input", updateURL);
 }
 
 

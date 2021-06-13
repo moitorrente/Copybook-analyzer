@@ -78,3 +78,7 @@ textarea {
   outline: none !important;
   box-shadow: none;
 }
+
+[class="invert"] {
+  filter: invert(1) hue-rotate(180deg)
+}

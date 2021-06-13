@@ -24,9 +24,7 @@ const runButton = document.getElementById('run');
 const shareButton = document.getElementById('share');
 const csvButton = document.getElementById('csv');
 const textInput = document.getElementById('input-text');
-const textInputExpanded = document.getElementById('input-text-xp');
 const textOutput = document.getElementById('output-text');
-const textOutputExpanded = document.getElementById('output-text-xp');
 
 const normalize = document.getElementById("normalize");
 const expand88 = document.getElementById("expand-88");
@@ -52,13 +50,10 @@ const urlUpdateInput = document.getElementById("url-update-input");
 
 const autorunOption = document.getElementById("url-autorun");
 
-
-
 const exportConfig = document.getElementById("export-config");
 exportConfig.addEventListener("click", () => {
     saveTextAsFile(JSON.stringify(config, null, 2), 'config.json');
 });
-
 
 textInputSize.addEventListener("input", () => {
     textInput.style.fontSize = `${textInputSize.value}px`;
@@ -73,19 +68,12 @@ textInputReset.addEventListener("click", () => {
     textInput.style.fontSize = `16px`;
     config.general.inputSize = textInput.style.fontSize;
     textInputSize.value = "16";
-})
+});
 
 textOutputReset.addEventListener("click", () => {
     textOutput.style.fontSize = `16px`;
     config.general.inputSize = textInput.style.fontSize;
     textOutputSize.value = "16";
-})
-
-inputExpand.addEventListener('click', () => {
-    textInputExpanded.value = textInput.value;
-});
-outputExpand.addEventListener('click', () => {
-    textOutputExpanded.value = textOutput.value;
 });
 
 
@@ -114,7 +102,7 @@ textOutput.addEventListener("input", () => {
 outputType.addEventListener('change', process);
 
 
-const config = {
+let config = {
     "general":{
         "inputSize": "16px",
         "outputSize": "16px",
@@ -204,13 +192,6 @@ clearButton.forEach(x => {
 
 clearOutputButton.addEventListener('click', clearOutput);
 
-textInputExpanded.addEventListener('change', () => {
-    textInput.value = textInputExpanded.value;
-});
-textOutputExpanded.addEventListener('change', () => {
-    textOutput.value = textOutputExpanded.value;
-});
-
 function clearAll() {
     clearInput();
     clearIntermediate();
@@ -220,7 +201,6 @@ function clearAll() {
 
 function clearInput() {
     textInput.value = "";
-    textInputExpanded.value = "";
     updateURL(false);
 }
 
