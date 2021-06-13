@@ -81,5 +81,22 @@ function validateAll(text) {
         });
     }
 
+    const validCoherence = validateIncoherence(text);
+    if(!validCoherence){
+        validations.push({
+            level: 8,
+            text: "Picture incoherente"
+        })
+    }
+
     return validations;
+}
+
+function validateIncoherence(text){
+    const textArray = Array.from(text);
+    const unique = [...new Set(textArray)];
+    if (unique.includes('9') && unique.includes('X')){
+        return false;
+    }
+    return true;
 }
