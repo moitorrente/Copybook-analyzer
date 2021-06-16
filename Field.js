@@ -27,6 +27,7 @@ class Field {
         if (input) {
             this.parseLine(input);
         }
+        this.isCommented = false;
     }
 
 

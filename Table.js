@@ -5,8 +5,6 @@ class Table{
         this.cols = [];
     }
 
-
-
     create(){
         this.table = document.createElement('table')
         this.table.classList.add('table', 'table-hover', 'text-center', 'tab');
@@ -29,7 +27,7 @@ class Table{
     }
 
     append(element){
-        const table = document.getElementById(element);
-        table.appendChild(this.table);
+        const el = document.getElementById(element);
+        el.appendChild(this.table);
     }
 }

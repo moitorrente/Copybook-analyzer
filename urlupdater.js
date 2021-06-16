@@ -1,7 +1,14 @@
 const queryString = window.location.search;
 const urlParams = new URLSearchParams(queryString);
 
-autorunOption.addEventListener('change', () => updateURL(textInput, true));
+urlConfiguration.addEventListener('change', () => {
+    updateURL(textInput, true)}
+);
+
+autorunOption.addEventListener('change', () => {
+    config.general.autoRunURL = autorunOption.checked;
+    updateURL(textInput, true);
+});
 
 activateURLUpdate();
 
@@ -15,11 +22,17 @@ function toggleAutoUpdate(updateURL) {
 
 const urlInput = urlParams.get("input");
 const autorun = urlParams.get("autorun");
+const configInput = urlParams.get("config");
 
-if (urlInput){
+if (urlInput) {
     textInput.value = atob(urlInput);
-    if(autorun === 'true'){
+    if (configInput) {
+        config = JSON.parse(configInput);
+    }
+    if (autorun === 'true') {
         process();
+    }else{
+        applyConfiguration();
     }
 }
 
@@ -34,12 +47,13 @@ function deactivateURLUpdate() {
 
 function updateURL(textInput, keep) {
     let input = textInput.value;
-    if(!keep){
+    if (!keep) {
         input = "";
     }
     const parm = encodeToB64(input);
     if (window.history.replaceState) {
-        const url = `?input=${parm}&autorun=${autorunOption.checked}`;
+        let url = `?input=${parm}&autorun=${autorunOption.checked}`;
+        urlConfiguration.checked ? url += `&config=${JSON.stringify(config)}` : false;
         window.history.replaceState({}, null, url);
     }
     urlShare.value = window.location.href;

@@ -49,6 +49,24 @@ const outputType = document.getElementById("output-type-selector");
 const urlUpdateInput = document.getElementById("url-update-input");
 
 const autorunOption = document.getElementById("url-autorun");
+const urlConfiguration = document.getElementById("url-configuration");
+
+
+
+
+
+//----------------------------------- De regenerate.js ----------------------------
+const levelCol = document.getElementById("level-col");
+const depthCol = document.getElementById("depth-col");
+const nameCol = document.getElementById("name-col");
+const typeCol = document.getElementById("type-col");
+const pictureCol = document.getElementById("picture-col");
+const modifierCol = document.getElementById("modifier-col");
+const startCol = document.getElementById("start-col");
+const lengthCol = document.getElementById("length-col");
+const endCol = document.getElementById("end-col");
+const validationCol = document.getElementById("validation-col");
+//----------------------------------- De regenerate.js ----------------------------
 
 const exportConfig = document.getElementById("export-config");
 exportConfig.addEventListener("click", () => {
@@ -58,22 +76,26 @@ exportConfig.addEventListener("click", () => {
 textInputSize.addEventListener("input", () => {
     textInput.style.fontSize = `${textInputSize.value}px`;
     config.general.inputSize = textInput.style.fontSize;
+    updateURL(textInput, true);
 });
 textOutputSize.addEventListener("input", () => {
     textOutput.style.fontSize = `${textOutputSize.value}px`;
-    config.general.inputSize = textInput.style.fontSize;
+    config.general.outputSize = textOutput.style.fontSize;
+    updateURL(textInput, true);
 });
 
 textInputReset.addEventListener("click", () => {
     textInput.style.fontSize = `16px`;
     config.general.inputSize = textInput.style.fontSize;
     textInputSize.value = "16";
+    updateURL(textInput, true);
 });
 
 textOutputReset.addEventListener("click", () => {
     textOutput.style.fontSize = `16px`;
-    config.general.inputSize = textInput.style.fontSize;
+    config.general.outputSize = textOutput.style.fontSize;
     textOutputSize.value = "16";
+    updateURL(textInput, true);
 });
 
 
@@ -153,7 +175,6 @@ let config = {
     }
 }
 
-generateTable();
 
 function generateTable() {
     document.getElementById('table').innerHTML = '';
@@ -235,13 +256,36 @@ function recursiveRead(structure, outrec) {
             recursiveRead(structure.childs[t], outrec);
         }
     }
+}
+
+function applyConfiguration(){
+    textInput.style.fontSize = config.general.inputSize;
+    textOutput.style.fontSize = config.general.outputSize;
+    textInputSize.value = parseInt(config.general.inputSize);
+    textOutputSize.value = parseInt(config.general.outputSize);
+    
+    autorunOption.checked = config.general.autoRunURL;
+    urlUpdateInput.checked = config.general.autoUpdateURL;
+
+    levelCol.checked = config.tabla.nivel.show;
+    depthCol.checked = config.tabla.profundidad.show;
+    nameCol.checked = config.tabla.nombre.show;
+    typeCol.checked = config.tabla.tipo.show;
+    pictureCol.checked = config.tabla.picture.show;
+    modifierCol.checked = config.tabla.modificador.show;
+    startCol.checked = config.tabla.inicio.show;
+    lengthCol.checked = config.tabla.longitud.show;
+    endCol.checked = config.tabla.fin.show;
+    validationCol.checked = config.tabla.validacion.show;
+
+    generateTable();
 
 }
 
-
-
 function process() {
     clearIntermediate();
+    applyConfiguration();
+
     const text = textInput.value;
 
     if (text) {
@@ -290,7 +334,7 @@ function parse(text) {
     copyFields.push(new Field("00 PLACEHOLDER.", -1));
 
     filtered.forEach((line, index) => {
-        if (line != '' && line[0] != '*') {
+        if (line != '' && line[0].charAt(0) != '*') {
             let field = new Field(line, index);
 
             if (removePrefix.checked && field.name) {
@@ -791,6 +835,7 @@ var toastList = toastElList.map(function (toastEl) {
 //---------------------------------------------------------
 
 const urlShare = document.getElementById("url-share");
+urlShare.value = window.location.href;
 function share() {
     if (navigator.share) {
         navigator.share({
