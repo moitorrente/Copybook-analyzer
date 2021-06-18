@@ -3,47 +3,47 @@ function createOutrec() {
     for (let i = 0; i < tableEntries.length; i++) {
 
         const entry = tableEntries[i];
-        if (entry.type == "AN") {
-            outrec.push(['\n' + entry.start, entry.length, "C';'"])
+        if (entry.type == 'AN') {
+            outrec.push(['\n' + entry.start, entry.length, `C';'`])
         }
 
-        if (entry.type == "ZD") {
+        if (entry.type == 'ZD') {
             if (entry.sign) {
                 const edit = createEdit(entry.sign, entry.integer, entry.decimal);
                 outrec.push(['\n' + entry.start, entry.length, `${entry.type},EDIT=(${edit}),SIGNS=(+,-,,)`]);
             } else {
                 if (entry.decimal) {
                     outrec.push(['\n' + entry.start, entry.integer,
-                        "C','", entry.start + entry.integer, entry.decimal
-                        , "C';'"]);
+                        `C','`, entry.start + entry.integer, entry.decimal
+                        , `C';'`]);
 
                 } else {
-                    outrec.push(['\n' + entry.start, entry.length, "C';'"]);
+                    outrec.push(['\n' + entry.start, entry.length, `C';'`]);
                 }
             }
         }
 
-        if (entry.type == "SFF") {
-            if (entry.usage == "SIGN TRAILING SEPARATE CHARACTER") {
+        if (entry.type == 'SFF') {
+            if (entry.usage == 'SIGN TRAILING SEPARATE CHARACTER') {
                 if (entry.decimal) {
-                    outrec.push(['\n' + entry.end, "1", entry.start, entry.integer, "C','", entry.start + entry.integer, entry.decimal, "C';'"])
+                    outrec.push(['\n' + entry.end, '1', entry.start, entry.integer, `C','`, entry.start + entry.integer, entry.decimal, `C';'`])
 
                 } else {
-                    outrec.push(['\n' + entry.end, "1", entry.start, entry.integer, "C';'"])
+                    outrec.push(['\n' + entry.end, '1', entry.start, entry.integer, `C';'`])
 
                 }
             } else {
                 if (entry.decimal) {
-                    outrec.push(['\n' + entry.start, entry.integer, "C','", entry.start + entry.integer, entry.decimal, "C';'"])
+                    outrec.push(['\n' + entry.start, entry.integer, `C','`, entry.start + entry.integer, entry.decimal, `C';'`])
 
                 } else {
-                    outrec.push(['\n' + entry.start, entry.integer, "C';'"])
+                    outrec.push(['\n' + entry.start, entry.integer, `C';'`])
 
                 }
             }
         }
 
-        if (entry.type == "PD" || entry.type == "BI") {
+        if (entry.type == 'PD' || entry.type == 'BI') {
             const edit = createEdit(entry.sign, entry.integer, entry.decimal);
             if (entry.sign) {
                 outrec.push(['\n' + entry.start, entry.length, `${entry.type},EDIT=(${edit}),SIGNS=(+,-,,)`]);
@@ -54,8 +54,8 @@ function createOutrec() {
         }
     }
 
-    textOutput.value = outrec.flat().join(",").substring(1);
-    return outrec.flat().join(",").substring(1);
+    textOutput.value = outrec.flat().join(',').substring(1);
+    return outrec.flat().join(',').substring(1);
 }
 
 function createEdit(sign, integer, decimal) {

@@ -1,7 +1,7 @@
 const VALID_CHARS = [
-    "9", "A", "B", "P", "S", "V", "X", "Z", "/", 
-    ",", ".", "+", "-", "CR", "DB", "(", ")",
-    "0", "1", "2", "3", "4", "5", "6", "7", "8"
+    '9', 'A', 'B', 'P', 'S', 'V', 'X', 'Z', '/', 
+    ',', '.', '+', '-', 'CR', 'DB', '(', ')',
+    '0', '1', '2', '3', '4', '5', '6', '7', '8'
 ];
 
 //Valida que todos los carácteres de un string se encuentren dentro de una lista de valores
@@ -32,8 +32,8 @@ function countChars(text, char) {
 }
 
 function validateParenthesis(text) {
-    const close = countChars(text, ")");
-    const open = countChars(text, "(");
+    const close = countChars(text, ')');
+    const open = countChars(text, '(');
     const total = open + close;
 
     if (open != close) {
@@ -85,7 +85,7 @@ function validateAll(text) {
     // if(!validCoherence){
     //     validations.push({
     //         level: 8,
-    //         text: "Picture incoherente"
+    //         text: 'Picture incoherente'
     //     })
     // }
 

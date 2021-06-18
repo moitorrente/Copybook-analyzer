@@ -1,17 +1,16 @@
 //https://www.ibm.com/support/knowledgecenter/SSEPEK_11.0.0/apsg/src/tpc/db2z_hostvariablecobol.html
 //https://www.ibm.com/support/knowledgecenter/SS6SG3_4.2.0/com.ibm.entcobol.doc_4.2/PGandLR/ref/rlddecom.htm
 
-const USAGE = ["BINARY", "COMP", "COMP-1", "COMP-2", "COMP-3", "COMP-4", "COMP-5", "PACKED-DECIMAL", "DISPLAY", "SIGN TRAILING SEPARATE CHARACTER", "SIGN LEADING SEPARATE CHARACTER"];
+const USAGE = ['BINARY', 'COMP', 'COMP-1', 'COMP-2', 'COMP-3', 'COMP-4', 'COMP-5', 'PACKED-DECIMAL', 'DISPLAY', 'SIGN TRAILING SEPARATE CHARACTER', 'SIGN LEADING SEPARATE CHARACTER'];
 const WORDS = [
-    "REDEFINES",
-    "OCCURS",
-    "PIC",
-    "PICTURE",
-    //"RENAMES"
-    "SIGN",
-    "VALUE"
-]
-
+    //'REDEFINES',
+    'OCCURS',
+    'PIC',
+    'PICTURE',
+    //'RENAMES'
+    'SIGN',
+    'VALUE'
+];
 
 class Field {
     constructor(input, id) {
@@ -21,7 +20,7 @@ class Field {
         this.end = 0;
         this.validation = {
             level: 0,
-            color: "bg-success",
+            color: 'bg-success',
             message: []
         }
         if (input) {
@@ -30,17 +29,12 @@ class Field {
         this.isCommented = false;
     }
 
-
     parseLine(input) {
         let level, name, type, rest;
         [level, name, type, ...rest] = input;
         this.setLevel(level);
         this.setName(name);
-
-        if (this.name == "") {
-            [level, type, ...rest] = input;
-        }
-
+        if (this.name == '') [level, type, ...rest] = input;
         this.setSubstructure(type, rest);
     }
 
@@ -55,12 +49,12 @@ class Field {
 
     validateLevel(level) {
         if (isNaN(level)) {
-            this.setValidation(8, "Nivel no numérico");
+            this.setValidation(8, 'Nivel no numérico');
             return false;
         }
 
         if (level < 1 || (level > 49 && level != 66 && level != 77 && level != 88)) {
-            this.setValidation(8, "El valor del nivel debe estar comprendido entre 1 y 49");
+            this.setValidation(8, 'El valor del nivel debe estar comprendido entre 1 y 49');
             return false;
         }
 
@@ -72,12 +66,12 @@ class Field {
     }
 
     validateName(fieldName) {
-        if (fieldName == "PIC" ||
-            fieldName == "OCCURS" ||
-            fieldName == "REDEFINES" ||
-            fieldName == "" ||
+        if (fieldName == 'PIC' ||
+            fieldName == 'OCCURS' ||
+            fieldName == 'REDEFINES' ||
+            fieldName == '' ||
             fieldName == undefined) {
-            this.setValidation(8, "Falta el nombre");
+            this.setValidation(8, 'Falta el nombre');
             return false;
         }
 
@@ -86,7 +80,7 @@ class Field {
 
     removePrefix(prefix) {
         const reg = new RegExp(`^${prefix}`);
-        const name = this.name.replace(reg, "");
+        const name = this.name.replace(reg, '');
         this.setName(name);
     }
 
@@ -94,11 +88,11 @@ class Field {
         let name = this.name;
         if (this.name) {
             let temp = Array.from(this.name);
-            if (temp[temp.length - 1] == ":" && temp[temp.length - 2] == ";" && temp[temp.length - 3] == ":") {
+            if (temp[temp.length - 1] == ':' && temp[temp.length - 2] == ';' && temp[temp.length - 3] == ':') {
                 temp.splice(temp.length - 1);
                 temp.splice(temp.length - 1);
                 temp.splice(temp.length - 1);
-                name = temp.join("");
+                name = temp.join('');
             }
         }
 
@@ -127,18 +121,16 @@ class Field {
                 break;
 
             default:
-                this.setValidation(8, `Valor "${type}" no definido`);
+                this.setValidation(8, `Valor '${type}' no definido`);
         }
     }
 
     setPicture(value) {
         this.isPic = true;
-
         let picText, usage;
         [picText, ...usage] = value;
 
         const PIC = parsePIC(picText);
-
         const validations = validateAll(picText);
 
         validations.forEach(x => this.setValidation(x.level, x.text));
@@ -150,8 +142,8 @@ class Field {
         }
 
         if (usage.length > 0) {
-            this.usage = usage.join(" ");
-            if (usage[0] == "OCCURS") {
+            this.usage = usage.join(' ');
+            if (usage[0] == 'OCCURS') {
                 this.isOccurs = true;
                 this.occurs = usage[1];
                 this.usage = '';
@@ -159,12 +151,12 @@ class Field {
                     this.level == '66' ||
                     this.level == '77' ||
                     this.level == '88') {
-                    this.setValidation(8, "Nivel incorrecto para OCCURS");
+                    this.setValidation(8, 'Nivel incorrecto para OCCURS');
                 }
             }
         }
 
-        if (this.type == "AN") {
+        if (this.type == 'AN') {
             if (this.usage) {
                 this.setValidation(8, `Campo alfanumérico con usage: ${this.usage}`);
             }
@@ -179,7 +171,7 @@ class Field {
                 usage == 'PACKED-DECIMAL') {
                 this.type = 'PD';
                 if ((this.integer + this.decimal) % 2 == 0) {
-                    this.setValidation(4, "Packed decimal par")
+                    this.setValidation(4, 'Packed decimal par')
                 }
             }
 
@@ -190,20 +182,19 @@ class Field {
                 this.type = 'BI';
             }
 
-            if (usage[0] == "OCCURS") {
+            if (usage[0] == 'OCCURS') {
                 this.isOccurs = true;
                 this.setOccurs(usage[1]);
             }
 
-            if (this.usage == "SIGN TRAILING SEPARATE CHARACTER" ||
-                this.usage == "SIGN LEADING SEPARATE CHARACTER") {
+            if (this.usage == 'SIGN TRAILING SEPARATE CHARACTER' ||
+                this.usage == 'SIGN LEADING SEPARATE CHARACTER') {
                 if (!this.sign) {
-                    this.setValidation(8, "Campo sin signo pero con modificador de signo")
+                    this.setValidation(8, 'Campo sin signo pero con modificador de signo')
                 }
-                this.type = "SFF";
+                this.type = 'SFF';
             }
         }
-
 
         if (!normalize.checked || this.mask) {
             this.picText = value[0];
@@ -241,7 +232,7 @@ class Field {
                 }
                 break;
             default:
-                this.setValidation(8, `Tipo de picture no definido: "${this.type}"`);
+                this.setValidation(8, `Tipo de picture no definido: '${this.type}'`);
         }
 
         return length;
@@ -266,20 +257,14 @@ class Field {
     }
 
     setOccurs(value) {
-        let num;
-        [num] = value;
-        num = parseInt(num)
-        if (isNaN(num)) {
-            this.setValidation(8, "Occurs no numérico")
-        } else {
-            this.occurs = num;
-        }
+        const num = parseInt(value);
+        isNaN(num) ? this.setValidation(8, 'Occurs no numérico') : this.occurs = num;
 
-        if (this.level == "01" ||
-            this.level == "66" ||
-            this.level == "77" ||
-            this.level == "88") {
-            this.setValidation(8, "Nivel incorrecto para OCCURS");
+        if (this.level == '01' ||
+            this.level == '66' ||
+            this.level == '77' ||
+            this.level == '88') {
+            this.setValidation(8, 'Nivel incorrecto para OCCURS');
         }
     }
 
@@ -298,13 +283,13 @@ class Field {
 
         switch (this.validation.level) {
             case 0:
-                this.validation.color = "bg-success";
+                this.validation.color = 'bg-success';
                 break;
             case 4:
-                this.validation.color = "bg-warning";
+                this.validation.color = 'bg-warning';
                 break;
             case 8:
-                this.validation.color = "bg-danger";
+                this.validation.color = 'bg-danger';
                 break;
         }
 

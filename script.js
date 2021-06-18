@@ -10,7 +10,7 @@ const errorSVG = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
 <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
 </svg>`
 
-const switchThemeChk = document.getElementById("theme-check");
+const switchThemeChk = document.getElementById('theme-check');
 
 function switchTheme() {
     document.documentElement.classList.toggle('clear-mode');
@@ -26,91 +26,145 @@ const csvButton = document.getElementById('csv');
 const textInput = document.getElementById('input-text');
 const textOutput = document.getElementById('output-text');
 
-const normalize = document.getElementById("normalize");
-const expand88 = document.getElementById("expand-88");
-const removePrefix = document.getElementById("remove-prefix");
-const removeSufix = document.getElementById("remove-sufix");
-const sufix = document.getElementById("sufix");
-const prefix = document.getElementById("prefix");
+const normalize = document.getElementById('normalize');
+const expand88 = document.getElementById('expand-88');
+const removePrefix = document.getElementById('remove-prefix');
+const removeSufix = document.getElementById('remove-sufix');
+const sufix = document.getElementById('sufix');
+const prefix = document.getElementById('prefix');
 
-const clearButton = document.querySelectorAll(".clear");
-const clearOutputButton = document.getElementById("clear-output");
+const clearButton = document.querySelectorAll('.clear');
+const clearOutputButton = document.getElementById('clear-output');
 
-const textInputSize = document.getElementById("input-font-size");
-const textInputReset = document.getElementById("input-font-reset");
+const textInputSize = document.getElementById('input-font-size');
+const textInputReset = document.getElementById('input-font-reset');
 
-const textOutputSize = document.getElementById("output-font-size");
-const textOutputReset = document.getElementById("output-font-reset");
+const textOutputSize = document.getElementById('output-font-size');
+const textOutputReset = document.getElementById('output-font-reset');
 
-const inputExpand = document.getElementById("input-expand");
-const outputExpand = document.getElementById("output-expand");
+const inputExpand = document.getElementById('input-expand');
+const outputExpand = document.getElementById('output-expand');
 
-const outputType = document.getElementById("output-type-selector");
-const urlUpdateInput = document.getElementById("url-update-input");
+const outputType = document.getElementById('output-type-selector');
+const urlUpdateInput = document.getElementById('url-update-input');
 
-const autorunOption = document.getElementById("url-autorun");
-const urlConfiguration = document.getElementById("url-configuration");
+const autorunOption = document.getElementById('url-autorun');
+const urlConfiguration = document.getElementById('url-configuration');
 
+const textAdvancedOptions = document.getElementById('advanced-options-textarea');
+const advancedOptionsTab = document.getElementById('contact-tab');
 
+const advancedOptionsEnabler = document.getElementById('advanced-options-enabler');
+const defaultConfigButton = document.getElementById('default-config');
 
+defaultConfigButton.addEventListener('click', () => {
+    config = defaultConfig;
+    advancedOptionsTab.classList.add('hide');
+    applyConfiguration();
+    process();
+    updateURL();
+});
 
+advancedOptionsTab.addEventListener('click', () => textAdvancedOptions.value = JSON.stringify(config, null, 4));
+textAdvancedOptions.addEventListener('change', () => {
+    try {
+        const temp = JSON.parse(textAdvancedOptions.value);
+        if (validateOptions(temp)) {
+            config = temp;
+            applyConfiguration();
+            process();
+            updateURL();
+        } else {
+            alert('Error en formato de opciones, se restablecerá la configuración anterior');
+            textAdvancedOptions.value = JSON.stringify(config, null, 4);
+        }
+
+    } catch (e) {
+        alert('Formato de JSON inválido: \r\n' + e);
+    }
+});
+
+advancedOptionsEnabler.addEventListener('change', () => {
+    advancedOptionsTab.classList.toggle('hide');
+    config.general.advancedConfiguration = advancedOptionsEnabler.checked;
+    updateURL();
+});
+
+function validateOptions(json) {
+    return json.hasOwnProperty('general')
+        && json.general.hasOwnProperty('inputSize')
+        && json.general.hasOwnProperty('outputSize')
+        && json.general.hasOwnProperty('autoUpdateURL')
+        && json.general.hasOwnProperty('autoRunURL')
+        && json.hasOwnProperty('tabla')
+        && json.tabla.hasOwnProperty('nivel')
+        && json.tabla.hasOwnProperty('profundidad')
+        && json.tabla.hasOwnProperty('nombre')
+        && json.tabla.hasOwnProperty('tipo')
+        && json.tabla.hasOwnProperty('picture')
+        && json.tabla.hasOwnProperty('modificador')
+        && json.tabla.hasOwnProperty('inicio')
+        && json.tabla.hasOwnProperty('longitud')
+        && json.tabla.hasOwnProperty('fin')
+        && json.tabla.hasOwnProperty('validacion');
+}
 
 //----------------------------------- De regenerate.js ----------------------------
-const levelCol = document.getElementById("level-col");
-const depthCol = document.getElementById("depth-col");
-const nameCol = document.getElementById("name-col");
-const typeCol = document.getElementById("type-col");
-const pictureCol = document.getElementById("picture-col");
-const modifierCol = document.getElementById("modifier-col");
-const startCol = document.getElementById("start-col");
-const lengthCol = document.getElementById("length-col");
-const endCol = document.getElementById("end-col");
-const validationCol = document.getElementById("validation-col");
+const levelCol = document.getElementById('level-col');
+const depthCol = document.getElementById('depth-col');
+const nameCol = document.getElementById('name-col');
+const typeCol = document.getElementById('type-col');
+const pictureCol = document.getElementById('picture-col');
+const modifierCol = document.getElementById('modifier-col');
+const startCol = document.getElementById('start-col');
+const lengthCol = document.getElementById('length-col');
+const endCol = document.getElementById('end-col');
+const validationCol = document.getElementById('validation-col');
 //----------------------------------- De regenerate.js ----------------------------
 
-const exportConfig = document.getElementById("export-config");
-exportConfig.addEventListener("click", () => {
+const exportConfig = document.getElementById('export-config');
+exportConfig.addEventListener('click', () => {
     saveTextAsFile(JSON.stringify(config, null, 2), 'config.json');
 });
 
-textInputSize.addEventListener("input", () => {
+textInputSize.addEventListener('input', () => {
     textInput.style.fontSize = `${textInputSize.value}px`;
     config.general.inputSize = textInput.style.fontSize;
-    updateURL(textInput, true);
+    updateURL();
 });
-textOutputSize.addEventListener("input", () => {
+textOutputSize.addEventListener('input', () => {
     textOutput.style.fontSize = `${textOutputSize.value}px`;
     config.general.outputSize = textOutput.style.fontSize;
-    updateURL(textInput, true);
+    updateURL();
 });
 
-textInputReset.addEventListener("click", () => {
+textInputReset.addEventListener('click', () => {
     textInput.style.fontSize = `16px`;
     config.general.inputSize = textInput.style.fontSize;
-    textInputSize.value = "16";
-    updateURL(textInput, true);
+    textInputSize.value = '16';
+    updateURL();
 });
 
-textOutputReset.addEventListener("click", () => {
+textOutputReset.addEventListener('click', () => {
     textOutput.style.fontSize = `16px`;
     config.general.outputSize = textOutput.style.fontSize;
-    textOutputSize.value = "16";
-    updateURL(textInput, true);
+    textOutputSize.value = '16';
+    updateURL();
 });
 
 
-urlUpdateInput.addEventListener("change", () => {
+urlUpdateInput.addEventListener('change', () => {
     toggleAutoUpdate(urlUpdateInput.checked);
 });
 
-shareButton.addEventListener("click", share)
+shareButton.addEventListener('click', share)
 
 
 runButton.addEventListener('click', process);
 
 csvButton.addEventListener('click', createOuput);
 
-textOutput.addEventListener("input", () => {
+textOutput.addEventListener('input', () => {
     copyButton.innerHTML =
         `<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor"
       class="bi bi-clipboard" viewBox="0 0 16 16">
@@ -123,57 +177,112 @@ textOutput.addEventListener("input", () => {
 
 outputType.addEventListener('change', process);
 
-
-let config = {
-    "general":{
-        "inputSize": "16px",
-        "outputSize": "16px",
-        "autoUpdateURL": true,
-        "autoRunURL": true
+const defaultConfig = {
+    'general': {
+        'inputSize': '16px',
+        'outputSize': '16px',
+        'autoUpdateURL': true,
+        'autoRunURL': true,
+        'advancedConfiguration': false
     },
-    "tabla": {
-        "nivel": {
-            "show": true,
-            "name": "Nivel"
+    'tabla': {
+        'nivel': {
+            'show': true,
+            'name': 'Nivel'
         },
-        "profundidad": {
-            "show": true,
-            "name": "Profundidad"
+        'profundidad': {
+            'show': true,
+            'name': 'Profundidad'
         },
-        "nombre": {
-            "show": true,
-            "name": "Nombre"
+        'nombre': {
+            'show': true,
+            'name': 'Nombre'
         },
-        "tipo": {
-            "show": true,
-            "name": "Tipo"
+        'tipo': {
+            'show': true,
+            'name': 'Tipo'
         },
-        "picture": {
-            "show": true,
-            "name": "Picture"
+        'picture': {
+            'show': true,
+            'name': 'Picture'
         },
-        "modificador": {
-            "show": true,
-            "name": "Modificador"
+        'modificador': {
+            'show': true,
+            'name': 'Modificador'
         },
-        "inicio": {
-            "show": true,
-            "name": "Inicio"
+        'inicio': {
+            'show': true,
+            'name': 'Inicio'
         },
-        "longitud": {
-            "show": true,
-            "name": "Longitud"
+        'longitud': {
+            'show': true,
+            'name': 'Longitud'
         },
-        "fin": {
-            "show": true,
-            "name": "Fin"
+        'fin': {
+            'show': true,
+            'name': 'Fin'
         },
-        "validacion": {
-            "show": true,
-            "name": "Validación"
+        'validacion': {
+            'show': true,
+            'name': 'Validación'
         }
     }
 }
+
+
+let config = {
+    'general': {
+        'inputSize': '16px',
+        'outputSize': '16px',
+        'autoUpdateURL': true,
+        'autoRunURL': true,
+        'advancedConfiguration': false
+    },
+    'tabla': {
+        'nivel': {
+            'show': true,
+            'name': 'Nivel'
+        },
+        'profundidad': {
+            'show': true,
+            'name': 'Profundidad'
+        },
+        'nombre': {
+            'show': true,
+            'name': 'Nombre'
+        },
+        'tipo': {
+            'show': true,
+            'name': 'Tipo'
+        },
+        'picture': {
+            'show': true,
+            'name': 'Picture'
+        },
+        'modificador': {
+            'show': true,
+            'name': 'Modificador'
+        },
+        'inicio': {
+            'show': true,
+            'name': 'Inicio'
+        },
+        'longitud': {
+            'show': true,
+            'name': 'Longitud'
+        },
+        'fin': {
+            'show': true,
+            'name': 'Fin'
+        },
+        'validacion': {
+            'show': true,
+            'name': 'Validación'
+        }
+    }
+};
+
+
 
 
 function generateTable() {
@@ -196,7 +305,7 @@ function createOuput() {
             textOutput.value = createCSVTable(fullTable);
             break;
         case 'table-html':
-            textOutput.value = createHTMLTable(document.getElementById("table").innerHTML);
+            textOutput.value = createHTMLTable(document.getElementById('table').innerHTML);
             break;
         case 'json':
             textOutput.value = JSON.stringify(copyFields[0], null, 2);
@@ -221,12 +330,12 @@ function clearAll() {
 
 
 function clearInput() {
-    textInput.value = "";
-    updateURL(false);
+    textInput.value = '';
+    updateURL();
 }
 
 function clearOutput() {
-    textOutput.value = "";
+    textOutput.value = '';
 }
 
 let tableEntries = [];
@@ -237,8 +346,8 @@ function clearIntermediate() {
     tableEntries = [];
     fullTable = [];
     occursNames = [];
-    let table = document.getElementById("table-body");
-    table ? document.getElementById("table-body").innerHTML = null : false;
+    let table = document.getElementById('table-body');
+    table ? document.getElementById('table-body').innerHTML = null : false;
     start = 1;
     finish = 0;
     id = 0;
@@ -258,14 +367,23 @@ function recursiveRead(structure, outrec) {
     }
 }
 
-function applyConfiguration(){
+function applyConfiguration() {
     textInput.style.fontSize = config.general.inputSize;
     textOutput.style.fontSize = config.general.outputSize;
     textInputSize.value = parseInt(config.general.inputSize);
     textOutputSize.value = parseInt(config.general.outputSize);
-    
+
     autorunOption.checked = config.general.autoRunURL;
     urlUpdateInput.checked = config.general.autoUpdateURL;
+    if (config.general.advancedConfiguration) {
+        advancedOptionsTab.classList.remove('hide');
+    } else {
+        advancedOptionsTab.classList.add('hide');
+
+    }
+    advancedOptionsEnabler.checked = config.general.advancedConfiguration;
+
+
 
     levelCol.checked = config.tabla.nivel.show;
     depthCol.checked = config.tabla.profundidad.show;
@@ -277,6 +395,8 @@ function applyConfiguration(){
     lengthCol.checked = config.tabla.longitud.show;
     endCol.checked = config.tabla.fin.show;
     validationCol.checked = config.tabla.validacion.show;
+
+    console.log()
 
     generateTable();
 
@@ -326,29 +446,17 @@ function errorHandler(evt) {
 }
 
 function parse(text) {
-    const raw = text.replaceAll(/\r\n|\n/g, "").split(/\./);
-    const lines = raw.map(x => x.split(' '));
-    const filtered = lines.map(line => {
-        return line.filter(field => field)
-    });
-    copyFields.push(new Field("00 PLACEHOLDER.", -1));
+    const lines = text.split(/.\n/).map(x => x.replaceAll(/\n/g, '').split(' '));
+    const filtered = lines.map(line => line.filter(field => field));
+    copyFields.push(new Field('00 PLACEHOLDER.', -1));
 
     filtered.forEach((line, index) => {
         if (line != '' && line[0].charAt(0) != '*') {
-            let field = new Field(line, index);
+            const field = new Field(line, index);
 
-            if (removePrefix.checked && field.name) {
-                field.removePrefix(prefix.value);
-            }
-
-            if (removeSufix.checked && field.name) {
-                field.removeSufix(sufix.value);
-            }
-
-            if (field.isOccurs && !field.isPic) {
-                occursNames.push({ level: field.level, name: field.name, occurs: field.occurs });
-            }
-
+            if (removePrefix.checked && field.name) field.removePrefix(prefix.value);
+            if (removeSufix.checked && field.name) field.removeSufix(sufix.value);
+            if (field.isOccurs && !field.isPic) occursNames.push({ level: field.level, name: field.name, occurs: field.occurs });
             if (field.isOccurs && field.isPic) {
                 for (let i = 0; i < field.occurs; i++) {
                     let newField = new Field();
@@ -381,7 +489,7 @@ function parse(text) {
     occursNames.sort(compare);
 
     for (let i = 0; i < occursNames.length; i++) {
-        let tooccurs = findNode(occursNames[i].name, copyFields[0]);
+        const tooccurs = findNode(occursNames[i].name, copyFields[0]);
         expandOccurs(tooccurs, occursNames[i].occurs);
     }
 
@@ -396,7 +504,7 @@ function createHierarchy(copyFields) {
     let levels = copyFields.map(x => x.level).sort((a, b) => b - a);
 
     for (let i = 0; i < copyFields.length; i++) {
-        let index = copyFields.findIndex(x => x.level == levels[i]);
+        const index = copyFields.findIndex(x => x.level == levels[i]);
         if (index > 0) {
             let child = copyFields[index];
             if (copyFields[index - 1]) {
@@ -416,18 +524,18 @@ function createHierarchy(copyFields) {
 }
 
 function createRow(field, depth) {
-    const table = document.getElementById("table-body")
-    const row = document.createElement("tr");
-    const level = document.createElement("td");
-    const depthCol = document.createElement("td");
-    const name = document.createElement("td");
-    const type = document.createElement("td");
-    const usage = document.createElement("td");
-    const picture = document.createElement("td");
-    const startCol = document.createElement("td");
-    const length = document.createElement("td");
-    const finishCol = document.createElement("td");
-    const validation = document.createElement("td");
+    const table = document.getElementById('table-body')
+    const row = document.createElement('tr');
+    const level = document.createElement('td');
+    const depthCol = document.createElement('td');
+    const name = document.createElement('td');
+    const type = document.createElement('td');
+    const usage = document.createElement('td');
+    const picture = document.createElement('td');
+    const startCol = document.createElement('td');
+    const length = document.createElement('td');
+    const finishCol = document.createElement('td');
+    const validation = document.createElement('td');
 
     level.innerHTML = field.level;
 
@@ -437,14 +545,14 @@ function createRow(field, depth) {
     }
 
     if (field.insideOccurs) {
-        depthCol.appendChild(createBadge(depth, "bg-info"))
+        depthCol.appendChild(createBadge(depth, 'bg-info'))
     } else if (field.isOccurs) {
-        depthCol.appendChild(createBadge(depth, "bg-primary"))
+        depthCol.appendChild(createBadge(depth, 'bg-primary'))
     } else {
         depthCol.innerHTML = depth;
     }
 
-    field.usage ? usage.innerHTML = field.usage : usage.innerHTML = "";
+    field.usage ? usage.innerHTML = field.usage : usage.innerHTML = '';
     if (field.picText) picture.innerHTML = field.picText;
 
     if (field.isPic) {
@@ -459,47 +567,44 @@ function createRow(field, depth) {
         field.setEnd(finish);
 
         const entry = new Entry(depth, field.level, field.name, field.type, field.picText, entryStart, entryEnd, field.length, field.usage, field.integer, field.decimal, field.sign, field.isPic, field.isOccurs, field.occurs);
-        if (field.level != "00") {
+        if (field.level != '00') {
             tableEntries.push(entry);
             fullTable.push(entry);
         }
     } else {
-        if (field.level != "00") {
+        if (field.level != '00') {
             fullTable.push(new Entry(depth, field.level, field.name, field.type, '', '', '', '', field.usage, '', '', '', '', field.isOccurs, field.occurs));
         }
     }
 
-    const validationBadge = createBadge("", field.validation.color, field.validation.level)
+    const validationBadge = createBadge('', field.validation.color, field.validation.level)
 
-    validation.setAttribute("data-container", "body");
+    validation.setAttribute('data-container', 'body');
 
     if (field.validation.level > 0) {
-        validation.setAttribute("data-bs-toggle", "collapse");
-        validation.setAttribute("data-bs-target", `#toggleHelp${field.id}`);
-        validationBadge.classList.add("button");
+        validation.setAttribute('data-bs-toggle', 'collapse');
+        validation.setAttribute('data-bs-target', `#toggleHelp${field.id}`);
+        validationBadge.classList.add('button');
     }
     validation.appendChild(validationBadge);
 
     if (!field.isSwitch) {
-        config.tabla.nivel.show ? row.appendChild(level) : false;
-        config.tabla.profundidad.show ? row.appendChild(depthCol) : false;
-        config.tabla.nombre.show ? row.appendChild(name) : false;
-        config.tabla.tipo.show ? row.appendChild(type) : false;
-        config.tabla.picture.show ? row.appendChild(picture) : false;
-        config.tabla.modificador.show ? row.appendChild(usage) : false;
-        config.tabla.inicio.show ? row.appendChild(startCol) : false;
-        config.tabla.longitud.show ? row.appendChild(length) : false;
-        config.tabla.fin.show ? row.appendChild(finishCol) : false;
-        config.tabla.validacion.show ? row.appendChild(validation) : false;
-
-        if (field.level != 0) {
-            table.appendChild(row);
-        }
+        if (config.tabla.nivel.show) row.appendChild(level);
+        if (config.tabla.profundidad.show) row.appendChild(depthCol);
+        if (config.tabla.nombre.show) row.appendChild(name);
+        if (config.tabla.tipo.show) row.appendChild(type);
+        if (config.tabla.picture.show) row.appendChild(picture);
+        if (config.tabla.modificador.show) row.appendChild(usage);
+        if (config.tabla.inicio.show) row.appendChild(startCol);
+        if (config.tabla.longitud.show) row.appendChild(length);
+        if (config.tabla.fin.show) row.appendChild(finishCol);
+        if (config.tabla.validacion.show) row.appendChild(validation);
+        if (field.level != 0) table.appendChild(row);
     } else {
-        config.tabla.nivel.show ? row.appendChild(level) : false;
-        config.tabla.profundidad.show ? row.appendChild(depthCol) : false;
-        config.tabla.nombre.show ? row.appendChild(name) : false;
-        let value = document.createElement("td");
+        if (config.tabla.nivel.show) row.appendChild(level);
+        if (config.tabla.profundidad.show) row.appendChild(depthCol);
+        if (config.tabla.nombre.show) row.appendChild(name);
+        const value = document.createElement('td');
         value.colSpan = 6;
         value.innerHTML = field.value;
         row.appendChild(value)
@@ -508,21 +613,21 @@ function createRow(field, depth) {
 
     if (field.validation.level > 0) {
         for (let i = 0; i < field.validation.message.length; i++) {
-            const firstDiv = document.createElement("tr");
-            firstDiv.classList.add("collapse");
-            firstDiv.classList.add("alert");
+            const firstDiv = document.createElement('tr');
+            firstDiv.classList.add('collapse');
+            firstDiv.classList.add('alert');
 
-            if (field.validation.message[i].color == "bg-warning") {
-                firstDiv.classList.add("alert-warning");
+            if (field.validation.message[i].color == 'bg-warning') {
+                firstDiv.classList.add('alert-warning');
             } else {
-                firstDiv.classList.add("alert-danger");
+                firstDiv.classList.add('alert-danger');
             }
 
             firstDiv.id = `toggleHelp${field.id}`;
-            const secondDiv = document.createElement("td");
+            const secondDiv = document.createElement('td');
             secondDiv.innerHTML = `<strong>${field.validation.message[i].tooltip}</strong>`;
 
-            secondDiv.setAttribute("colspan", "10")
+            secondDiv.setAttribute('colspan', '10')
 
             firstDiv.appendChild(secondDiv);
             table.appendChild(firstDiv);
@@ -530,16 +635,16 @@ function createRow(field, depth) {
     }
 
     if (field.isSwitch) {
-        row.classList.add("collapse");
-        row.classList.add("alert-secondary");
+        row.classList.add('collapse');
+        row.classList.add('alert-secondary');
         row.id = `toggleSwitch`;
         table.appendChild(row);
     }
 }
 
 function createBadge(text, color, level) {
-    const badge = document.createElement("span");
-    badge.classList.add("badge");
+    const badge = document.createElement('span');
+    badge.classList.add('badge');
     badge.classList.add(color);
 
     if (level != undefined) {
@@ -612,13 +717,10 @@ function expandOccurs(structure, occurs) {
 }
 
 function parsePIC(inputPicture) {
-    let picture = Array.from(inputPicture);
-    const first = picture[0];
     const numbers = returnNumericValues(inputPicture);
+    const pic = {};
 
-    let pic = {};
-
-    switch (first) {
+    switch (inputPicture[0]) {
         case 'X':
             pic.type = 'AN';
             pic.sign = false;
@@ -650,7 +752,8 @@ function parsePIC(inputPicture) {
         case '+':
             pic.type = 'ZD';
             pic.mask = true;
-            [pic.integer, pic.decimal] = numbers;
+            pic.integer = inputPicture.length;
+            pic.decimal = 0;
             break;
         default:
             pic.type = inputPicture;
@@ -731,54 +834,56 @@ function countExact(picture) {
     return counter;
 }
 
-const downloadFileName = document.getElementById("download-name")
-const downloadButton = document.getElementById("download");
-downloadButton.addEventListener("click", () => {
+const downloadFileName = document.getElementById('download-name')
+const downloadButton = document.getElementById('download');
+downloadButton.addEventListener('click', () => {
     let extension;
 
     switch (outputType.value) {
         case 'outrec':
-            extension = "txt"
+            extension = 'txt'
             break;
         case 'table-md':
-            extension = "md"
+            extension = 'md'
             break;
         case 'table-csv':
-            extension = "csv"
+            extension = 'csv'
             break;
         case 'table-html':
-            extension = "html"
+            extension = 'html'
             break;
         case 'json':
-            extension = "json"
+            extension = 'json'
             break;
+        default:
+            extension = 'txt'
     }
 
     saveTextAsFile(textOutput.value, `${downloadFileName.value}.${extension}`);
 })
 
 function saveTextAsFile(textToWrite, fileNameToSaveAs) {
-    let textFileAsBlob = new Blob([textToWrite], { type: 'text/plain' });
-    let downloadLink = document.createElement("a");
+    const textFileAsBlob = new Blob([textToWrite], { type: 'text/plain' });
+    const downloadLink = document.createElement('a');
     downloadLink.download = fileNameToSaveAs;
-    downloadLink.innerHTML = "Download File";
+    downloadLink.innerHTML = 'Download File';
     if (window.webkitURL != null) {
         downloadLink.href = window.webkitURL.createObjectURL(textFileAsBlob);
     }
     else {
         downloadLink.href = window.URL.createObjectURL(textFileAsBlob);
         downloadLink.onclick = destroyClickedElement;
-        downloadLink.style.display = "none";
+        downloadLink.style.display = 'none';
         document.body.appendChild(downloadLink);
     }
 
     downloadLink.click();
 }
 
-const copyButton = document.getElementById("copy-button");
-const copyInputButton = document.getElementById("copy-input-button");
-copyButton.addEventListener("click", copyOutput);
-copyInputButton.addEventListener("click", copyInput);
+const copyButton = document.getElementById('copy-button');
+const copyInputButton = document.getElementById('copy-input-button');
+copyButton.addEventListener('click', copyOutput);
+copyInputButton.addEventListener('click', copyInput);
 
 function copyOutput() {
 
@@ -796,7 +901,6 @@ function copyOutput() {
     <path
       d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z" />
   </svg>
-    
     `, 1500);
 }
 
@@ -821,7 +925,7 @@ for (var i = 0; i < count; i++) {
         if (e.key == 'Tab') {
             e.preventDefault();
             let s = this.selectionStart;
-            this.value = this.value.substring(0, this.selectionStart) + "\t" + this.value.substring(this.selectionEnd);
+            this.value = this.value.substring(0, this.selectionStart) + '\t' + this.value.substring(this.selectionEnd);
             this.selectionEnd = s + 1;
         }
     }
@@ -834,7 +938,7 @@ var toastList = toastElList.map(function (toastEl) {
 
 //---------------------------------------------------------
 
-const urlShare = document.getElementById("url-share");
+const urlShare = document.getElementById('url-share');
 urlShare.value = window.location.href;
 function share() {
     if (navigator.share) {
@@ -842,9 +946,5 @@ function share() {
             title: 'Compartir URL',
             url: window.location.href
         })
-    } else {
-        let parm = encodeToB64(textInput.value);
-        window.history.replaceState({}, null, `?input=${parm}`)
-        urlShare.value = window.location.href;
     }
 }

@@ -290,6 +290,10 @@
                 <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button"
                   role="tab" aria-controls="profile" aria-selected="false">Tabla</button>
               </li>
+              <li class="nav-item" role="presentation">
+                <button class="nav-link hide" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button"
+                  role="tab" aria-controls="contact" aria-selected="false">Avanzado</button>
+              </li>
               <!-- <li class="nav-item" role="presentation">
                 <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button" role="tab" aria-controls="contact" aria-selected="false">Contact</button>
               </li> -->
@@ -321,7 +325,7 @@
                   </div>
                   <div class="px-5 py-2 sm">
                     <div class="form-check form-switch mb-2 form-swtich-sm">
-                      <input class="form-check-input" type="checkbox" value="" id="url-update-input" checked disabled>
+                      <input class="form-check-input" type="checkbox" value="" id="url-update-input" checked>
                       <label class="form-check-label" for="normalize">
                         Actualizar la URL con el cambio de input
                       </label>
@@ -340,6 +344,14 @@
                       <input class="form-check-input" type="checkbox" value="" id="url-configuration">
                       <label class="form-check-label" for="normalize">
                         Incorporar configuración al compartir
+                      </label>
+                    </div>
+                  </div>
+                  <div class="px-5 py-2 sm">
+                    <div class="form-check form-switch mb-2 form-swtich-sm">
+                      <input class="form-check-input" type="checkbox" value="" id="advanced-options-enabler">
+                      <label class="form-check-label" for="advanced-options-enabler">
+                        Habilitar configuración avanzada
                       </label>
                     </div>
                   </div>
@@ -462,7 +474,9 @@
                 </div>
               </div>
               <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
-                <div>3</div>
+                <div>
+                  <textarea name="" id="advanced-options-textarea" cols="45" rows="20"></textarea>
+                </div>
               </div>
             </div>
             <div class="modal-footer">

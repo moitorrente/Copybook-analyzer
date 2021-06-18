@@ -2,12 +2,13 @@ const queryString = window.location.search;
 const urlParams = new URLSearchParams(queryString);
 
 urlConfiguration.addEventListener('change', () => {
-    updateURL(textInput, true)}
+    updateURL()
+}
 );
 
 autorunOption.addEventListener('change', () => {
     config.general.autoRunURL = autorunOption.checked;
-    updateURL(textInput, true);
+    updateURL();
 });
 
 activateURLUpdate();
@@ -20,9 +21,9 @@ function toggleAutoUpdate(updateURL) {
     }
 }
 
-const urlInput = urlParams.get("input");
-const autorun = urlParams.get("autorun");
-const configInput = urlParams.get("config");
+const urlInput = urlParams.get('input');
+const autorun = urlParams.get('autorun');
+const configInput = urlParams.get('config');
 
 if (urlInput) {
     textInput.value = atob(urlInput);
@@ -31,38 +32,45 @@ if (urlInput) {
     }
     if (autorun === 'true') {
         process();
-    }else{
+    } else {
         applyConfiguration();
     }
 }
 
 function activateURLUpdate() {
-    textInput.addEventListener("input", () => updateURL(textInput, true));
+    textInput.addEventListener('input', updateURL);
+    textInput.addEventListener('input', generateURL);
+    updateURL();
 }
 
 function deactivateURLUpdate() {
-    textInput.removeEventListener("input", updateURL);
+    textInput.removeEventListener('input', updateURL);
+    window.history.replaceState({}, null, '/');
 }
 
 
-function updateURL(textInput, keep) {
-    let input = textInput.value;
-    if (!keep) {
-        input = "";
-    }
-    const parm = encodeToB64(input);
+function updateURL() {
+    const url = generateURL();
     if (window.history.replaceState) {
-        let url = `?input=${parm}&autorun=${autorunOption.checked}`;
-        urlConfiguration.checked ? url += `&config=${JSON.stringify(config)}` : false;
         window.history.replaceState({}, null, url);
     }
-    urlShare.value = window.location.href;
+    //urlShare.value = window.location.href;
+}
+
+function generateURL() {
+    const input = textInput.value;
+    const parm = encodeToB64(input);
+    let url = `?input=${parm}&autorun=${autorunOption.checked}`;
+    urlConfiguration.checked ? url += `&config=${JSON.stringify(config)}` : false;
+    urlShare.value = window.location.href + url;
+    console.log(urlShare.value, textInput)
+    return url;
 }
 
 function encodeToB64(message) {
     let encoded = btoa(message);
-    encoded = encoded.replaceAll("=", "")
-    encoded = encoded.replaceAll("+", "");
-    encoded = encoded.replaceAll("/", "");
+    encoded = encoded.replaceAll('=', '')
+    encoded = encoded.replaceAll('+', '');
+    encoded = encoded.replaceAll('/', '');
     return encoded;
 }

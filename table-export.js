@@ -1,10 +1,60 @@
-
 function createMDTable(rows) {
-    const header = `| Nivel | Profundidad | Nombre | Tipo | Picture | Modificador | Inicio | Longitud | Fin |\r\n`;
-    const separator = `|-|-|--------|------|---------|-------------|--------|----------|-----|\r\n`;
+    let header = '';
+    let separator = '';
+
+    if (config.tabla.nivel.show) {
+        header += '| Nivel '
+        separator += '|-';
+    }
+    if (config.tabla.profundidad.show) {
+        header += '| Profundidad '
+        separator += '|-';
+    }
+    if (config.tabla.nombre.show) {
+        header += '| Nombre ';
+        separator += '|--------'
+    }
+    if (config.tabla.tipo.show) {
+        header += '| Tipo ';
+        separator += '|------';
+    }
+    if (config.tabla.picture.show) {
+        header += '| Picture ';
+        separator += '|---------';
+    }
+    if (config.tabla.modificador.show) {
+        header += '| Modificador ';
+        separator += '|-------------';
+    }
+    if (config.tabla.inicio.show) {
+        header += '| Inicio ';
+        separator += '|--------';
+    }
+    if (config.tabla.longitud.show) {
+        header += '| Longitud ';
+        separator += '|----------';
+    }
+    if (config.tabla.fin.show) {
+        header += '| Fin ';
+        separator += '|-----';
+    }
+
+    if(header) header += '|\r\n';
+    if(separator) separator += '|\r\n';
 
     const lines = rows.map(row => {
-        return `${exists(row.level)}| ${exists(row.depth)}| ${exists(row.name)}|${exists(row.type)}|${exists(row.pic)}|${exists(row.usage)}|${exists(row.start)}|${exists(row.length)}|${exists(row.end)}| \r\n`;
+        let line = '';
+        if (config.tabla.nivel.show) line += `${exists(row.level)}|`;
+        if (config.tabla.profundidad.show) line += `${exists(row.depth)}|`;
+        if (config.tabla.nombre.show) line += `${exists(row.name)}|`;
+        if (config.tabla.tipo.show) line += `${exists(row.type)}|`;
+        if (config.tabla.picture.show) line += `${exists(row.pic)}|`;
+        if (config.tabla.modificador.show) line += `${exists(row.usage)}|`;
+        if (config.tabla.inicio.show) line += `${exists(row.start)}|`;
+        if (config.tabla.longitud.show) line += `${exists(row.length)}|`;
+        if (config.tabla.fin.show) line += `${exists(row.end)}|`;
+        if (line) line += '\r\n';
+        return line;
     });
 
     const table = header + separator + lines.join('');
@@ -12,9 +62,32 @@ function createMDTable(rows) {
 }
 
 function createCSVTable(rows) {
-    const header = `Nivel;Profundidad;Nombre;Tipo;Picture;Modificador;Inicio;Longitud;Fin;\r\n`;
+    let header = '';
+    if (config.tabla.nivel.show) header += 'Nivel;';
+    if (config.tabla.profundidad.show) header += `Profundidad;`;
+    if (config.tabla.nombre.show) header += `Nombre;`;
+    if (config.tabla.tipo.show) header += `Tipo;`;
+    if (config.tabla.picture.show) header += `Picture;`;
+    if (config.tabla.modificador.show) header += `Modificador;`;
+    if (config.tabla.inicio.show) header += `Inicio;`;
+    if (config.tabla.longitud.show) header += `Longitud;`;
+    if (config.tabla.fin.show) header += `Fin;`;
+    if (header) header += '\r\n';
+
+
     let lines = rows.map(row => {
-        return `${exists(row.level)}; ${exists(row.depth)}; ${exists(row.name)};${exists(row.type)};${exists(row.pic)};${exists(row.usage)};${exists(row.start)};${exists(row.length)};${exists(row.end)}; \r\n`;
+        let line = '';
+        if (config.tabla.nivel.show) line += `${exists(row.level)};`;
+        if (config.tabla.profundidad.show) line += `${exists(row.depth)};`;
+        if (config.tabla.nombre.show) line += `${exists(row.name)};`;
+        if (config.tabla.tipo.show) line += `${exists(row.type)};`;
+        if (config.tabla.picture.show) line += `${exists(row.pic)};`;
+        if (config.tabla.modificador.show) line += `${exists(row.usage)};`;
+        if (config.tabla.inicio.show) line += `${exists(row.start)};`;
+        if (config.tabla.longitud.show) line += `${exists(row.length)};`;
+        if (config.tabla.fin.show) line += `${exists(row.end)};`;
+        if (line) line += '\r\n';
+        return line;
     });
 
     const table = header + lines.join('');
@@ -58,41 +131,30 @@ function exists(property) {
     return property;
 }
 
-
 function normalizedCopy(rows) {
-    let dict = {};
-
+    console.log(rows)
     const lines = rows.map(row => {
-
-        if (dict[row.name]) {
-            return;
-        } else {
-            dict[row.name] = true;
-        }
-
         let line = '';
         for (let i = 1; i < row.depth; i++) {
             line += '   ';
         }
-
         line += `${row.level} ${row.name}`;
 
         if (row.pic) {
-
             const len = 24 - line.length;
-
             for (let i = 0; i < len; i++) {
                 line += ' ';
             }
-
             line += ` PIC ${row.pic}`;
         }
-        if (row.usage) line += ` ${row.usage}`;
-        if (row.occurs > 0) line += ` OCCURS ${row.occurs} TIMES`;
-
-        line += `.\r\n`;
+        row.usage ? line += ` ${row.usage}` : false;
+        row.occurs > 0 ? line += ` OCCURS ${row.occurs} TIMES` : false;
+        line.charAt(line.length - 1) == '.' ? false : line += `.`;
+        line += '\r\n';
         return line;
     });
+
+    console.log(lines)
 
     return lines.join('');
 };
