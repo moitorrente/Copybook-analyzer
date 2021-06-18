@@ -39,8 +39,8 @@ function createMDTable(rows) {
         separator += '|-----';
     }
 
-    if(header) header += '|\r\n';
-    if(separator) separator += '|\r\n';
+    if (header) header += '|\r\n';
+    if (separator) separator += '|\r\n';
 
     const lines = rows.map(row => {
         let line = '';
@@ -132,7 +132,6 @@ function exists(property) {
 }
 
 function normalizedCopy(rows) {
-    console.log(rows)
     const lines = rows.map(row => {
         let line = '';
         for (let i = 1; i < row.depth; i++) {
@@ -153,8 +152,6 @@ function normalizedCopy(rows) {
         line += '\r\n';
         return line;
     });
-
-    console.log(lines)
 
     return lines.join('');
 };

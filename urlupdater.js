@@ -48,13 +48,11 @@ function deactivateURLUpdate() {
     window.history.replaceState({}, null, '/');
 }
 
-
 function updateURL() {
     const url = generateURL();
     if (window.history.replaceState) {
         window.history.replaceState({}, null, url);
     }
-    //urlShare.value = window.location.href;
 }
 
 function generateURL() {
@@ -63,7 +61,6 @@ function generateURL() {
     let url = `?input=${parm}&autorun=${autorunOption.checked}`;
     urlConfiguration.checked ? url += `&config=${JSON.stringify(config)}` : false;
     urlShare.value = window.location.href + url;
-    console.log(urlShare.value, textInput)
     return url;
 }
 

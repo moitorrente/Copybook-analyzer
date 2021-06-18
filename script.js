@@ -353,8 +353,6 @@ function clearIntermediate() {
     id = 0;
 }
 
-
-
 function recursiveRead(structure, outrec) {
     if (structure.isPic) {
         outrec.push(structure.start);
@@ -383,8 +381,6 @@ function applyConfiguration() {
     }
     advancedOptionsEnabler.checked = config.general.advancedConfiguration;
 
-
-
     levelCol.checked = config.tabla.nivel.show;
     depthCol.checked = config.tabla.profundidad.show;
     nameCol.checked = config.tabla.nombre.show;
@@ -396,10 +392,7 @@ function applyConfiguration() {
     endCol.checked = config.tabla.fin.show;
     validationCol.checked = config.tabla.validacion.show;
 
-    console.log()
-
     generateTable();
-
 }
 
 function process() {
@@ -419,7 +412,6 @@ fileSelector.addEventListener('change', (event) => {
     const fileList = event.target.files;
     getAsText(fileList[0]);
 });
-
 
 function getAsText(fileToRead) {
     const reader = new FileReader();
@@ -446,6 +438,7 @@ function errorHandler(evt) {
 }
 
 function parse(text) {
+    text += '\n';
     const lines = text.split(/.\n/).map(x => x.replaceAll(/\n/g, '').split(' '));
     const filtered = lines.map(line => line.filter(field => field));
     copyFields.push(new Field('00 PLACEHOLDER.', -1));
@@ -485,7 +478,6 @@ function parse(text) {
     });
 
     createHierarchy(copyFields);
-
     occursNames.sort(compare);
 
     for (let i = 0; i < occursNames.length; i++) {
@@ -720,6 +712,8 @@ function parsePIC(inputPicture) {
     const numbers = returnNumericValues(inputPicture);
     const pic = {};
 
+    console.log(inputPicture)
+
     switch (inputPicture[0]) {
         case 'X':
             pic.type = 'AN';
@@ -750,7 +744,7 @@ function parsePIC(inputPicture) {
         case 'Z':
         case '-':
         case '+':
-            pic.type = 'ZD';
+            pic.type = 'ZA';
             pic.mask = true;
             pic.integer = inputPicture.length;
             pic.decimal = 0;
@@ -758,7 +752,6 @@ function parsePIC(inputPicture) {
         default:
             pic.type = inputPicture;
     }
-
     return pic;
 }
 
@@ -860,7 +853,7 @@ downloadButton.addEventListener('click', () => {
     }
 
     saveTextAsFile(textOutput.value, `${downloadFileName.value}.${extension}`);
-})
+});
 
 function saveTextAsFile(textToWrite, fileNameToSaveAs) {
     const textFileAsBlob = new Blob([textToWrite], { type: 'text/plain' });
@@ -890,34 +883,26 @@ function copyOutput() {
     navigator.clipboard.writeText(textOutput.value);
     copyButton.innerHTML =
         `<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-check" viewBox="0 0 16 16">
-        <path d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z"/>
-    </svg>`;
+            <path d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z"/>
+        </svg>`;
 
     setTimeout(() => copyButton.innerHTML = `
-    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor"
-    class="bi bi-clipboard" viewBox="0 0 16 16">
-    <path
-      d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z" />
-    <path
-      d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z" />
-  </svg>
+    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-clipboard" viewBox="0 0 16 16">
+        <path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z" />
+        <path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z" />
+    </svg>
     `, 1500);
 }
 
 function copyInput() {
     navigator.clipboard.writeText(urlShare.value);
-
     copyInputButton.innerHTML =
         `<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-check" viewBox="0 0 16 16">
-    <path d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z"/>
-</svg>`;
-
+            <path d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z"/>
+        </svg>`;
 }
 
 //-----------------------------------------------------
-
-
-
 var textareas = document.getElementsByTagName('textarea');
 var count = textareas.length;
 for (var i = 0; i < count; i++) {
@@ -930,21 +915,14 @@ for (var i = 0; i < count; i++) {
         }
     }
 }
-
-var toastElList = [].slice.call(document.querySelectorAll('.toast'))
-var toastList = toastElList.map(function (toastEl) {
-    return new bootstrap.Toast(toastEl)
-})
-
 //---------------------------------------------------------
-
 const urlShare = document.getElementById('url-share');
 urlShare.value = window.location.href;
 function share() {
     if (navigator.share) {
         navigator.share({
-            title: 'Compartir URL',
+            title: 'Copybook',
             url: window.location.href
-        })
+        });
     }
 }

@@ -1,11 +1,11 @@
-class Table{
-    constructor(params){
+class Table {
+    constructor(params) {
         const cols = Object.values(params).filter(x => x.show);
         this.colNames = cols;
         this.cols = [];
     }
 
-    create(){
+    create() {
         this.table = document.createElement('table')
         this.table.classList.add('table', 'table-hover', 'text-center', 'tab');
         this.thead = document.createElement('thead');
@@ -26,7 +26,7 @@ class Table{
         this.table.appendChild(this.tbody);
     }
 
-    append(element){
+    append(element) {
         const el = document.getElementById(element);
         el.appendChild(this.table);
     }

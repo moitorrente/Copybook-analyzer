@@ -208,7 +208,11 @@ class Field {
         let length = 0;
         switch (this.type) {
             case 'AN':
+
                 length = this.length;
+                break;
+            case 'ZA':
+                length = this.integer + this.decimal;
                 break;
             case 'ZD':
             case 'SFF':

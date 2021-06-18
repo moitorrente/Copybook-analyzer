@@ -6,6 +6,9 @@ function createOutrec() {
         if (entry.type == 'AN') {
             outrec.push(['\n' + entry.start, entry.length, `C';'`])
         }
+        if (entry.type == 'ZA') {
+            outrec.push(['\n' + entry.start, entry.length, `C';'`])
+        }
 
         if (entry.type == 'ZD') {
             if (entry.sign) {
