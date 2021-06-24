@@ -74,29 +74,13 @@
     </div>
   </header>
 
+  <div class="alert alert-warning alert-dismissible fade show hide" role="alert">
+    <strong>Alerta</strong>
+  </div>
+
   <div class="container-fluid">
     <div class="row m-3 table-responsive">
-      <div class="col-md-7 table-responsive" id="table">
-
-        <!-- <table class="table table-hover text-center tab">
-          <thead>
-            <tr>
-              <th scope="col">Nivel</th>
-              <th scope="col">Profundidad</th>
-              <th scope="col">Nombre</th>
-              <th scope="col">Tipo</th>
-              <th scope="col">Picture</th>
-              <th scope="col">Modificador</th>
-              <th scope="col">Inicio</th>
-              <th scope="col">Longitud</th>
-              <th scope="col">Fin</th>
-              <th scope="col">Validación</th>
-            </tr>
-          </thead>
-          <tbody id="table-body">
-          </tbody>
-        </table> -->
-      </div>
+      <div class="col-md-7 table-responsive" id="table"></div>
       <div class="col-md-5" id="parent">
         <div class="row mb-3 containers">
           <div class="col-md-12 cont">
@@ -185,8 +169,7 @@
               </div>
             </div>
             <textarea rows="12" contentEditable="true" class="form-control textarea input-text" cols="72"
-              id="input-text">
-              </textarea>
+              id="input-text"></textarea>
           </div>
         </div>
         <div class="row" class="containers">
@@ -273,6 +256,8 @@
     </div>
 
 
+
+
     <div class="modal fade" id="options-modal" tabindex="-1" aria-labelledby="options-modal" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
@@ -280,7 +265,13 @@
             <h5 class="modal-title" id="exampleModalLabel">Configuración</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
+
           <div class="modal-body">
+
+            <div class="alert alert-dismissible fade show hide" role="alert" id="optionsAlert">
+              Texto de la alerta
+            </div>
+
             <ul class="nav nav-tabs" id="myTab" role="tablist">
               <li class="nav-item" role="presentation">
                 <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button"
@@ -291,8 +282,8 @@
                   role="tab" aria-controls="profile" aria-selected="false">Tabla</button>
               </li>
               <li class="nav-item" role="presentation">
-                <button class="nav-link hide" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button"
-                  role="tab" aria-controls="contact" aria-selected="false">Avanzado</button>
+                <button class="nav-link hide" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact"
+                  type="button" role="tab" aria-controls="contact" aria-selected="false">Avanzado</button>
               </li>
               <!-- <li class="nav-item" role="presentation">
                 <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button" role="tab" aria-controls="contact" aria-selected="false">Contact</button>
@@ -481,9 +472,10 @@
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-primary btn-sm" id="export-config">Exportar</button>
-              <button class="btn btn-primary btn-sm invert"
-                onclick="document.getElementById('config-input').click();" id="import-config">Cargar</button>
-              <input id="config-input" type="file" name="name" style="display: none;" />
+              <button class="btn btn-primary btn-sm invert" onclick="document.getElementById('config-input').click();"
+                id="import-config">Cargar</button>
+              <input id="config-input" type="file" name="name" style="display: none;"
+                onchange="handleFiles(this.files)" />
               <button type="button" class="btn btn-success btn-sm" id="default-config">Por defecto</button>
               <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Cerrar</button>
             </div>

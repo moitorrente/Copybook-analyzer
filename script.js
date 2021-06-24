@@ -57,30 +57,65 @@ const advancedOptionsTab = document.getElementById('contact-tab');
 const advancedOptionsEnabler = document.getElementById('advanced-options-enabler');
 const defaultConfigButton = document.getElementById('default-config');
 
-defaultConfigButton.addEventListener('click', () => {
-    config = defaultConfig;
+const optionsAlert = document.getElementById('optionsAlert');
+
+defaultConfigButton.addEventListener('click', applyDefaultConfiguration);
+
+function applyDefaultConfiguration() {
+    config = JSON.parse(JSON.stringify(defaultConfig));
+    textAdvancedOptions.value = JSON.stringify(config, null, 4);
     advancedOptionsTab.classList.add('hide');
+    optionsAlert.classList.add('hide');
     applyConfiguration();
     process();
     updateURL();
-});
+}
+
+async function handleFiles(files) {
+    let file = files[0];
+    document.getElementById('config-input').value = null;
+    if (file) {
+        file.text().then((text) => {
+            config = JSON.parse(text);
+            applyConfiguration();
+        });
+    }
+};
 
 advancedOptionsTab.addEventListener('click', () => textAdvancedOptions.value = JSON.stringify(config, null, 4));
 textAdvancedOptions.addEventListener('change', () => {
+
     try {
         const temp = JSON.parse(textAdvancedOptions.value);
+
         if (validateOptions(temp)) {
             config = temp;
             applyConfiguration();
             process();
             updateURL();
+            optionsAlert.innerHTML = 'Configuración aplicada correctamente';
+            optionsAlert.classList.remove('hide');
+            optionsAlert.classList.remove('alert-warning');
+            optionsAlert.classList.add('alert-success');
+            setTimeout(() => optionsAlert.classList.toggle('hide', 'alert-success'), 2000);
         } else {
-            alert('Error en formato de opciones, se restablecerá la configuración anterior');
+            //alert('Error en formato de opciones, se restablecerá la configuración anterior');
+            optionsAlert.innerHTML = 'Error en formato de opciones, se ha restablecido la configuración anterior';
+            optionsAlert.classList.remove('hide');
+            optionsAlert.classList.remove('alert-success');
+            optionsAlert.classList.add('alert-warning');
+
+            setTimeout(() => optionsAlert.classList.toggle('hide', 'alert-warning'), 2000);
             textAdvancedOptions.value = JSON.stringify(config, null, 4);
         }
 
     } catch (e) {
-        alert('Formato de JSON inválido: \r\n' + e);
+        //alert('Formato de JSON inválido: \r\n' + e);
+        optionsAlert.innerHTML = `Error en formato de opciones: <br> ' + ${e} <br><a href="javascript:applyDefaultConfiguration();" >Restaurar configuración</a>`;
+        optionsAlert.classList.toggle('hide');
+        optionsAlert.classList.toggle('alert-warning');
+
+        //setTimeout(() => alert.classList.toggle('hide', 'alert-warning'), 2000);
     }
 });
 
@@ -96,6 +131,7 @@ function validateOptions(json) {
         && json.general.hasOwnProperty('outputSize')
         && json.general.hasOwnProperty('autoUpdateURL')
         && json.general.hasOwnProperty('autoRunURL')
+        && json.general.hasOwnProperty('advancedConfiguration')
         && json.hasOwnProperty('tabla')
         && json.tabla.hasOwnProperty('nivel')
         && json.tabla.hasOwnProperty('profundidad')
@@ -711,8 +747,6 @@ function expandOccurs(structure, occurs) {
 function parsePIC(inputPicture) {
     const numbers = returnNumericValues(inputPicture);
     const pic = {};
-
-    console.log(inputPicture)
 
     switch (inputPicture[0]) {
         case 'X':
