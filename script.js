@@ -17,8 +17,6 @@ function switchTheme() {
     document.documentElement.classList.toggle('dark-mode');
 };
 
-
-
 const fileSelector = document.getElementById('file');
 const runButton = document.getElementById('run');
 const shareButton = document.getElementById('share');
@@ -58,6 +56,67 @@ const advancedOptionsEnabler = document.getElementById('advanced-options-enabler
 const defaultConfigButton = document.getElementById('default-config');
 
 const optionsAlert = document.getElementById('optionsAlert');
+const addRemovePrefix = document.getElementById('add-remove-prefix');
+const addRemoveSufix = document.getElementById('add-remove-sufix');
+
+const inputProcessAreaPrefix = document.getElementById('input-process-area-prefix');
+const inputProcessAreaSufix = document.getElementById('input-process-area-sufix');
+
+const modeToggle = document.getElementById('mode-toggle');
+
+modeToggle.addEventListener('click', () => {
+    switchTheme();
+})
+
+//--------------------------------------------------------------
+addRemoveSufix.addEventListener('click', () => {
+    let newSufix = document.createElement('div');
+
+    newSufix.innerHTML = `
+    <div class="input-group input-group-sm mb-3 sufix">
+        <div class="input-group-text">
+            <input class="form-check-input mt-0" type="checkbox" id="remove-sufix" checked>
+        </div>
+        <span class="input-group-text">Quitar sufijo</span>
+        <input type="text" class="form-control" aria-label="Sufijo" value=""></input>
+        <button class="btn btn-outline-danger btn-sm" type="button" onclick="deleteElement(this)">
+        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+            <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+            <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+        </svg>
+        </button>
+     </div>
+    `;
+
+    inputProcessAreaSufix.appendChild(newSufix);
+});
+addRemovePrefix.addEventListener('click', () => {
+    let newPrefix = document.createElement('div');
+
+    newPrefix.innerHTML = `
+    <div class="input-group input-group-sm mb-3 prefix">
+        <div class="input-group-text">
+            <input class="form-check-input mt-0" type="checkbox" id="remove-prefix" checked>
+        </div>
+        <span class="input-group-text">Quitar prefijo</span>
+        <input type="text" class="form-control" aria-label="Prefijo" value=""></input>
+        <button class="btn btn-outline-danger btn-sm" type="button" onclick="deleteElement(this)">
+        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+            <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+            <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+        </svg>
+        </button>
+     </div>
+    `;
+
+    inputProcessAreaPrefix.appendChild(newPrefix);
+});
+
+//--------------------------------------------------------------
+
+function deleteElement(element) {
+    element.closest('div').remove();
+}
 
 defaultConfigButton.addEventListener('click', applyDefaultConfiguration);
 
@@ -94,28 +153,21 @@ textAdvancedOptions.addEventListener('change', () => {
             process();
             updateURL();
             optionsAlert.innerHTML = 'Configuración aplicada correctamente';
-            optionsAlert.classList.remove('hide');
-            optionsAlert.classList.remove('alert-warning');
+            optionsAlert.classList.remove('hide', 'alert-warning');
             optionsAlert.classList.add('alert-success');
-            setTimeout(() => optionsAlert.classList.toggle('hide', 'alert-success'), 2000);
+            setTimeout(() => optionsAlert.classList.add('hide'), 7000);
         } else {
-            //alert('Error en formato de opciones, se restablecerá la configuración anterior');
             optionsAlert.innerHTML = 'Error en formato de opciones, se ha restablecido la configuración anterior';
-            optionsAlert.classList.remove('hide');
-            optionsAlert.classList.remove('alert-success');
+            optionsAlert.classList.remove('hide', 'alert-success');
             optionsAlert.classList.add('alert-warning');
-
-            setTimeout(() => optionsAlert.classList.toggle('hide', 'alert-warning'), 2000);
+            setTimeout(() => optionsAlert.classList.add('hide'), 7000);
             textAdvancedOptions.value = JSON.stringify(config, null, 4);
         }
 
     } catch (e) {
-        //alert('Formato de JSON inválido: \r\n' + e);
-        optionsAlert.innerHTML = `Error en formato de opciones: <br> ' + ${e} <br><a href="javascript:applyDefaultConfiguration();" >Restaurar configuración</a>`;
-        optionsAlert.classList.toggle('hide');
-        optionsAlert.classList.toggle('alert-warning');
-
-        //setTimeout(() => alert.classList.toggle('hide', 'alert-warning'), 2000);
+        optionsAlert.innerHTML = `Error en formato de opciones: <br> ${e} <br><br><a href="javascript:applyDefaultConfiguration();" >Restaurar configuración</a>`;
+        optionsAlert.classList.remove('hide');
+        optionsAlert.classList.add('alert-warning');
     }
 });
 
@@ -473,6 +525,27 @@ function errorHandler(evt) {
     }
 }
 
+function getSufixes() {
+    let sufixes = [];
+    const sufijos = document.getElementsByClassName('sufix');
+    for (let i = 0; i < sufijos.length; i++) {
+        if (sufijos[i].getElementsByClassName('form-check-input')[0].checked) {
+            sufixes.push(sufijos[i].getElementsByClassName('form-control')[0].value)
+        }
+    }
+    return sufixes;
+}
+function getPrefixes() {
+    let prefixes = [];
+    const prefijos = document.getElementsByClassName('prefix');
+    for (let i = 0; i < prefijos.length; i++) {
+        if (prefijos[i].getElementsByClassName('form-check-input')[0].checked) {
+            prefixes.push(prefijos[i].getElementsByClassName('form-control')[0].value)
+        }
+    }
+    return prefixes;
+}
+
 function parse(text) {
     text += '\n';
     const lines = text.split(/.\n/).map(x => x.replaceAll(/\n/g, '').split(' '));
@@ -483,8 +556,14 @@ function parse(text) {
         if (line != '' && line[0].charAt(0) != '*') {
             const field = new Field(line, index);
 
-            if (removePrefix.checked && field.name) field.removePrefix(prefix.value);
-            if (removeSufix.checked && field.name) field.removeSufix(sufix.value);
+            const sufixes = getSufixes();
+            const prefixes = getPrefixes();
+
+            if (field.name) {
+                sufixes.forEach(sufix => field.removeSufix(sufix));
+                prefixes.forEach(prefix => field.removePrefix(prefix));
+            }
+
             if (field.isOccurs && !field.isPic) occursNames.push({ level: field.level, name: field.name, occurs: field.occurs });
             if (field.isOccurs && field.isPic) {
                 for (let i = 0; i < field.occurs; i++) {
@@ -534,7 +613,7 @@ function createHierarchy(copyFields) {
     for (let i = 0; i < copyFields.length; i++) {
         const index = copyFields.findIndex(x => x.level == levels[i]);
         if (index > 0) {
-            let child = copyFields[index];
+            const child = copyFields[index];
             if (copyFields[index - 1]) {
                 child.parent = (copyFields[index - 1].name)
                 copyFields[index - 1].addChild(copyFields.splice(index, 1));
@@ -543,12 +622,8 @@ function createHierarchy(copyFields) {
     }
 
     levels = copyFields.map(x => x.level);
-
-    if (levels.length > 1) {
-        createHierarchy(copyFields);
-    } else {
-        return copyFields;
-    }
+    if (levels.length > 1) createHierarchy(copyFields);
+    return copyFields;
 }
 
 function createRow(field, depth) {
@@ -568,9 +643,7 @@ function createRow(field, depth) {
     level.innerHTML = field.level;
 
     name.innerHTML = field.name;
-    if (field.type) {
-        type.innerHTML = field.type;
-    }
+    if (field.type) type.innerHTML = field.type;
 
     if (field.insideOccurs) {
         depthCol.appendChild(createBadge(depth, 'bg-info'))
@@ -696,14 +769,13 @@ let start = 1;
 let finish = 0;
 
 function findNode(search, currentNode) {
-    var i,
-        currentChild,
-        result;
+    let currentChild;
+    let result;
 
     if (search == currentNode.name) {
         return currentNode;
     } else {
-        for (i = 0; i < currentNode.childs.length; i++) {
+        for (let i = 0; i < currentNode.childs.length; i++) {
             currentChild = currentNode.childs[i];
             result = findNode(search, currentChild);
             if (result !== false) {
@@ -728,12 +800,8 @@ function recursiveScan(structure, depth) {
 }
 
 function compare(a, b) {
-    if (a.level < b.level) {
-        return -1;
-    }
-    if (a.level > b.level) {
-        return 1;
-    }
+    if (a.level < b.level) return -1;
+    if (a.level > b.level) return 1;
     return 0;
 }
 
@@ -798,9 +866,7 @@ function returnNumericValues(picture) {
         return [integer, decimal];
     }
 
-    if (picture.includes('V')) {
-        pictures = picture.split('V');
-    }
+    if (picture.includes('V')) pictures = picture.split('V');
 
     let first, second;
     [first, second = ''] = pictures;
@@ -833,12 +899,8 @@ function countWithPar(picture) {
     let tempValue = [];
 
     for (let i = 0; i < picture.length; i++) {
-        if (picture[i] == '(') {
-            startIndex = i;
-        }
-        if (picture[i] == ')') {
-            endIndex = i;
-        }
+        if (picture[i] == '(') startIndex = i;
+        if (picture[i] == ')') endIndex = i;
     }
 
     for (let i = startIndex + 1; i < endIndex; i++) {
@@ -854,7 +916,7 @@ function countExact(picture) {
     for (let i = 0; i < picture.length; i++) {
         if (picture[i] == picture[i + 1]) {
             if (picture[i] == 'X' || picture[i] == '9' || picture[i] == 'Z') {
-                counter++
+                counter++;
             }
         }
     }
@@ -863,29 +925,29 @@ function countExact(picture) {
 
 const downloadFileName = document.getElementById('download-name')
 const downloadButton = document.getElementById('download');
+
 downloadButton.addEventListener('click', () => {
     let extension;
 
     switch (outputType.value) {
         case 'outrec':
-            extension = 'txt'
+            extension = 'txt';
             break;
         case 'table-md':
-            extension = 'md'
+            extension = 'md';
             break;
         case 'table-csv':
-            extension = 'csv'
+            extension = 'csv';
             break;
         case 'table-html':
-            extension = 'html'
+            extension = 'html';
             break;
         case 'json':
-            extension = 'json'
+            extension = 'json';
             break;
         default:
-            extension = 'txt'
+            extension = 'txt';
     }
-
     saveTextAsFile(textOutput.value, `${downloadFileName.value}.${extension}`);
 });
 
@@ -896,14 +958,12 @@ function saveTextAsFile(textToWrite, fileNameToSaveAs) {
     downloadLink.innerHTML = 'Download File';
     if (window.webkitURL != null) {
         downloadLink.href = window.webkitURL.createObjectURL(textFileAsBlob);
-    }
-    else {
+    } else {
         downloadLink.href = window.URL.createObjectURL(textFileAsBlob);
         downloadLink.onclick = destroyClickedElement;
         downloadLink.style.display = 'none';
         document.body.appendChild(downloadLink);
     }
-
     downloadLink.click();
 }
 
@@ -937,9 +997,8 @@ function copyInput() {
 }
 
 //-----------------------------------------------------
-var textareas = document.getElementsByTagName('textarea');
-var count = textareas.length;
-for (var i = 0; i < count; i++) {
+let textareas = document.getElementsByTagName('textarea');
+for (let i = 0; i < textareas.length; i++) {
     textareas[i].onkeydown = function (e) {
         if (e.key == 'Tab') {
             e.preventDefault();

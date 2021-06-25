@@ -84,18 +84,9 @@ class Field {
         this.setName(name);
     }
 
-    removeSufix() {
-        let name = this.name;
-        if (this.name) {
-            let temp = Array.from(this.name);
-            if (temp[temp.length - 1] == ':' && temp[temp.length - 2] == ';' && temp[temp.length - 3] == ':') {
-                temp.splice(temp.length - 1);
-                temp.splice(temp.length - 1);
-                temp.splice(temp.length - 1);
-                name = temp.join('');
-            }
-        }
-
+    removeSufix(sufix) {
+        const reg = new RegExp(`${sufix}$`);
+        const name = this.name.replace(reg, '');
         this.setName(name);
     }
 

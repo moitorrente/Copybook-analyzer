@@ -35,18 +35,9 @@ function validateParenthesis(text) {
     const close = countChars(text, ')');
     const open = countChars(text, '(');
     const total = open + close;
-
-    if (open != close) {
-        return false;
-    }
-    if (open > 2 || close > 2) {
-        return false
-    }
-
-    if (total != 2 && total != 4 && total != 0) {
-        return false;
-    }
-
+    if (open != close) return false;
+    if (open > 2 || close > 2) return false
+    if (total != 2 && total != 4 && total != 0) return false;
     return true;
 }
 

@@ -1,9 +1,9 @@
 .dark-mode{
-  filter: invert(0%);
+  filter: invert(1000%);
 }
 
 .clear-mode{
-  filter: invert(100%);
+  filter: invert(0%);
 }
 
 html {
@@ -67,12 +67,6 @@ textarea {
   font-family: 'Courier New', Courier, monospace;
   border-radius: 0 0 6px 6px !important;
 }
-/*----------------------------------------------*/
-/* 
-#stick{
-  position: fixed;
-  bottom: 0;
-} */
 
 .nav-link:focus,.nav-link:active {
   outline: none !important;
