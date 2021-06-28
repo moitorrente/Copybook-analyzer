@@ -81,9 +81,12 @@
 
   <div class="container-fluid">
     <div class="row m-3 table-responsive">
-      <div class="col-md-7 table-responsive" id="table"></div>
-      <div class="col-md-5" id="parent">
-        <div class="row mb-3 containers">
+      <div class="col-md-6 table-responsive" id="table"></div>
+      <!-- <div class="col-md-1 gutter gutter-vertical">
+        separador
+      </div> -->
+      <div class="col-md-6" id="parent">
+        <div id="top" class="row containers">
           <div class="col-md-12 cont">
             <div class="header" id="header">
               <div class="container">
@@ -134,18 +137,11 @@
             </div>
             <div class="collapse expand" id="input-process">
               <div class="bg-light px-4 py-2 sm" id="input-process-area">
-                <div class="form-check form-switch mb-2 form-swtich-sm">
-                  <input class="form-check-input" type="checkbox" value="" id="normalize" checked>
-                  <label class="form-check-label" for="normalize">
-                    Normalizar
-                  </label>
-                </div>
+
                 <div class="mb-2">
                   <button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="collapse"
                     data-bs-target="#toggleSwitch">Expandir/contraer valores</button>
                 </div>
-
-                
               </div>
             </div>
             <div class="collapse expand" id="input-share">
@@ -157,11 +153,14 @@
                 </div>
               </div>
             </div>
-            <textarea rows="12" contentEditable="true" class="form-control textarea input-text" cols="72"
+            <textarea rows="15" contentEditable="true" class="form-control textarea input-text" cols="72"
               id="input-text"></textarea>
           </div>
         </div>
-        <div class="row" class="containers">
+
+        <div id="gutter-horizontal" class="gutter gutter-horizontal"></div>
+
+        <div id="bottom" class="row containers footer">
           <div class="col-md-12">
             <div class="header" id="header">
               <div class="container">
@@ -236,7 +235,7 @@
                 </form>
               </div>
             </div>
-            <textarea rows="15" class="form-control" cols="72" id="output-text">
+            <textarea rows="16" class="form-control" cols="72" id="output-text">
             </textarea>
           </div>
         </div>
@@ -263,12 +262,12 @@
                   role="tab" aria-controls="home" aria-selected="true">General</button>
               </li>
               <li class="nav-item" role="presentation">
-                <button class="nav-link" id="input-tab" data-bs-toggle="tab" data-bs-target="#input-options" type="button"
-                  role="tab" aria-controls="input-options" aria-selected="false">Input</button>
+                <button class="nav-link" id="input-tab" data-bs-toggle="tab" data-bs-target="#input-options"
+                  type="button" role="tab" aria-controls="input-options" aria-selected="false">Input</button>
               </li>
               <li class="nav-item" role="presentation">
-                <button class="nav-link" id="output-tab" data-bs-toggle="tab" data-bs-target="#output-options" type="button"
-                  role="tab" aria-controls="output-options" aria-selected="false">Output</button>
+                <button class="nav-link" id="output-tab" data-bs-toggle="tab" data-bs-target="#output-options"
+                  type="button" role="tab" aria-controls="output-options" aria-selected="false">Output</button>
               </li>
               <li class="nav-item" role="presentation">
                 <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button"
@@ -293,8 +292,18 @@
                       </label>
                     </div>
                   </div>
-                 
-                  
+
+                  <div class="px-5 py-2 mt-2 sm">
+
+                    <div class="form-check form-switch mb-2 form-swtich-sm">
+                      <input class="form-check-input" type="checkbox" value="" id="normalize" checked>
+                      <label class="form-check-label" for="normalize">
+                        Normalizar
+                      </label>
+                    </div>
+                  </div>
+
+
                   <div class="px-5 py-2 sm">
                     <div class="form-check form-switch mb-2 form-swtich-sm">
                       <input class="form-check-input" type="checkbox" value="" id="url-update-input" checked>
@@ -463,7 +472,7 @@
                     </div>
                   </form>
                 </div>
-                <div class="p-4"> 
+                <div class="p-4">
                   <div class="d-flex flex-row justify-content-around">
                     <div class="p-2">
                       <div class="fw-light">
@@ -485,9 +494,12 @@
                       <input type="text" class="form-control" aria-label="Prefijo" id="prefix">
                       <button class="btn btn-outline-danger btn-sm float-right" type="button"
                         onclick="deleteElement(this)">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
-                          <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
-                          <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor"
+                          class="bi bi-trash" viewBox="0 0 16 16">
+                          <path
+                            d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z" />
+                          <path fill-rule="evenodd"
+                            d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z" />
                         </svg>
                       </button>
                     </div>
@@ -513,11 +525,13 @@
                         </div>
                         <span class="input-group-text">Quitar sufijo</span>
                         <input type="text" class="form-control" aria-label="Prefijo" value=":;:" id="sufix"></input>
-                        <button class="btn btn-outline-danger btn-sm" type="button"
-                          onclick="deleteElement(this)">
-                          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
-                            <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
-                            <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+                        <button class="btn btn-outline-danger btn-sm" type="button" onclick="deleteElement(this)">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor"
+                            class="bi bi-trash" viewBox="0 0 16 16">
+                            <path
+                              d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z" />
+                            <path fill-rule="evenodd"
+                              d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z" />
                           </svg>
                         </button>
                       </div>

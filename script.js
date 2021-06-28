@@ -66,7 +66,43 @@ const modeToggle = document.getElementById('mode-toggle');
 
 modeToggle.addEventListener('click', () => {
     switchTheme();
-})
+});
+
+
+
+////////////////////////////////////////////////////////////////
+let positiony;
+const horizontalGutter = document.getElementById('gutter-horizontal');
+horizontalGutter.addEventListener('mousedown', (element) => {
+    positiony = element.y;
+    document.addEventListener("mousemove", resize, false);
+
+});
+horizontalGutter.addEventListener('mouseup', () => {
+    console.log('pasa');
+    document.removeEventListener("mousemove", resize, false);
+});
+// horizontalGutter.addEventListener('touchstart', (element) => {
+//     positiony = element.y;
+//     document.addEventListener("touchmove", resize, false);
+
+// });
+// horizontalGutter.addEventListener('touchend', () => {
+//     alert("llega2")
+
+//     document.removeEventListener("touchmove", resize, false);
+// });
+
+
+function resize(element) {
+    const dy = positiony - element.y;
+    const top = document.getElementById('input-text');
+    const bottom = document.getElementById('output-text');
+
+    top.style.height = positiony - 120 - dy + 'px';
+    bottom.style.height = positiony - 120 + dy + 'px';
+}
+////////////////////////////////////////////////////////////////
 
 //--------------------------------------------------------------
 addRemoveSufix.addEventListener('click', () => {
@@ -548,8 +584,9 @@ function getPrefixes() {
 
 function parse(text) {
     text += '\n';
-    const lines = text.split(/.\n/).map(x => x.replaceAll(/\n/g, '').split(' '));
-    const filtered = lines.map(line => line.filter(field => field));
+    const lines = text.split(/\.\s*\n/).map(x => x.replaceAll(/\.\s*\n/g, '').split(' '));
+    const filtered = lines.map(line => line.filter(field => field)).filter(x => x.length > 0);
+
     copyFields.push(new Field('00 PLACEHOLDER.', -1));
 
     filtered.forEach((line, index) => {

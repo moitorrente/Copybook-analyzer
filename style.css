@@ -82,3 +82,25 @@ body { padding-right: 0 !important }
 .hide{
   display: none;
 }
+
+::-webkit-scrollbar {
+  width: 0px;
+}
+
+.gutter{
+  /* background-color: grey; */
+  background-repeat: no-repeat;
+  background-position: 50% center;
+}
+
+.gutter-horizontal{
+  cursor: ns-resize;
+  height: 4px;
+  background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAACCAIAAADaehubAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAgSURBVBhXY6yvr2dgYGhoaGBguNPQsIRINhMQkwwYGACsoRGBcDhyXgAAAABJRU5ErkJggg==");
+}
+
+.gutter-vertical{
+  cursor: e-resize;
+  width: 4px;
+  background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAIAAAASCAIAAAD+ApjoAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAjSURBVBhXY6yvr2dgYGACYiBg/P//P4LHDMQHDhygmRwDAwC5yRaVkHIqNAAAAABJRU5ErkJggg==");
+}
