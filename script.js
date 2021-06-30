@@ -8,7 +8,7 @@ const warningSVG = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="1
 
 const errorSVG = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
 <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
-</svg>`
+</svg>`;
 
 const switchThemeChk = document.getElementById('theme-check');
 
@@ -68,41 +68,37 @@ modeToggle.addEventListener('click', () => {
     switchTheme();
 });
 
-
-
-////////////////////////////////////////////////////////////////
-let positiony;
 const horizontalGutter = document.getElementById('gutter-horizontal');
-horizontalGutter.addEventListener('mousedown', (element) => {
-    positiony = element.y;
-    document.addEventListener("mousemove", resize, false);
+var wrapper = document.getElementById('parent')
+var boxA = document.getElementById('input-text');
+var boxB = document.getElementById('output-text');
+var isHandlerDragging = false;
 
+document.addEventListener('mousedown', function (e) {
+    if (e.target === horizontalGutter) {
+        isHandlerDragging = true;
+    }
 });
-horizontalGutter.addEventListener('mouseup', () => {
-    console.log('pasa');
-    document.removeEventListener("mousemove", resize, false);
+
+document.addEventListener('mousemove', function (e) {
+    if (!isHandlerDragging) {
+        return false;
+    }
+
+    e.preventDefault();
+    let containerOffsetTop = wrapper.offsetTop;
+    let containerOffsetBottom = wrapper.offsetBottom;
+    let pointerRelativeXpos = e.clientY - containerOffsetTop;
+    let pointerRelativeXpos2 = wrapper.offsetHeight - pointerRelativeXpos;
+
+    let boxAminWidth = 20;
+
+    boxA.style.height = (Math.max(boxAminWidth, pointerRelativeXpos - 43)) + 'px';
+    //boxB.style.height = (Math.max(boxAminWidth, pointerRelativeXpos2 -43)) + 'px';
 });
-// horizontalGutter.addEventListener('touchstart', (element) => {
-//     positiony = element.y;
-//     document.addEventListener("touchmove", resize, false);
-
-// });
-// horizontalGutter.addEventListener('touchend', () => {
-//     alert("llega2")
-
-//     document.removeEventListener("touchmove", resize, false);
-// });
-
-
-function resize(element) {
-    const dy = positiony - element.y;
-    const top = document.getElementById('input-text');
-    const bottom = document.getElementById('output-text');
-
-    top.style.height = positiony - 120 - dy + 'px';
-    bottom.style.height = positiony - 120 + dy + 'px';
-}
-////////////////////////////////////////////////////////////////
+document.addEventListener('mouseup', function (e) {
+    isHandlerDragging = false;
+});
 
 //--------------------------------------------------------------
 addRemoveSufix.addEventListener('click', () => {
@@ -1034,17 +1030,7 @@ function copyInput() {
 }
 
 //-----------------------------------------------------
-let textareas = document.getElementsByTagName('textarea');
-for (let i = 0; i < textareas.length; i++) {
-    textareas[i].onkeydown = function (e) {
-        if (e.key == 'Tab') {
-            e.preventDefault();
-            let s = this.selectionStart;
-            this.value = this.value.substring(0, this.selectionStart) + '\t' + this.value.substring(this.selectionEnd);
-            this.selectionEnd = s + 1;
-        }
-    }
-}
+
 //---------------------------------------------------------
 const urlShare = document.getElementById('url-share');
 urlShare.value = window.location.href;

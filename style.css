@@ -8,6 +8,7 @@
 
 html {
   overflow-y: scroll;
+  height: 100%;
 }
 
 * {
@@ -96,11 +97,31 @@ body { padding-right: 0 !important }
 .gutter-horizontal{
   cursor: ns-resize;
   height: 4px;
+  padding: 0;
   background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAACCAIAAADaehubAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAgSURBVBhXY6yvr2dgYGhoaGBguNPQsIRINhMQkwwYGACsoRGBcDhyXgAAAABJRU5ErkJggg==");
 }
 
-.gutter-vertical{
-  cursor: e-resize;
-  width: 4px;
-  background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAIAAAASCAIAAAD+ApjoAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAjSURBVBhXY6yvr2dgYGACYiBg/P//P4LHDMQHDhygmRwDAwC5yRaVkHIqNAAAAABJRU5ErkJggg==");
+
+#parent {
+  background-color: #fff;
+  color: #444;
+  /* Use flexbox */
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
+
+#input-text, #output-text {
+
+  /* Use box-sizing so that element's outerwidth will match width property */
+  box-sizing: border-box;
+
+  /* Allow box to grow and shrink, and ensure they are all equally sized */
+
+}
+
+
+#output-text {
+  flex: 1;
+}
+

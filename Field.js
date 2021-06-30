@@ -229,6 +229,7 @@ class Field {
             default:
                 this.setValidation(8, `Tipo de picture no definido: '${this.type}'`);
         }
+        
 
         return length;
     }
@@ -241,6 +242,8 @@ class Field {
         if (isNaN(length)) {
             this.setValidation(8, `Longitud incorrecta ${length}`);
             return false;
+        }else if(length === 0){
+            this.setValidation(4, `Longitud 0`);
         }
 
         if (this.type != 'AN' && (this.integer + this.decimal) > 18) {
