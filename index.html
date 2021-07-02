@@ -64,7 +64,6 @@
         </ul>
         <ul class="navbar-nav me-4 mb-2">
         </ul>
-
         <svg class="button" data-bs-toggle="modal" data-bs-target="#options-modal" xmlns="http://www.w3.org/2000/svg"
           width="22" height="22" fill="white" class="bi bi-gear" viewBox="0 0 16 16">
           <path
@@ -77,7 +76,7 @@
     </div>
   </header>
 
-  <div class="alert alert-warning alert-dismissible fade show hide" role="alert">
+  <div id="general-alert" class="alert alert-warning alert-dismissible fade show hide m-3" role="alert">
     <strong>Alerta</strong>
   </div>
 
@@ -124,6 +123,12 @@
                           d="M13.5 1a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zM11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.499 2.499 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5zm-8.5 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zm11 5.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3z" />
                       </svg>
                     </div>
+                    <div class="p-1 bd-highlight" data-bs-toggle="collapse"
+                    data-bs-target="#toggleSwitch">
+                      <svg class="button" xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-chevron-expand" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M3.646 9.146a.5.5 0 0 1 .708 0L8 12.793l3.646-3.647a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 0-.708zm0-2.292a.5.5 0 0 0 .708 0L8 3.207l3.646 3.647a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 0 0 0 .708z"/>
+                      </svg>
+                    </div>
                     <div class="p-1 bd-highlight" data-toggle="tooltip" title="Hooray!">
                       <svg class="button clear" id="clear" xmlns="http://www.w3.org/2000/svg" width="22" height="22"
                         fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
@@ -139,11 +144,10 @@
             </div>
             <div class="collapse expand" id="input-process">
               <div class="bg-light px-4 py-2 sm" id="input-process-area">
-
-                <div class="mb-2">
-                  <button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="collapse"
-                    data-bs-target="#toggleSwitch">Expandir/contraer valores</button>
-                </div>
+                <select class="form-select form-select-sm" aria-label=".form-select-sm" id="input-type-selector">
+                  <option value="plain-text" selected>Texto plano</option>
+                  <option value="b64-text">Base64</option>
+                </select>
               </div>
             </div>
             <div class="collapse expand" id="input-share">
@@ -223,12 +227,12 @@
             <div class="collapse expand" id="output-type">
               <div class="bg-light px-4 py-2">
                 <select class="form-select form-select-sm" aria-label=".form-select-sm" id="output-type-selector">
+                  <option value="copy-normalized" selected>Copy normalizada</option>
                   <option value="outrec">OUTREC para .csv</option>
                   <option value="table-md">Tabla en .md</option>
                   <option value="table-csv">Tabla en .csv</option>
                   <option value="table-html">Tabla en .html</option>
                   <option value="json">Estructura en .json</option>
-                  <option value="copy-normalized" selected>Copy normalizada</option>
                 </select>
               </div>
             </div>

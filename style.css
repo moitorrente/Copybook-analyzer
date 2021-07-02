@@ -125,3 +125,7 @@ body { padding-right: 0 !important }
   flex: 1;
 }
 
+.statement {
+  color: red;
+}
+

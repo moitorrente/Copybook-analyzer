@@ -8,7 +8,7 @@ const warningSVG = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="1
 
 const errorSVG = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
 <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
-</svg>`;
+</svg>`
 
 const switchThemeChk = document.getElementById('theme-check');
 
@@ -43,6 +43,7 @@ const textOutputReset = document.getElementById('output-font-reset');
 const inputExpand = document.getElementById('input-expand');
 const outputExpand = document.getElementById('output-expand');
 
+const inputType = document.getElementById('input-type-selector');
 const outputType = document.getElementById('output-type-selector');
 const urlUpdateInput = document.getElementById('url-update-input');
 
@@ -56,6 +57,7 @@ const advancedOptionsEnabler = document.getElementById('advanced-options-enabler
 const defaultConfigButton = document.getElementById('default-config');
 
 const optionsAlert = document.getElementById('optionsAlert');
+const generalAlert = document.getElementById('general-alert');
 const addRemovePrefix = document.getElementById('add-remove-prefix');
 const addRemoveSufix = document.getElementById('add-remove-sufix');
 
@@ -99,6 +101,7 @@ document.addEventListener('mousemove', function (e) {
 document.addEventListener('mouseup', function (e) {
     isHandlerDragging = false;
 });
+////////////////////////////////////////////////////////////////
 
 //--------------------------------------------------------------
 addRemoveSufix.addEventListener('click', () => {
@@ -296,6 +299,7 @@ textOutput.addEventListener('input', () => {
 });
 
 outputType.addEventListener('change', process);
+inputType.addEventListener('change', process);
 
 const defaultConfig = {
     'general': {
@@ -519,7 +523,21 @@ function process() {
     clearIntermediate();
     applyConfiguration();
 
-    const text = textInput.value;
+    let text;
+
+    if(inputType.value == 'plain-text'){
+        text = textInput.value;
+    }else if(inputType.value == 'b64-text'){
+        try{
+            text = atob(textInput.value);
+        }catch(e){
+            generalAlert.innerHTML = 'Error en formato de texto, cambiando a modo de "Texto plano"';
+            generalAlert.classList.remove('hide', 'alert-success');
+            generalAlert.classList.add('alert-warning');
+            inputType.value = 'plain-text';
+            setTimeout(() => generalAlert.classList.add('hide'), 7000);
+        }
+    }
 
     if (text) {
         parse(text);
