@@ -104,6 +104,12 @@
                           d="M10.804 8L5 4.633v6.734L10.804 8zm.792-.696a.802.802 0 0 1 0 1.392l-6.363 3.692C4.713 12.69 4 12.345 4 11.692V4.308c0-.653.713-.998 1.233-.696l6.363 3.692z" />
                       </svg>
                     </div>
+                    <div class="p-1 bd-highlight" id="input-process-area">
+                      <select class="form-select form-select-sm" aria-label=".form-select-sm" id="input-type-selector">
+                        <option value="plain-text" selected>Texto plano</option>
+                        <option value="b64-text">Base64</option>
+                      </select>
+                    </div>
                     <div class="p-1 bd-highlight">
                       <input type="file" id="file" style="display: none;" />
                       <svg class="button" onclick="document.getElementById('file').click();"
@@ -143,12 +149,7 @@
               </div>
             </div>
             <div class="collapse expand" id="input-process">
-              <div class="bg-light px-4 py-2 sm" id="input-process-area">
-                <select class="form-select form-select-sm" aria-label=".form-select-sm" id="input-type-selector">
-                  <option value="plain-text" selected>Texto plano</option>
-                  <option value="b64-text">Base64</option>
-                </select>
-              </div>
+              Collapse
             </div>
             <div class="collapse expand" id="input-share">
               <div class="bg-light px-4 py-2 sm">
@@ -182,6 +183,16 @@
                         <path
                           d="M10.804 8L5 4.633v6.734L10.804 8zm.792-.696a.802.802 0 0 1 0 1.392l-6.363 3.692C4.713 12.69 4 12.345 4 11.692V4.308c0-.653.713-.998 1.233-.696l6.363 3.692z" />
                       </svg>
+                    </div>
+                    <div class="p-1 bd-highlight">
+                      <select class="form-select form-select-sm" aria-label=".form-select-sm" id="output-type-selector">
+                        <option value="copy-normalized" selected>Copy normalizada</option>
+                        <option value="outrec">OUTREC para .csv</option>
+                        <option value="table-md">Tabla en .md</option>
+                        <option value="table-csv">Tabla en .csv</option>
+                        <option value="table-html">Tabla en .html</option>
+                        <option value="json">Estructura en .json</option>
+                      </select>
                     </div>
                     <div class="p-1 bd-highlight navbar-toggler" data-bs-toggle="collapse"
                       data-bs-target="#download-navbar">
@@ -225,16 +236,7 @@
             </div>
 
             <div class="collapse expand" id="output-type">
-              <div class="bg-light px-4 py-2">
-                <select class="form-select form-select-sm" aria-label=".form-select-sm" id="output-type-selector">
-                  <option value="copy-normalized" selected>Copy normalizada</option>
-                  <option value="outrec">OUTREC para .csv</option>
-                  <option value="table-md">Tabla en .md</option>
-                  <option value="table-csv">Tabla en .csv</option>
-                  <option value="table-html">Tabla en .html</option>
-                  <option value="json">Estructura en .json</option>
-                </select>
-              </div>
+              Collapse
             </div>
 
             <div class="collapse expand" id="download-navbar">
