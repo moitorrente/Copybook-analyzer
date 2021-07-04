@@ -5,6 +5,40 @@ class Table {
         this.cols = [];
     }
 
+    createColumnSelector(params){
+        const cols = Object.entries(params);
+        const parent = document.createElement('div');
+        cols.forEach(col => {
+            const label = document.createElement('label');
+            label.classList.add('dropdown-item', 'dropdown-item-marker');
+
+            const input = document.createElement('input');
+            input.classList.add('form-check-input', 'mx-2');
+            input.type = 'checkbox';
+            input.id = col[1].column;
+            if(col[1].show) input.checked = 'checked'
+
+            input.addEventListener('change', () => {
+                config.tabla[col[0]].show = input.checked;
+                updateURL();
+                generateTable();
+                process();
+            });
+
+            const span = document.createElement('span');
+            span.innerHTML = col[1].name;
+
+            label.appendChild(input);
+            label.appendChild(span);
+            parent.appendChild(label);
+        });
+
+        document.getElementById('search-table-group').classList.remove('hide');
+
+        document.getElementById('column-show').innerHTML = '';
+        document.getElementById('column-show').appendChild(parent);
+    }
+
     create() {
         this.table = document.createElement('table')
         this.table.classList.add('table', 'table-hover', 'text-center', 'tab');

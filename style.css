@@ -61,7 +61,7 @@ td {
 .button:hover{
   cursor: pointer;
   overflow: visible;
-  color: darkgreen;
+  color: rgb(22, 22, 182);
 }
 
 textarea {
@@ -124,8 +124,3 @@ body { padding-right: 0 !important }
 #output-text {
   flex: 1;
 }
-
-.statement {
-  color: red;
-}
-

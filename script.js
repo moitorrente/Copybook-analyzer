@@ -232,19 +232,6 @@ function validateOptions(json) {
         && json.tabla.hasOwnProperty('validacion');
 }
 
-//----------------------------------- De regenerate.js ----------------------------
-const levelCol = document.getElementById('level-col');
-const depthCol = document.getElementById('depth-col');
-const nameCol = document.getElementById('name-col');
-const typeCol = document.getElementById('type-col');
-const pictureCol = document.getElementById('picture-col');
-const modifierCol = document.getElementById('modifier-col');
-const startCol = document.getElementById('start-col');
-const lengthCol = document.getElementById('length-col');
-const endCol = document.getElementById('end-col');
-const validationCol = document.getElementById('validation-col');
-//----------------------------------- De regenerate.js ----------------------------
-
 const exportConfig = document.getElementById('export-config');
 exportConfig.addEventListener('click', () => {
     saveTextAsFile(JSON.stringify(config, null, 2), 'config.json');
@@ -312,42 +299,52 @@ const defaultConfig = {
     'tabla': {
         'nivel': {
             'show': true,
+            'column': 'level-col',
             'name': 'Nivel'
         },
         'profundidad': {
             'show': true,
+            'column': 'depth-col',
             'name': 'Profundidad'
         },
         'nombre': {
             'show': true,
+            'column': 'name-col',
             'name': 'Nombre'
         },
         'tipo': {
             'show': true,
+            'column': 'type-col',
             'name': 'Tipo'
         },
         'picture': {
             'show': true,
+            'column': 'picture-col',
             'name': 'Picture'
         },
         'modificador': {
             'show': true,
+            'column': 'modifier-col',
             'name': 'Modificador'
         },
         'inicio': {
             'show': true,
+            'column': 'start-col',
             'name': 'Inicio'
         },
         'longitud': {
             'show': true,
+            'column': 'length-col',
             'name': 'Longitud'
         },
         'fin': {
             'show': true,
+            'column': 'end-col',
             'name': 'Fin'
         },
         'validacion': {
             'show': true,
+            'column': 'validation-col',
             'name': 'Validación'
         }
     }
@@ -365,57 +362,65 @@ let config = {
     'tabla': {
         'nivel': {
             'show': true,
+            'column': 'level-col',
             'name': 'Nivel'
         },
         'profundidad': {
             'show': true,
+            'column': 'depth-col',
             'name': 'Profundidad'
         },
         'nombre': {
             'show': true,
+            'column': 'name-col',
             'name': 'Nombre'
         },
         'tipo': {
             'show': true,
+            'column': 'type-col',
             'name': 'Tipo'
         },
         'picture': {
             'show': true,
+            'column': 'picture-col',
             'name': 'Picture'
         },
         'modificador': {
             'show': true,
+            'column': 'modifier-col',
             'name': 'Modificador'
         },
         'inicio': {
             'show': true,
+            'column': 'start-col',
             'name': 'Inicio'
         },
         'longitud': {
             'show': true,
+            'column': 'length-col',
             'name': 'Longitud'
         },
         'fin': {
             'show': true,
+            'column': 'end-col',
             'name': 'Fin'
         },
         'validacion': {
             'show': true,
+            'column': 'validation-col',
             'name': 'Validación'
         }
     }
 };
 
 
-
-
 function generateTable() {
     document.getElementById('table').innerHTML = '';
     const documentTable = new Table(config.tabla);
+    documentTable.createColumnSelector(config.tabla);
     documentTable.create();
     documentTable.append('table');
 }
-
 
 function createOuput() {
     switch (outputType.value) {
@@ -504,19 +509,7 @@ function applyConfiguration() {
 
     }
     advancedOptionsEnabler.checked = config.general.advancedConfiguration;
-
-    levelCol.checked = config.tabla.nivel.show;
-    depthCol.checked = config.tabla.profundidad.show;
-    nameCol.checked = config.tabla.nombre.show;
-    typeCol.checked = config.tabla.tipo.show;
-    pictureCol.checked = config.tabla.picture.show;
-    modifierCol.checked = config.tabla.modificador.show;
-    startCol.checked = config.tabla.inicio.show;
-    lengthCol.checked = config.tabla.longitud.show;
-    endCol.checked = config.tabla.fin.show;
-    validationCol.checked = config.tabla.validacion.show;
-
-    generateTable();
+    if (textInput.value.length > 0) generateTable();
 }
 
 function process() {
@@ -525,12 +518,12 @@ function process() {
 
     let text;
 
-    if(inputType.value == 'plain-text'){
+    if (inputType.value == 'plain-text') {
         text = textInput.value;
-    }else if(inputType.value == 'b64-text'){
-        try{
+    } else if (inputType.value == 'b64-text') {
+        try {
             text = atob(textInput.value);
-        }catch(e){
+        } catch (e) {
             generalAlert.innerHTML = 'Error en formato de texto, cambiando a modo de "Texto plano"';
             generalAlert.classList.remove('hide', 'alert-success');
             generalAlert.classList.add('alert-warning');
@@ -539,7 +532,7 @@ function process() {
         }
     }
 
-    if (text) {
+    if (text.length > 0) {
         parse(text);
         createOuput();
     }
@@ -733,7 +726,7 @@ function createRow(field, depth) {
 
     validation.setAttribute('data-container', 'body');
 
-    if (field.validation.level > 0) {
+    if (field.validation.level > 0 && field.level != '00') {
         validation.setAttribute('data-bs-toggle', 'collapse');
         validation.setAttribute('data-bs-target', `#toggleHelp${field.id}`);
         validationBadge.classList.add('button');
@@ -763,7 +756,7 @@ function createRow(field, depth) {
         row.appendChild(validation);
     }
 
-    if (field.validation.level > 0) {
+    if (field.validation.level > 0 && field.level != '00') {
         for (let i = 0; i < field.validation.message.length; i++) {
             const firstDiv = document.createElement('tr');
             firstDiv.classList.add('collapse');
@@ -1060,3 +1053,15 @@ function share() {
         });
     }
 }
+
+$(document).ready(function () {
+    $("#table-search").on("keyup", function () {
+
+        var value = $(this).val().toLowerCase();
+        console.log(value)
+        $("#table-body tr").filter(function () {
+            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+        });
+    });
+});
+

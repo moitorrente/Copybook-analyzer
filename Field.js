@@ -110,7 +110,6 @@ class Field {
             case undefined:
                 this.isSubstructure = true;
                 break;
-
             default:
                 this.setValidation(8, `Valor '${type}' no definido`);
         }
@@ -148,9 +147,7 @@ class Field {
         }
 
         if (this.type == 'AN') {
-            if (this.usage) {
-                this.setValidation(8, `Campo alfanumérico con usage: ${this.usage}`);
-            }
+            if (this.usage) this.setValidation(8, `Campo alfanumérico con usage: ${this.usage}`);
 
         } else {
             if (!USAGE.includes(this.usage) && this.usage) {
@@ -161,9 +158,7 @@ class Field {
             if (usage == 'COMP-3' ||
                 usage == 'PACKED-DECIMAL') {
                 this.type = 'PD';
-                if ((this.integer + this.decimal) % 2 == 0) {
-                    this.setValidation(4, 'Packed decimal par')
-                }
+                if ((this.integer + this.decimal) % 2 == 0) this.setValidation(4, 'Packed decimal par');
             }
 
             if (usage == 'COMP-1' ||
@@ -180,16 +175,12 @@ class Field {
 
             if (this.usage == 'SIGN TRAILING SEPARATE CHARACTER' ||
                 this.usage == 'SIGN LEADING SEPARATE CHARACTER') {
-                if (!this.sign) {
-                    this.setValidation(8, 'Campo sin signo pero con modificador de signo')
-                }
+                if (!this.sign) this.setValidation(8, 'Campo sin signo pero con modificador de signo')
                 this.type = 'SFF';
             }
         }
 
-        if (!normalize.checked || this.mask) {
-            this.picText = value[0];
-        }
+        if (!normalize.checked || this.mask) this.picText = value[0];
 
         const length = this.getLength();
         this.setLength(length);
@@ -199,7 +190,6 @@ class Field {
         let length = 0;
         switch (this.type) {
             case 'AN':
-
                 length = this.length;
                 break;
             case 'ZA':
@@ -229,8 +219,6 @@ class Field {
             default:
                 this.setValidation(8, `Tipo de picture no definido: '${this.type}'`);
         }
-        
-
         return length;
     }
 
@@ -242,7 +230,7 @@ class Field {
         if (isNaN(length)) {
             this.setValidation(8, `Longitud incorrecta ${length}`);
             return false;
-        }else if(length === 0){
+        } else if (length === 0) {
             this.setValidation(4, `Longitud 0`);
         }
 
@@ -275,32 +263,32 @@ class Field {
     }
 
     setValidation(value, tooltip) {
-        if (this.validation.level < value) {
-            this.validation.level = value;
-        }
+        if (this.level > 0) {
+            if (this.validation.level < value) this.validation.level = value;
 
-        switch (this.validation.level) {
-            case 0:
-                this.validation.color = 'bg-success';
-                break;
-            case 4:
-                this.validation.color = 'bg-warning';
-                break;
-            case 8:
-                this.validation.color = 'bg-danger';
-                break;
-        }
+            switch (this.validation.level) {
+                case 0:
+                    this.validation.color = 'bg-success';
+                    break;
+                case 4:
+                    this.validation.color = 'bg-warning';
+                    break;
+                case 8:
+                    this.validation.color = 'bg-danger';
+                    break;
+            }
 
-        const color = this.validation.color;
+            const color = this.validation.color;
 
-        let duplicated = false;
+            let duplicated = false;
 
-        if (this.validation.message.length) {
-            duplicated = this.validation.message.map(x => x.tooltip == tooltip).reduce((a, b) => a && b);
-        }
+            if (this.validation.message.length) {
+                duplicated = this.validation.message.map(x => x.tooltip == tooltip).reduce((a, b) => a && b);
+            }
 
-        if (!duplicated) {
-            this.validation.message.push({ color, tooltip })
+            if (!duplicated) {
+                this.validation.message.push({ color, tooltip })
+            }
         }
     }
 

@@ -74,7 +74,6 @@ function createCSVTable(rows) {
     if (config.tabla.fin.show) header += `Fin;`;
     if (header) header += '\r\n';
 
-
     let lines = rows.map(row => {
         let line = '';
         if (config.tabla.nivel.show) line += `${exists(row.level)};`;
@@ -95,7 +94,6 @@ function createCSVTable(rows) {
 }
 
 function createHTMLTable(table) {
-
     const html = `<!DOCTYPE html>
     <html lang="en">
     <head>
@@ -134,11 +132,8 @@ function exists(property) {
 function normalizedCopy(rows) {
     const lines = rows.map(row => {
         let line = '';
-        for (let i = 1; i < row.depth; i++) {
-            line += '   ';
-        }
+        for (let i = 1; i < row.depth; i++) line += '   ';
         line += `${row.level} ${row.name}`;
-
         if (row.pic) {
             const len = 24 - line.length;
             for (let i = 0; i < len; i++) {
