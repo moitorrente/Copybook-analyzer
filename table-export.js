@@ -143,7 +143,20 @@ function normalizedCopy(rows) {
         }
         row.usage ? line += ` ${row.usage}` : false;
         row.occurs > 0 ? line += ` OCCURS ${row.occurs} TIMES` : false;
-        line.charAt(line.length - 1) == '.' ? false : line += `.`;
+        if (row.value) {
+            if (row.value.length > 0) {
+                const len = 24 - line.length;
+                for (let i = 0; i < len; i++) {
+                    line += ' ';
+                }
+                row.value.length > 1 ? line += ' VALUES' : line += ' VALUE';
+                row.value.forEach(value => {
+                    line += ' ' + value;
+                });
+            }
+        }
+
+        line.charAt(line.length - 1) == '.' ? false : line += '.';
         line += '\r\n';
         return line;
     });

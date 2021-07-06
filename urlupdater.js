@@ -11,8 +11,6 @@ autorunOption.addEventListener('change', () => {
     updateURL();
 });
 
-activateURLUpdate();
-
 function toggleAutoUpdate(updateURL) {
     if (updateURL) {
         activateURLUpdate();
@@ -50,13 +48,14 @@ function deactivateURLUpdate() {
 
 function updateURL() {
     const url = generateURL();
+
     if (window.history.replaceState) {
         window.history.replaceState({}, null, url);
     }
 }
 
 function generateURL() {
-    const input = textInput.value;
+    const input = document.getElementById('input-text').value;
     const parm = encodeToB64(input);
     let url = `?input=${parm}&autorun=${autorunOption.checked}`;
     urlConfiguration.checked ? url += `&config=${JSON.stringify(config)}` : false;

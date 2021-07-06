@@ -41,7 +41,6 @@ for (let i = 0; i < textareas.length; i++) {
 
 textInput.addEventListener('keydown', (e) => {
     if (keymap[e.key]) {
-        console.log("pasa")
         e.preventDefault();
         const pos = textInput.selectionStart;
         textInput.value = textInput.value.slice(0, pos) +

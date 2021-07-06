@@ -711,14 +711,14 @@ function createRow(field, depth) {
         const entryEnd = finish;
         field.setEnd(finish);
 
-        const entry = new Entry(depth, field.level, field.name, field.type, field.picText, entryStart, entryEnd, field.length, field.usage, field.integer, field.decimal, field.sign, field.isPic, field.isOccurs, field.occurs);
+        const entry = new Entry(depth, field.level, field.name, field.type, field.picText, entryStart, entryEnd, field.length, field.usage, field.integer, field.decimal, field.sign, field.isPic, field.isOccurs, field.occurs, field.value);
         if (field.level != '00') {
             tableEntries.push(entry);
             fullTable.push(entry);
         }
     } else {
         if (field.level != '00') {
-            fullTable.push(new Entry(depth, field.level, field.name, field.type, '', '', '', '', field.usage, '', '', '', '', field.isOccurs, field.occurs));
+            fullTable.push(new Entry(depth, field.level, field.name, field.type, '', '', '', '', field.usage, '', '', '', '', field.isOccurs, field.occurs, field.value));
         }
     }
 
@@ -1055,10 +1055,10 @@ function share() {
 }
 
 $(document).ready(function () {
-    $("#table-search").on("keyup", function () {
+    activateURLUpdate();
 
+    $("#table-search").on("keyup", function () {
         var value = $(this).val().toLowerCase();
-        console.log(value)
         $("#table-body tr").filter(function () {
             $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
         });

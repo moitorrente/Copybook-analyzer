@@ -1,7 +1,7 @@
 //https://www.ibm.com/support/knowledgecenter/SSEPEK_11.0.0/apsg/src/tpc/db2z_hostvariablecobol.html
 //https://www.ibm.com/support/knowledgecenter/SS6SG3_4.2.0/com.ibm.entcobol.doc_4.2/PGandLR/ref/rlddecom.htm
 
-const USAGE = ['BINARY', 'COMP', 'COMP-1', 'COMP-2', 'COMP-3', 'COMP-4', 'COMP-5', 'PACKED-DECIMAL', 'DISPLAY', 'SIGN TRAILING SEPARATE CHARACTER', 'SIGN LEADING SEPARATE CHARACTER'];
+const USAGE = ['BINARY', 'COMP', 'COMP-1', 'COMP-2', 'COMP-3', 'COMP-4', 'COMP-5', 'PACKED-DECIMAL', 'DISPLAY', 'SIGN TRAILING SEPARATE CHARACTER', 'SIGN LEADING SEPARATE CHARACTER', 'VALUE', 'VALUES'];
 const WORDS = [
     //'REDEFINES',
     'OCCURS',
@@ -9,7 +9,8 @@ const WORDS = [
     'PICTURE',
     //'RENAMES'
     'SIGN',
-    'VALUE'
+    'VALUE',
+    'VALUES'
 ];
 
 class Field {
@@ -27,6 +28,12 @@ class Field {
             this.parseLine(input);
         }
         this.isCommented = false;
+
+        if (this.value) this.validateValue();
+    }
+
+    validateValue() {
+        if (this.type == 'AN' && this.value[0].length - 2 > this.length) this.setValidation(8, `Valor ${this.value[0]} demasiado largo para el campo con longitud ${this.length}`)
     }
 
     parseLine(input) {
@@ -119,7 +126,6 @@ class Field {
         this.isPic = true;
         let picText, usage;
         [picText, ...usage] = value;
-
         const PIC = parsePIC(picText);
         const validations = validateAll(picText);
 
@@ -147,28 +153,71 @@ class Field {
         }
 
         if (this.type == 'AN') {
-            if (this.usage) this.setValidation(8, `Campo alfanumérico con usage: ${this.usage}`);
-
+            if (usage.length > 0) {
+                if (usage[0] == 'VALUE') {
+                    let [, ...values] = usage;
+                    this.usage = '';
+                    this.setValue(values, this.type);
+                } else {
+                    this.setValidation(8, `Campo alfanumérico con usage: ${usage}`);
+                }
+            }
         } else {
-            if (!USAGE.includes(this.usage) && this.usage) {
-                this.setValidation(8, `Usage incorrecto: ${this.usage}`);
-                this.usage = '';
+            let [tempUsage, valueText, ...values] = usage;
+
+            if (!USAGE.includes(tempUsage) && tempUsage) {
+                if (usage.join(' ').substring(0, 32) != 'SIGN TRAILING SEPARATE CHARACTER' &&
+                    usage.join(' ').substring(0, 31) != 'SIGN LEADING SEPARATE CHARACTER') {
+                    this.setValidation(8, `Usage incorrecto: ${tempUsage}`);
+                    this.usage = '';
+                } else {
+                    this.usage = usage.join(' ');
+                    if (usage.join(' ').substring(0, 32) == 'SIGN TRAILING SEPARATE CHARACTER') {
+                        let aux = this.usage.substring(33);
+                        aux = aux.split(' ');
+                        [valueText, ...values] = aux;
+                        this.usage = this.usage.substring(0, 32);
+                    } else if (usage.join(' ').substring(0, 31) != 'SIGN LEADING SEPARATE CHARACTER') {
+                        let aux = this.usage.substring(32);
+                        aux = aux.split(' ');
+                        [valueText, ...values] = aux;
+                        this.usage = this.usage.substring(0, 31);
+                    }
+                }
             }
 
-            if (usage == 'COMP-3' ||
-                usage == 'PACKED-DECIMAL') {
+            if (valueText == 'VALUE') {
+                this.setValue(values);
+                if (this.usage) {
+                    let usage = this.usage.split(' ');
+                    [this.usage,] = usage;
+                }
+
+                if (this.usage == 'VALUE') this.usage = '';
+            }
+
+            if (tempUsage == 'VALUE') {
+                let [, ...values] = usage;
+                this.usage = '';
+                this.setValue(values)
+            }
+
+            if (tempUsage == 'COMP-3' ||
+                tempUsage == 'PACKED-DECIMAL') {
                 this.type = 'PD';
+                this.usage = tempUsage;
                 if ((this.integer + this.decimal) % 2 == 0) this.setValidation(4, 'Packed decimal par');
             }
 
-            if (usage == 'COMP-1' ||
-                usage == 'COMP' ||
-                usage == 'BINARY' ||
-                usage == 'COMP-4') {
+            if (tempUsage == 'COMP-1' ||
+                tempUsage == 'COMP' ||
+                tempUsage == 'BINARY' ||
+                tempUsage == 'COMP-4') {
+                this.usage = tempUsage;
                 this.type = 'BI';
             }
 
-            if (usage[0] == 'OCCURS') {
+            if (tempUsage == 'OCCURS') {
                 this.isOccurs = true;
                 this.setOccurs(usage[1]);
             }
@@ -184,6 +233,20 @@ class Field {
 
         const length = this.getLength();
         this.setLength(length);
+    }
+
+    setValue(value, type) {
+        if (type == 'AN') {
+            this.value = [value.join('')];
+            if (this.value[0].charAt(0) != '\'') {
+                this.setValidation(4, 'Falta comilla de inicio de valor alfanumérico')
+            }
+            if (this.value[0].charAt(this.value[0].length - 1) != '\'') {
+                this.setValidation(4, 'Falta comilla de fin de valor alfanumérico')
+            }
+        } else {
+            this.value = [value];
+        }
     }
 
     getLength() {
@@ -282,13 +345,9 @@ class Field {
 
             let duplicated = false;
 
-            if (this.validation.message.length) {
-                duplicated = this.validation.message.map(x => x.tooltip == tooltip).reduce((a, b) => a && b);
-            }
+            if (this.validation.message.length) duplicated = this.validation.message.map(x => x.tooltip == tooltip).reduce((a, b) => a && b);
+            if (!duplicated) this.validation.message.push({ color, tooltip })
 
-            if (!duplicated) {
-                this.validation.message.push({ color, tooltip })
-            }
         }
     }
 
