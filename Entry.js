@@ -1,5 +1,5 @@
 class Entry {
-    constructor(depth, level, name, type, pic, start, end, length, usage, integer, decimal, sign, isPic, isOccurs, occurs, value) {
+    constructor(depth, level, name, type, pic, start, end, length, usage, integer, decimal, sign, isPic, isOccurs, occurs, insideOccurs, value) {
         this.depth = depth;
         this.level = level;
         this.name = name;
@@ -15,6 +15,7 @@ class Entry {
         isPic ? this.isPic = isPic : '';
         isOccurs ? this.isOccurs = isOccurs : '';
         occurs ? this.occurs = occurs : '';
+        insideOccurs ? this.insideOccurs = insideOccurs : '';
         value ? this.value = value : '';
     }
 }

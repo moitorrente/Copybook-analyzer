@@ -130,7 +130,17 @@ function exists(property) {
 }
 
 function normalizedCopy(rows) {
+    let insideOccurs = [];
     const lines = rows.map(row => {
+        let show = true;
+        if (row.insideOccurs) {
+            if (insideOccurs.filter((x) => (x == row.name)).length > 0) {
+                show = false;
+            } else {
+                insideOccurs.push(row.name);
+            }
+        }
+
         let line = '';
         for (let i = 1; i < row.depth; i++) line += '   ';
         line += `${row.level} ${row.name}`;
@@ -158,7 +168,8 @@ function normalizedCopy(rows) {
 
         line.charAt(line.length - 1) == '.' ? false : line += '.';
         line += '\r\n';
-        return line;
+
+        if (show) return line;
     });
 
     return lines.join('');

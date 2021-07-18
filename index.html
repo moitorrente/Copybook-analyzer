@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es" class="clear-mode">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -34,6 +35,7 @@
   <link rel="stylesheet" href="style.css">
   <link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />
 </head>
+
 <body>
   <header class="navbar navbar-expand-md navbar-dark bg-dark p-0">
     <div class="container-fluid">
@@ -77,20 +79,35 @@
   <div class="container-fluid">
     <div class="row m-3 table-responsive">
       <div class="col-md-7 table-responsive">
-        <div class="dropdown p-1 hide" id="search-table-group">
-          <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton1"
-            data-bs-toggle="dropdown" aria-expanded="false">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-table"
-              viewBox="0 0 16 16">
-              <path
-                d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm15 2h-4v3h4V4zm0 4h-4v3h4V8zm0 4h-4v3h3a1 1 0 0 0 1-1v-2zm-5 3v-3H6v3h4zm-5 0v-3H1v2a1 1 0 0 0 1 1h3zm-4-4h4V8H1v3zm0-4h4V4H1v3zm5-3v3h4V4H6zm4 4H6v3h4V8z" />
-            </svg>
-          </button>
-          <ul class="dropdown-menu" id="column-show" aria-labelledby="dropdownMenuButton1"></ul>
-          <div class="btn-group">
-            <input class="form-control" type="search" placeholder="Búsqueda" autocomplete="off" id="table-search">
+        <div class="input-group">
+          <div class="dropdown p-1 hide" id="search-table-group">
+            <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton1"
+              data-bs-toggle="dropdown" aria-expanded="false">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-table"
+                viewBox="0 0 16 16">
+                <path
+                  d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm15 2h-4v3h4V4zm0 4h-4v3h4V8zm0 4h-4v3h3a1 1 0 0 0 1-1v-2zm-5 3v-3H6v3h4zm-5 0v-3H1v2a1 1 0 0 0 1 1h3zm-4-4h4V8H1v3zm0-4h4V4H1v3zm5-3v3h4V4H6zm4 4H6v3h4V8z" />
+              </svg>
+            </button>
+            <ul class="dropdown-menu" id="column-show" aria-labelledby="dropdownMenuButton1"></ul>
+            <div class="btn-group">
+              <input class="form-control" type="search" placeholder="Búsqueda" autocomplete="off" id="table-search">
+              <select class="form-select form-select-sm" aria-label=".form-select-sm" id="table-theme">
+                <option value="table-default" selected="">Default</option>
+                <option value="table-primary">Primary</option>
+                <option value="table-secondary">Secondary</option>
+                <option value="table-success">Success</option>
+                <option value="table-danger">Danger</option>
+                <option value="table-warning">Warning</option>
+                <option value="table-info">Info</option>
+                <option value="table-light">Light</option>
+                <option value="table-dark">Dark</option>
+              </select>
+            </div>
           </div>
+
         </div>
+
         <div id="table">
         </div>
       </div>

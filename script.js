@@ -65,6 +65,12 @@ const inputProcessAreaPrefix = document.getElementById('input-process-area-prefi
 const inputProcessAreaSufix = document.getElementById('input-process-area-sufix');
 
 const modeToggle = document.getElementById('mode-toggle');
+const tableTheme = document.getElementById('table-theme');
+
+tableTheme.addEventListener('change', () => {
+    generateTable();
+    process();
+})
 
 modeToggle.addEventListener('click', () => {
     switchTheme();
@@ -342,6 +348,21 @@ const defaultConfig = {
             'column': 'end-col',
             'name': 'Fin'
         },
+        'esPicture': {
+            'show': false,
+            'column': 'isPicture-col',
+            'name': '¿Es picture?'
+        },
+        'esOccurs': {
+            'show': false,
+            'column': 'isOccurs-col',
+            'name': '¿Es occurs?'
+        },
+        'dentroOccurs': {
+            'show': false,
+            'column': 'insideOccurs-col',
+            'name': '¿Dentro de un occurs?'
+        },
         'validacion': {
             'show': true,
             'column': 'validation-col',
@@ -404,6 +425,21 @@ let config = {
             'show': true,
             'column': 'end-col',
             'name': 'Fin'
+        },
+        'esPicture': {
+            'show': false,
+            'column': 'isPicture-col',
+            'name': '¿Es picture?'
+        },
+        'esOccurs': {
+            'show': false,
+            'column': 'isOccurs-col',
+            'name': '¿Es occurs?'
+        },
+        'dentroOccurs': {
+            'show': false,
+            'column': 'insideOccurs-col',
+            'name': '¿Dentro de un occurs?'
         },
         'validacion': {
             'show': true,
@@ -682,6 +718,9 @@ function createRow(field, depth) {
     const startCol = document.createElement('td');
     const length = document.createElement('td');
     const finishCol = document.createElement('td');
+    const isPic = document.createElement('td');
+    const isOccurs = document.createElement('td');
+    const insideOccurs = document.createElement('td');
     const validation = document.createElement('td');
 
     level.innerHTML = field.level;
@@ -700,6 +739,10 @@ function createRow(field, depth) {
     field.usage ? usage.innerHTML = field.usage : usage.innerHTML = '';
     if (field.picText) picture.innerHTML = field.picText;
 
+    field.isPic ? isPic.innerHTML = true : isPic.innerHTML = false;
+    field.isOccurs ? isOccurs.innerHTML = true : isOccurs.innerHTML = false;
+    field.insideOccurs ? insideOccurs.innerHTML = true : insideOccurs.innerHTML = false;
+
     if (field.isPic) {
         const entryStart = start;
         startCol.innerHTML = start;
@@ -711,14 +754,15 @@ function createRow(field, depth) {
         const entryEnd = finish;
         field.setEnd(finish);
 
-        const entry = new Entry(depth, field.level, field.name, field.type, field.picText, entryStart, entryEnd, field.length, field.usage, field.integer, field.decimal, field.sign, field.isPic, field.isOccurs, field.occurs, field.value);
+        const entry = new Entry(depth, field.level, field.name, field.type, field.picText, entryStart, entryEnd, field.length, field.usage, field.integer, field.decimal, field.sign, field.isPic, field.isOccurs, field.occurs, field.insideOccurs, field.value);
         if (field.level != '00') {
             tableEntries.push(entry);
             fullTable.push(entry);
         }
     } else {
         if (field.level != '00') {
-            fullTable.push(new Entry(depth, field.level, field.name, field.type, '', '', '', '', field.usage, '', '', '', '', field.isOccurs, field.occurs, field.value));
+
+            fullTable.push(new Entry(depth, field.level, field.name, field.type, '', '', '', '', field.usage, '', '', '', '', field.isOccurs, field.occurs, field.insideOccurs, field.value));
         }
     }
 
@@ -743,6 +787,9 @@ function createRow(field, depth) {
         if (config.tabla.inicio.show) row.appendChild(startCol);
         if (config.tabla.longitud.show) row.appendChild(length);
         if (config.tabla.fin.show) row.appendChild(finishCol);
+        if (config.tabla.esPicture.show) row.appendChild(isPic);
+        if (config.tabla.esOccurs.show) row.appendChild(isOccurs);
+        if (config.tabla.dentroOccurs.show) row.appendChild(insideOccurs);
         if (config.tabla.validacion.show) row.appendChild(validation);
         if (field.level != 0) table.appendChild(row);
     } else {

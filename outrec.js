@@ -26,11 +26,6 @@ function createOutrec() {
                 let out = ['\n' + entry.start, entry.integer, `C';'`];
                 if (entry.decimal) out[out.length - 1] += entry.start + entry.integer, entry.decimal, `C';'`
                 outrec.push(out);
-                // if (entry.decimal) {
-                //     outrec.push(['\n' + entry.start, entry.integer, `C','`, entry.start + entry.integer, entry.decimal, `C';'`])
-                // } else {
-                //     outrec.push(['\n' + entry.start, entry.integer, `C';'`])
-                // }
             }
         }
 

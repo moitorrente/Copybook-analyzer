@@ -40,8 +40,9 @@ class Table {
     }
 
     create() {
+        const theme = document.getElementById('table-theme').value;
         this.table = document.createElement('table')
-        this.table.classList.add('table', 'table-hover', 'text-center', 'tab');
+        this.table.classList.add('table', 'table-hover', 'text-center', 'tab', theme);
         this.thead = document.createElement('thead');
         this.tr = document.createElement('tr');
 
@@ -58,6 +59,12 @@ class Table {
         this.thead.appendChild(this.tr);
         this.table.appendChild(this.thead);
         this.table.appendChild(this.tbody);
+    }
+
+    changeTheme(){
+        const theme = document.getElementById('table-theme').value;
+        this.table.classList = '';
+        this.table.classList.add('table', 'table-hover', 'text-center', 'tab', theme);
     }
 
     append(element) {
