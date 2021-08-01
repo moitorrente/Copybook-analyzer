@@ -97,6 +97,12 @@ class Field {
         this.setName(name);
     }
 
+    replacing(input, by){
+        const reg = new RegExp(`${input}`);
+        const name = this.name.replace(reg, by);
+        this.setName(name);
+    }
+
     setSubstructure(type, data) {
         switch (type) {
             case 'PIC':

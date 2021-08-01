@@ -58,9 +58,11 @@ const defaultConfigButton = document.getElementById('default-config');
 
 const optionsAlert = document.getElementById('optionsAlert');
 const generalAlert = document.getElementById('general-alert');
+const addReplacing = document.getElementById('add-remove-replacing');
 const addRemovePrefix = document.getElementById('add-remove-prefix');
 const addRemoveSufix = document.getElementById('add-remove-sufix');
 
+const inputProcessAreaReplacing = document.getElementById('input-process-area-replacing');
 const inputProcessAreaPrefix = document.getElementById('input-process-area-prefix');
 const inputProcessAreaSufix = document.getElementById('input-process-area-sufix');
 
@@ -153,7 +155,31 @@ addRemovePrefix.addEventListener('click', () => {
     inputProcessAreaPrefix.appendChild(newPrefix);
 });
 
-//--------------------------------------------------------------
+addReplacing.addEventListener('click', () => {
+    let newReplacing = document.createElement('div');
+
+    newReplacing.innerHTML = `
+    <div class="input-group input-group-sm mb-3 replacing">
+        <div class="input-group-text">
+            <input class="form-check-input mt-0" type="checkbox" id="remove-replacing" checked>
+        </div>
+        <span class="input-group-text">Replace</span>
+        <input type="text" class="form-control" aria-label="Prefijo" id="replacing">
+        <span class="input-group-text">by</span>
+        <input type="text" class="form-control" aria-label="Prefijo" id="by">
+        <button class="btn btn-outline-danger btn-sm float-right" type="button"
+                onclick="deleteElement(this)">
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor"
+                class="bi bi-trash" viewBox="0 0 16 16">
+                <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z" />
+                <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z" />
+            </svg>
+        </button>
+    </div>
+    `;
+
+    inputProcessAreaReplacing.appendChild(newReplacing);
+});
 
 function deleteElement(element) {
     element.closest('div').remove();
@@ -624,6 +650,16 @@ function getPrefixes() {
     }
     return prefixes;
 }
+function getReplacing() {
+    let replacingBy = [];
+    const replacings = document.getElementsByClassName('replacing');
+    for (let i = 0; i < replacings.length; i++) {
+        if (replacings[i].getElementsByClassName('form-check-input')[0].checked) {
+            replacingBy.push([document.getElementsByClassName('replacing')[i].querySelector('#replacing').value, document.getElementsByClassName('replacing')[i].querySelector('#by').value]);
+        }
+    }
+    return replacingBy;
+}
 
 function parse(text) {
     text += '\n';
@@ -638,10 +674,12 @@ function parse(text) {
 
             const sufixes = getSufixes();
             const prefixes = getPrefixes();
+            const replacings = getReplacing();
 
             if (field.name) {
                 sufixes.forEach(sufix => field.removeSufix(sufix));
                 prefixes.forEach(prefix => field.removePrefix(prefix));
+                replacings.forEach(replacing => field.replacing(replacing[0], replacing[1]))
             }
 
             if (field.isOccurs && !field.isPic) occursNames.push({ level: field.level, name: field.name, occurs: field.occurs });
